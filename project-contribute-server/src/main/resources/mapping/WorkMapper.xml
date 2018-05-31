@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.WorkMapper">
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.Work">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="INTEGER"/>
+        <result column="stage_id" property="stageId" jdbcType="INTEGER"/>
+        <result column="work_name" property="workName" jdbcType="VARCHAR"/>
+        <result column="work_budget" property="workBudget" jdbcType="VARCHAR"/>
+        <result column="work_value" property="workValue" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="work_state" property="workState" jdbcType="INTEGER"/>
+        <result column="work_type" property="workType" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="end_submit_time" property="endSubmitTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.camelot.pmt.model.Work" extends="BaseResultMap">
+        <result column="work_desc" property="workDesc" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, project_id, stage_id, work_name, work_budget, work_value, start_time, end_time, 
+    work_state, work_type, state, create_by, create_time, update_by, update_time,end_submit_time
+  </sql>
+    <sql id="Blob_Column_List">
+    work_desc
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from work
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from work
+    where id in (#{ids})
+  </delete>
+    <insert id="insert" parameterType="com.camelot.pmt.model.Work" useGeneratedKeys="true" keyProperty="id">
+    insert into work (id, project_id, stage_id,
+      work_name, work_budget, work_value,
+      start_time, end_time, work_state,
+      work_type, state, create_by,
+      create_time, update_by, update_time,
+      work_desc)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{stageId,jdbcType=INTEGER}, 
+      #{workName,jdbcType=VARCHAR}, #{workBudget,jdbcType=VARCHAR}, #{workValue,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{workState,jdbcType=INTEGER}, 
+      #{workType,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{workDesc,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.camelot.pmt.model.Work">
+        insert into work
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="stageId != null">
+                stage_id,
+            </if>
+            <if test="workName != null">
+                work_name,
+            </if>
+            <if test="workBudget != null">
+                work_budget,
+            </if>
+            <if test="workValue != null">
+                work_value,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="workState != null">
+                work_state,
+            </if>
+            <if test="workType != null">
+                work_type,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="workDesc != null">
+                work_desc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="stageId != null">
+                #{stageId,jdbcType=INTEGER},
+            </if>
+            <if test="workName != null">
+                #{workName,jdbcType=VARCHAR},
+            </if>
+            <if test="workBudget != null">
+                #{workBudget,jdbcType=VARCHAR},
+            </if>
+            <if test="workValue != null">
+                #{workValue,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workState != null">
+                #{workState,jdbcType=INTEGER},
+            </if>
+            <if test="workType != null">
+                #{workType,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workDesc != null">
+                #{workDesc,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.Work">
+        update work
+        <set>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="stageId != null">
+                stage_id = #{stageId,jdbcType=INTEGER},
+            </if>
+            <if test="workName != null">
+                work_name = #{workName,jdbcType=VARCHAR},
+            </if>
+            <if test="workBudget != null">
+                work_budget = #{workBudget,jdbcType=VARCHAR},
+            </if>
+            <if test="workValue != null">
+                work_value = #{workValue,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workState != null">
+                work_state = #{workState,jdbcType=INTEGER},
+            </if>
+            <if test="workType != null">
+                work_type = #{workType,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workDesc != null">
+                work_desc = #{workDesc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="endSubmitTime != null">
+                end_submit_time = #{endSubmitTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--查询功能清单列表（含提交人，修改人信息）-->
+    <resultMap id="SimpleResultMap" type="com.camelot.pmt.model.Work">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="INTEGER"/>
+        <result column="stage_id" property="stageId" jdbcType="INTEGER"/>
+        <result column="work_name" property="workName" jdbcType="VARCHAR"/>
+        <result column="work_budget" property="workBudget" jdbcType="VARCHAR"/>
+        <result column="work_value" property="workValue" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="work_state" property="workState" jdbcType="INTEGER"/>
+        <result column="work_type" property="workType" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_user_name" property="createUserName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="cherealname" property="cherealname" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="end_submit_time" property="endSubmitTime" jdbcType="TIMESTAMP"/>
+        <result column="work_desc" property="workDesc" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <select id="queryWorkListByParams" resultMap="SimpleResultMap" parameterType="map">
+        SELECT  w.*,su1.real_name create_user_name,su2.real_name cherealname
+        FROM `work` w
+        LEFT JOIN sys_user su1 ON w.create_by = su1.id
+        LEFT JOIN sys_user su2 ON w.update_by = su2.id
+        WHERE 1=1
+        AND w.state=1
+        <if test="project_id != null">
+            and w.project_id = #{project_id}
+        </if>
+        <if test="stage_id != null">
+            and w.stage_id = #{stage_id}
+        </if>
+        AND  (w.work_state = 2 or w.work_state = 3)
+        order by w.work_state, w.end_submit_time
+    </select>
+    <select id="workBudgetStatistics" resultType="java.lang.String">
+       select sum(work_budget) budgets from work
+       where  stage_id =#{stageId}  group by stage_id
+    </select>
+    <resultMap id="TotalConsumptionResultMap" type="com.camelot.pmt.model.Work">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="work_budget" property="workBudget" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="queryTaskConsumeByWorkId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">
+        select c.id AS id,IFNULL(sum(d.count12),0) AS work_budget from  work c,
+        (SELECT
+          s.work_id,
+          s.taskid,
+          s.rel_task_time,
+          s.task_person_id,
+          a.cost,
+          a.cost * s.rel_task_time AS count12
+        FROM
+          ( SELECT id AS taskid, work_id, task_person_id, rel_task_time FROM task ) s,
+          ( SELECT id, cost FROM sys_user ) a
+        WHERE
+          s.task_person_id = a.id
+        ) d
+        where c.id=d.work_id AND c.id=#{work_id}
+    </select>
+
+    <!--功能包是否超预算查询-->
+    <resultMap id="WorkCostStatusResultMap" type="com.camelot.pmt.model.WorkDTO" extends="ResultMapWithBLOBs">
+        <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+        <result column="project_user_name" property="projectUserName" jdbcType="VARCHAR"/>
+        <!--任务总消耗（根据任务消耗记录表统计）-->
+        <result column="work_cost" property="workCost" jdbcType="VARCHAR"/>
+        <!--当前任务所在阶段预算-->
+        <result column="stage_budget" property="stageBudget" jdbcType="VARCHAR"/>
+        <!--当前功能包任务消耗，占所在阶段预算百分比-->
+        <result column="stage_budget_schedule" property="stageBudgetSchedule" jdbcType="VARCHAR"/>
+        <!--功能包预算是否超标：0：未超标；1：已超标-->
+        <result column="work_cost_status" property="workCostStatus" jdbcType="INTEGER"/>
+        <!--功能包任务预估总时间-->
+        <result column="exp_task_time" property="expTaskTime" jdbcType="INTEGER"/>
+        <!--任务完成百分比-->
+        <result column="task_schedule" property="taskSchedule" jdbcType="VARCHAR"/>
+        <!--当前功能包下总任务数-->
+        <result column="task_total" property="taskTotal" jdbcType="INTEGER"/>
+        <!--当前功能包下已完成/待验收任务数-->
+        <result column="task_completed_count" property="taskCompletedCount" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="queryWorkCostStatusList" resultMap="WorkCostStatusResultMap" parameterType="com.camelot.pmt.model.WorkDTO">
+        SELECT
+            j.*
+        FROM
+            (
+                SELECT
+                    w.*,
+                    p.project_name,
+                    sysuser.real_name project_user_name,
+                    IFNULL( t.work_cost, 0 ) work_cost,
+                    IFNULL( stag.stage_budget, 0 ) stage_budget,
+                    IFNULL( ROUND(IFNULL( t.work_cost, 0 ) / IFNULL( stag.stage_budget, 0 ) * 100, 1 ), 0 ) stage_budget_schedule,
+                    CASE WHEN SUM( IFNULL( w.work_budget, 0 ) - IFNULL(t.work_cost, 0) ) > 0 THEN	1 ELSE 0 	END work_cost_status,
+                    IFNULL( tm.exp_task_time, 0 ) exp_task_time,
+                    IFNULL( ROUND( IFNULL( m.task_completed_count, 0 ) / IFNULL( m.task_total, 0 ) * 100, 1 ), 0 ) task_schedule,
+                    IFNULL( m.task_total, 0 ) task_total,
+                    IFNULL( m.task_completed_count, 0 ) task_completed_count
+                FROM
+                  `work` w
+                LEFT JOIN
+                    ( SELECT lt.work_id, SUM( lt.cost ) work_cost FROM log_task_hour_cost lt GROUP BY lt.work_id ) t
+                  ON w.id = t.work_id
+                LEFT JOIN
+                    project p
+                  ON w.project_id = p.id
+                LEFT JOIN
+                    (SELECT su.id,su.real_name FROM sys_user su ) sysuser
+                  ON p.create_by = sysuser.id
+                LEFT JOIN
+                    ( SELECT ts.work_id, SUM( ts.exp_task_time ) exp_task_time FROM task ts GROUP BY ts.work_id ) tm
+                  ON w.id = tm.work_id
+                LEFT JOIN
+                    (
+                      SELECT COUNT( 0 ) task_total,	k.work_id,
+                      SUM( CASE WHEN k.task_state = 2 OR k.task_state = 3 THEN 1 ELSE 0 END ) task_completed_count
+                      FROM task k GROUP BY k.work_id
+                    ) m ON w.id = m.work_id
+                LEFT JOIN
+                    (
+                      SELECT sta.stage_budget, sta.id FROM stage sta
+                    ) stag ON stag.id = w.stage_id
+                GROUP BY
+                w.id
+            ) j
+        WHERE 1=1 and j.state = 1
+        <if test="projectId != null">
+            and j.project_id = #{projectId}
+        </if>
+        <if test="id != null">
+            and j.id = #{id}
+        </if>
+        <if test="stageId != null">
+            and j.stage_id =  #{stageId}
+        </if>
+        <if test="workState != null">
+            and j.work_state = #{workState}
+        </if>
+        <if test="workType != null">
+            and j.work_type = #{workType}
+        </if>
+        <if test="workCostStatus != null">
+            and j.work_cost_status = #{workCostStatus}
+        </if>
+        <if test="workName != null">
+            and j.work_name like  "%"#{workName}"%"
+        </if>
+    </select>
+    <!--功能包状态统计查询-->
+    <resultMap id="WorkCostCountResultMap" type="com.camelot.pmt.model.WorkCountDTO">
+        <id column="over_budget" property="overBudget" jdbcType="INTEGER"/>
+        <result column="on_over_budget" property="onOverBudget" jdbcType="INTEGER"/>
+        <result column="no_start" property="noStart" jdbcType="INTEGER"/>
+        <result column="have_in_hand" property="haveInIand" jdbcType="INTEGER"/>
+        <result column="delay_have_in_hand" property="delayHaveInHand" jdbcType="INTEGER"/>
+        <result column="completed" property="completed" jdbcType="INTEGER"/>
+        <result column="wait_check" property="waitCheck" jdbcType="INTEGER"/>
+        <result column="total" property="total" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="queryWorkCostCount" resultMap="WorkCostCountResultMap" parameterType="com.camelot.pmt.model.WorkDTO">
+        SELECT
+            IFNULL( SUM(case when j.work_cost_status=0 then 1 else 0 end), 0 )  over_budget,
+            IFNULL( SUM(case when j.work_cost_status=1 then 1 else 0 end), 0 ) on_over_budget,
+            IFNULL( SUM(case when j.work_state=0 then 1 else 0 end), 0 )  no_start ,
+            IFNULL( SUM(case when j.work_state=1 then 1 else 0 end), 0 )  have_in_hand,
+            IFNULL( SUM(case when j.work_state=4 then 1 else 0 end), 0 )  delay_have_in_hand,
+            IFNULL( SUM(case when j.work_state=3 then 1 else 0 end), 0 )  completed ,
+            IFNULL( SUM(case when j.work_state=2 then 1 else 0 end), 0 )  wait_check,
+            COUNT(0) total
+        FROM
+            (
+                SELECT
+                    w.*,
+                    p.project_name,
+                    IFNULL( t.work_cost, 0 ) work_cost,
+                    IFNULL( stag.stage_budget, 0 ) stage_budget,
+                    IFNULL( ROUND(IFNULL( t.work_cost, 0 ) / IFNULL( stag.stage_budget, 0 ) * 100, 1 ), 0 ) stage_budget_schedule,
+                    CASE WHEN SUM( IFNULL( w.work_budget, 0 ) - IFNULL(t.work_cost, 0) ) > 0 THEN	1 ELSE 0 	END work_cost_status,
+                    IFNULL( tm.exp_task_time, 0 ) exp_task_time,
+                    IFNULL( ROUND( IFNULL( m.task_completed_count, 0 ) / IFNULL( m.task_total, 0 ) * 100, 1 ), 0 ) task_schedule,
+                    IFNULL( m.task_total, 0 ) task_total,
+                    IFNULL( m.task_completed_count, 0 ) task_completed_count
+                FROM
+                  `work` w
+                LEFT JOIN
+                    ( SELECT lt.work_id, SUM( lt.cost ) work_cost FROM log_task_hour_cost lt GROUP BY lt.work_id ) t
+                    ON w.id = t.work_id
+                LEFT JOIN
+                    project p
+                    ON w.project_id = p.id
+                LEFT JOIN
+                    ( SELECT ts.work_id, SUM( ts.exp_task_time ) exp_task_time FROM task ts GROUP BY ts.work_id ) tm
+                    ON w.id = tm.work_id
+                LEFT JOIN
+                    (
+                    SELECT COUNT( 0 ) task_total,	k.work_id,
+                    SUM( CASE WHEN k.task_state = 2 OR k.task_state = 3 THEN 1 ELSE 0 END ) task_completed_count
+                    FROM task k GROUP BY k.work_id
+                    ) m ON w.id = m.work_id
+                LEFT JOIN
+                    (
+                    SELECT sta.stage_budget, sta.id FROM stage sta
+                    ) stag ON stag.id = w.stage_id
+                GROUP BY
+                  w.id
+            ) j
+        WHERE 1=1 and j.state = 1
+        <if test="projectId != null">
+            and j.project_id = #{projectId}
+        </if>
+        <if test="id != null">
+            and j.id = #{id}
+        </if>
+        <if test="stageId != null">
+            and j.stage_id =  #{stageId}
+        </if>
+        <if test="workState != null">
+            and j.work_state = #{workState}
+        </if>
+        <if test="workType != null">
+            and j.work_type = #{workType}
+        </if>
+        <if test="workCostStatus != null">
+            and j.work_cost_status = #{workCostStatus}
+        </if>
+        <if test="workName != null">
+            and j.work_name like  "%"#{workName}"%"
+        </if>
+    </select>
+
+    <!--定时查询是否有延期工程包-->
+    <resultMap id="IsOverWorkResultMap" type="com.camelot.pmt.model.WorkDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="elapsed_time" property="elapsedTime" jdbcType="INTEGER"/>
+        <result column="work_state" property="workState" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="queryIsOverWork" resultMap="IsOverWorkResultMap">
+        SELECT
+            t.id,
+            t.elapsed_time,
+            t.work_state
+        FROM
+            ( SELECT id, work_state, DATEDIFF( CURDATE( ), end_time ) elapsed_time FROM `work` ) t
+        WHERE
+            t.elapsed_time > 0
+            AND t.work_state =1 AND t.state = 1
+    </select>
+    <!--批量修改工程包延期状态-->
+    <update id="updateIsOverWorkStatus" parameterType="java.util.List">
+        update work SET work_state =4,update_time = now()
+        where id  IN
+        <foreach item="item" index="index" open="(" separator="," close=")" collection="workDTOList">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateWorkByid"  parameterType="java.util.Map">
+        update work set state=#{state},update_by=#{updateBy},update_time=now()
+        <where>
+            id
+            <foreach  collection="array" item="id" open="in (" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+    <select id="queryWorkList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from work
+        where 1=1
+        <if test="projectId != null">
+            and project_id = #{projectId}
+        </if>
+        <if test="stageId != null">
+            and stage_id = #{stageId}
+        </if>
+        <if test="workState != null">
+            and work_state = #{workState}
+        </if>
+    </select>
+
+    <select id="getStageByid" resultType="com.camelot.pmt.model.Stage">
+            select id,  <![CDATA[  end_time < now()]]>    as state from stage  where id =#{stageId} and stage_state in (2,3)
+    </select>
+    <select id="getWorkById" resultType="com.camelot.pmt.model.Work" parameterType="integer">
+        select d.stage_id as stageId ,count(1) as state  from work t ,(select f.stage_id from work f where f.id=#{id}) d  where t.stage_id =d.stage_id
+        and t.work_state in (0,1,4)
+    </select>
+    <select id="selectWorkById" resultMap="BaseResultMap" parameterType="integer">
+        select
+        <include refid="Base_Column_List"/>
+        from work
+        where id = #{workId}
+    </select>
+    <update id="updateWorkStateById">
+        update work
+        <set>
+            <if test="workState != null">
+                work_state = #{workState,jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="getBudgetaByid" resultType="integer" >
+        select   <![CDATA[ b.sumstage<a.sumwork  ]]> as flage from
+        (select ifnull(sum(work_budget),0) as sumwork ,stage_id from work where stage_id=#{id}) a,
+        (select ifnull(stage_budget,0) as sumstage ,id  from stage where id=#{id}) b
+        where a.stage_id=b.id
+    </select>
+</mapper>

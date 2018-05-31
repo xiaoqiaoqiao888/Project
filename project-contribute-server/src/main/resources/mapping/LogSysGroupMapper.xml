@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.LogSysGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.camelot.pmt.model.LogSysGroup" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_desc" property="groupDesc" jdbcType="VARCHAR" />
+    <result column="group_level" property="groupLevel" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_desc" property="operateDesc" jdbcType="VARCHAR" />
+    <result column="sys_group_id" property="sysGroupId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, group_name, group_desc, group_level, parent_id, state, create_by, create_time, 
+    update_by, update_time, operate_desc, sys_group_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_sys_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_sys_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.camelot.pmt.model.LogSysGroup" >
+    insert into log_sys_group (id, group_name, group_desc, 
+      group_level, parent_id, state, 
+      create_by, create_time, update_by, 
+      update_time, operate_desc, sys_group_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{groupDesc,jdbcType=VARCHAR}, 
+      #{groupLevel,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{operateDesc,jdbcType=VARCHAR}, #{sysGroupId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.camelot.pmt.model.LogSysGroup" >
+    insert into log_sys_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="groupDesc != null" >
+        group_desc,
+      </if>
+      <if test="groupLevel != null" >
+        group_level,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc,
+      </if>
+      <if test="sysGroupId != null" >
+        sys_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLevel != null" >
+        #{groupLevel,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateDesc != null" >
+        #{operateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysGroupId != null" >
+        #{sysGroupId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.LogSysGroup" >
+    update log_sys_group
+    <set >
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupDesc != null" >
+        group_desc = #{groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLevel != null" >
+        group_level = #{groupLevel,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysGroupId != null" >
+        sys_group_id = #{sysGroupId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.LogSysGroup" >
+    update log_sys_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      group_desc = #{groupDesc,jdbcType=VARCHAR},
+      group_level = #{groupLevel,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      sys_group_id = #{sysGroupId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--添加部门组日志-->
+  <insert id="addLogSysGroup" parameterType="map">
+    insert into log_sys_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysGroup.groupName != null" >
+        group_name,
+      </if>
+      <if test="sysGroup.groupDesc != null" >
+        group_desc,
+      </if>
+      <if test="sysGroup.groupLevel != null" >
+        group_level,
+      </if>
+      <if test="sysGroup.parentId != null" >
+        parent_id,
+      </if>
+      <if test="sysGroup.state != null" >
+        state,
+      </if>
+      <if test="sysGroup.createBy != null" >
+        create_by,
+      </if>
+      <if test="sysGroup.createTime != null" >
+        create_time,
+      </if>
+      <if test="sysGroup.updateBy != null" >
+        update_by,
+      </if>
+      <if test="sysGroup.updateTime != null" >
+        update_time,
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc,
+      </if>
+      <if test="sysGroup.id != null" >
+        sys_group_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.groupName != null" >
+        #{sysGroup.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="sysGroup.groupDesc != null" >
+        #{sysGroup.groupDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysGroup.groupLevel != null" >
+        #{sysGroup.groupLevel,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.parentId != null" >
+        #{sysGroup.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.state != null" >
+        #{sysGroup.state,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.createBy != null" >
+        #{sysGroup.createBy,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.createTime != null" >
+        now(),
+      </if>
+      <if test="sysGroup.updateBy != null" >
+        #{sysGroup.updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="sysGroup.updateTime != null" >
+        now(),
+      </if>
+      <if test="operateDesc != null" >
+        #{operateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysGroup.id != null" >
+        #{sysGroup.id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <insert id="addTaskLog" parameterType="java.util.Map">
+    insert into log_task(task_id,task_state,create_by,create_time,update_by,update_time) values
+    <foreach collection="asList" item="asList" separator=",">
+      (#{asList},#{taskState},#{createBy},now(),#{updateBy},now())
+    </foreach>
+  </insert>
+
+  <insert id="addWorkLog" parameterType="java.util.Map">
+    insert into log_work(work_id,work_state,create_by,create_time,update_by,update_time) values
+    <foreach collection="asList" item="asList" separator=",">
+      (#{asList},#{workState},#{createBy},now(),#{updateBy},now())
+    </foreach>
+  </insert>
+
+  <insert id="addStageLog" parameterType="java.util.Map">
+    insert into log_stage(stage_id,stage_state,create_by,create_time,update_by,update_time) values
+    <foreach collection="asList" item="asList" separator=",">
+      (#{asList},#{stageState},#{createBy},now(),#{updateBy},now())
+    </foreach>
+  </insert>
+</mapper>

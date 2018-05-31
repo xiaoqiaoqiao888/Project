@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.ProjectUserMapper">
+	<resultMap id="BaseResultMap"
+		type="com.camelot.pmt.model.ProjectUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId"
+			jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="in_time" property="inTime" jdbcType="TIMESTAMP" />
+		<result column="out_time" property="outTime"
+			jdbcType="TIMESTAMP" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="create_by" property="createBy"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy"
+			jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		project_user.id, user_id, project_id, type, in_time,
+		out_time, project_user.state,
+		project_user.create_by,
+		project_user.create_time,
+		project_user.update_by,
+		project_user.update_time
+	</sql>
+
+	<select id="selectByUserId" parameterType="java.lang.Integer"
+		resultType="com.camelot.pmt.model.ProjectUser">
+		select
+		<include refid="Base_Column_List" />
+		from project_user where user_id = #{userId} and project_id =
+		#{projectId}
+		and type = 1 <!-- 普通成员 -->
+	</select>
+
+	<!-- 通过项目id查询核心成员 -->
+	<select id="searchCoreMember" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		, real_name as realUserName
+		from project_user left join sys_user on
+		project_user.user_id = sys_user.id
+		where project_id =
+		#{projectId,jdbcType=INTEGER}
+		and
+		type = 0 and project_user.state = 1
+	</select>
+
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from project_user
+		where id =
+		#{recoredId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.camelot.pmt.model.ProjectUser">
+		insert into project_user (id, user_id, project_id,
+		type,
+		in_time, out_time,
+		state, create_by, create_time,
+		update_by,
+		update_time)
+		values (#{id,jdbcType=INTEGER},
+		#{userId,jdbcType=INTEGER},
+		#{projectId,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER}, #{inTime,jdbcType=TIMESTAMP},
+		#{outTime,jdbcType=TIMESTAMP},
+		#{state,jdbcType=INTEGER},
+		#{createBy,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.camelot.pmt.model.ProjectUser">
+		insert into project_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="projectId != null">
+				project_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="inTime != null">
+				in_time,
+			</if>
+			<if test="outTime != null">
+				out_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="inTime != null">
+				#{inTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outTime != null">
+				#{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.camelot.pmt.model.ProjectUser">
+		update project_user
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				project_id = #{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="inTime != null">
+				in_time = #{inTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outTime != null">
+				out_time = #{outTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.camelot.pmt.model.ProjectUser">
+		update project_user
+		set user_id =
+		#{userId,jdbcType=INTEGER},
+		project_id = #{projectId,jdbcType=INTEGER},
+		type = #{type,jdbcType=INTEGER},
+		in_time =
+		#{inTime,jdbcType=TIMESTAMP},
+		out_time = #{outTime,jdbcType=TIMESTAMP},
+		state = #{state,jdbcType=INTEGER},
+		create_by =
+		#{createBy,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=INTEGER},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 添加核心成员 -->
+	<insert id="addCoreMember" parameterType="java.util.List">
+		insert into
+		project_user(user_id, project_id, type, in_time, out_time,
+		state,
+		create_by, create_time, update_by, update_time) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.userId},
+			#{item.projectId},
+			#{item.type},
+			#{item.inTime},
+			#{item.outTime},
+			#{item.state},
+			#{item.createBy},
+			#{item.createTime},
+			#{item.updateBy},
+			#{item.updateTime}
+			)
+		</foreach>
+	</insert>
+
+	<select id="searchByType" parameterType="java.lang.Integer"
+		resultType="com.camelot.pmt.model.ProjectUser">
+		select
+		<include refid="Base_Column_List" />
+		from project_user where type = #{type}
+	</select>
+
+
+	<update id="deleteCoreUser"
+		parameterType="com.camelot.pmt.model.ProjectUser">
+		update project_user set out_time = #{outTime}, state =
+		#{state}, update_by =
+		#{updateBy},
+		update_time = #{updateTime} where
+		user_id = #{userId} and project_id =
+		#{projectId}
+	</update>
+
+	<select id="countUser" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM (
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM project_user WHERE project_id = #{projectId}
+		GROUP BY user_id) temp;
+	</select>
+
+	<!-- 非任务的核心成员 -->
+	<select id="selectProjectUserCost" resultMap="BaseResultMap">
+		SELECT
+		p.*
+		FROM
+		(
+		SELECT
+		t.*
+		FROM
+		sys_user s
+		JOIN (
+		SELECT
+		*
+		FROM
+		project_user
+		WHERE
+		type = 0
+		) t
+		ON t.user_id = s.id
+		) p
+		JOIN task k ON p.project_id = k.project_id
+		WHERE
+		p.user_id NOT IN (
+		SELECT
+		task_person_id
+		FROM
+		task
+		)
+		GROUP BY
+		p.id
+
+	</select>
+
+	<select id="isCoreMember"
+		parameterType="com.camelot.pmt.model.ProjectUser"
+		resultType="com.camelot.pmt.model.ProjectUser">
+		select
+		<include refid="Base_Column_List" />
+		from project_user where user_id = #{userId} and project_id =
+		#{projectId}
+		and state = #{state} and type = #{type}
+	</select>
+
+	<select id="searchUserOfProject"
+		parameterType="com.camelot.pmt.model.ProjectUserInfo"
+		resultType="com.camelot.pmt.model.ProjectUserInfo">
+		SELECT pu.*, sys_user.real_name,sys_user.user_no,
+		sys_user_group.group_id
+		FROM (SELECT * FROM project_user WHERE
+		project_user.project_id = #{projectId}
+		ORDER BY project_user.type ASC)
+		pu
+		LEFT JOIN sys_user ON pu.user_id = sys_user.id
+		LEFT JOIN
+		sys_user_group ON sys_user_group.user_id = pu.user_id
+		where 1 = 1
+		<if test="realName != null">
+			and sys_user.real_name like concat(concat('%', #{realName}), '%')
+		</if>
+		<if test="groupId != null">
+			and sys_user_group.group_id = #{groupId}
+		</if>
+		GROUP BY pu.user_id ORDER BY pu.type ASC, pu.update_time DESC
+	</select>
+	
+	<update id="updateUserRecord">
+	   update project_user set update_time = #{updateTime}
+	   where project_id = #{projectId} and user_id = #{userId}
+	</update>
+</mapper>

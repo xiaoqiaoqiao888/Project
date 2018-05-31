@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.SysDictTypeMapper">
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.SysDictType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, type_code, type_name, state, create_by, create_time, update_by, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_type
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_dict_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.camelot.pmt.model.SysDictType">
+    insert into sys_dict_type (id, type_code, type_name, 
+      state, create_by, create_time, 
+      update_by, update_time)
+    values (#{id,jdbcType=INTEGER}, #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, now(),
+      #{updateBy,jdbcType=INTEGER}, now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.camelot.pmt.model.SysDictType">
+        insert into sys_dict_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="typeCode != null">
+                type_code,
+            </if>
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="typeCode != null">
+                #{typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.SysDictType">
+        update sys_dict_type
+        <set>
+            <if test="typeCode != null">
+                type_code = #{typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="typeName != null">
+                type_name = #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            update_time = now(),
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.SysDictType">
+    update sys_dict_type
+    set type_code = #{typeCode,jdbcType=VARCHAR},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!--条件查询字典类型-->
+    <select id="selectSelective" parameterType="com.camelot.pmt.model.SysDictTypeDTO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_type
+        where state = 1
+        <if test="typeName != null and typeName !=''">
+            and type_name like "%"#{typeName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="typeCode != null and typeCode !=''">
+            and type_code like "%"#{typeCode,jdbcType=VARCHAR}"%"
+        </if>
+        order by create_time desc
+    </select>
+    <!--根据类型code查询记录-->
+    <select id="selectByTypeCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict_type
+        where type_code = #{typeCode,jdbcType=VARCHAR}
+    </select>
+    <!--逻辑删除数据字典类型 0:表示失效-->
+    <update id="updateStateByPrimaryKey" parameterType="java.lang.Integer">
+    update sys_dict_type
+    set state = 0
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

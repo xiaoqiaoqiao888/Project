@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.SysGroupMapper">
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.SysGroup">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+        <result column="group_desc" property="groupDesc" jdbcType="VARCHAR"/>
+        <result column="p_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="group_level" property="groupLevel" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, group_name, group_desc, p_id, state, create_by, create_time, update_by, update_time,group_level
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_group
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.camelot.pmt.model.SysGroup"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into sys_group (id, group_name, group_desc, 
+      p_id, state, create_by, 
+      create_time, update_by, update_time,group_level )
+    values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{groupDesc,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER},
+      now(), #{updateBy,jdbcType=INTEGER}, now(), #{groupLevel,jdbcType=INTEGER} )
+  </insert>
+    <insert id="insertSelective" parameterType="com.camelot.pmt.model.SysGroup"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="groupDesc != null">
+                group_desc,
+            </if>
+            <if test="parentId != null">
+                p_id,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="groupLevel != null">
+                group_level,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupDesc != null">
+                #{groupDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="groupLevel != null">
+                #{groupLevel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.SysGroup">
+        update sys_group
+        <set>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupDesc != null">
+                group_desc = #{groupDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                p_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="groupLevel != null">
+                group_level = #{groupLevel,jdbcType=INTEGER},
+            </if>
+            update_time = now()
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.SysGroup">
+    update sys_group
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      group_desc = #{groupDesc,jdbcType=VARCHAR},
+      p_id = #{parentId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      group_level = #{groupLevel,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!--删除部门组：逻辑删除修改状态为‘0’即可-->
+    <update id="updateStateByPrimaryKey" parameterType="com.camelot.pmt.model.SysGroup">
+        update sys_group
+    set state = 0,
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER} or p_id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--查询所有 状态为1表示可用-->
+    <select id="listSelectById" parameterType="com.camelot.pmt.model.SysGroup" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_group
+        where state = 1
+        <if test="id != null">
+            and (id = #{id,jdbcType=INTEGER} or p_id = #{id,jdbcType=INTEGER})
+        </if>
+        <if test="groupLevel != null">
+            and group_level = #{groupLevel,jdbcType=INTEGER}
+        </if>
+        <if test="groupName != null and groupName != ''">
+            and group_name like "%"#{groupName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="groupDesc != null and groupDesc != ''">
+            and group_desc like "%"#{groupDesc,jdbcType=VARCHAR}"%"
+        </if>
+        order by create_time desc
+    </select>
+    <!--树形结构展示部门组信息-->
+    <select id="treeListSelectBySysGroup" parameterType="com.camelot.pmt.model.SysGroup" resultType="com.camelot.pmt.model.SysGroupDTO">
+        select
+        id, group_name, group_desc, p_id as parentId, state, create_by, create_time, update_by, update_time,group_level
+        from sys_group
+        where state = 1
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="parentId != null">
+            and p_id = #{parentId,jdbcType=INTEGER}
+        </if>
+        <if test="groupLevel != null">
+            and group_level = #{groupLevel,jdbcType=INTEGER}
+        </if>
+        <if test="groupName != null and groupName != ''">
+            and group_name like "%"#{groupName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="groupDesc != null and groupDesc != ''">
+            and group_desc like "%"#{groupDesc,jdbcType=VARCHAR}"%"
+        </if>
+        order by create_time desc
+    </select>
+</mapper>

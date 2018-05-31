@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.LogSysUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.camelot.pmt.model.LogSysUserRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_role_id" property="userRoleId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_desc" property="operateDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_role_id, user_id, role_id, state, create_by, create_time, update_by, update_time, 
+    operate_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from log_sys_user_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_sys_user_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.camelot.pmt.model.LogSysUserRole" >
+    insert into log_sys_user_role (id, user_role_id, user_id, 
+      role_id, state, create_by, 
+      create_time, update_by, update_time, 
+      operate_desc)
+    values (#{id,jdbcType=INTEGER}, #{userRoleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{roleId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{operateDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.camelot.pmt.model.LogSysUserRole" >
+    insert into log_sys_user_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userRoleId != null" >
+        user_role_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userRoleId != null" >
+        #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateDesc != null" >
+        #{operateDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.LogSysUserRole" >
+    update log_sys_user_role
+    <set >
+      <if test="userRoleId != null" >
+        user_role_id = #{userRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.LogSysUserRole" >
+    update log_sys_user_role
+    set user_role_id = #{userRoleId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      role_id = #{roleId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operate_desc = #{operateDesc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--zsf-->
+  <!--条件查询-->
+  <select id="selectLogSysUserRoleList" resultMap="BaseResultMap" parameterType="com.camelot.pmt.model.LogSysUserRole">
+    select
+    <include refid="Base_Column_List" />
+    from log_sys_user_role
+  </select>
+
+  <!--批量插入-->
+  <insert id="insertLogUserRole" parameterType="java.util.List">
+    insert into log_sys_user_role ( user_id ,role_id ,create_by ,update_by ,state ,operate_desc ,user_role_id
+    )
+    values
+    <foreach collection="list" item="logSysUserRole" separator=",">
+      ( #{logSysUserRole.userId}, #{logSysUserRole.roleId}, #{logSysUserRole.createBy},
+        #{logSysUserRole.updateBy}, #{logSysUserRole.state}, #{logSysUserRole.operateDesc}, #{logSysUserRole.userRoleId}
+      )
+    </foreach>
+  </insert>
+</mapper>

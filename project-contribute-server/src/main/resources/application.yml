@@ -1,0 +1,102 @@
+# server
+server:
+  name: pmt
+  port: 9000
+  contextPath: /pmt  # 项目根路径配置
+  compression:
+        enabled: true
+        mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  tomcat:
+         uri-encoding: UTF-8
+controller:
+  scanPackage: com.camelot.pmt.controller
+# ================
+# Restful 配置
+# ================
+rest:
+  connection:
+    connect-timeout: 3000
+    connection-request-timeout: 3000
+    socket-timeout: 3000
+rest.vacations-path: http://www.easybots.cn/api/holiday.php
+
+spring:
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://172.21.127.81:3306/pmt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+      username: camelot
+      password: camelot!123
+      type: com.alibaba.druid.pool.DruidDataSource
+      filters: stat
+      maxActive: 50
+      initialSize: 6
+      maxWait: 300000
+      minIdle: 6
+      timeBetweenEvictionRunsMillis: 300000
+      minEvictableIdleTimeMillis: 600000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+  mvc:
+      async:
+        request-timeout: 500000
+  redis:
+      host: 120.78.165.147
+      port: 6379
+      database: 0
+      password:
+
+  profiles:
+      active: dev
+
+  http:
+      encoding:
+              force: true
+              charset: UTF-8
+              enabled: true
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.camelot.pmt
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+swagger:
+    host: localhost:9000
+#JWT配置
+jwt:
+  header: Authorization
+  token:
+    secret: mySecret
+#    7天
+#    expiration: 604800
+
+#    一天
+    expiration: 86400
+    
+---
+spring:
+  profiles: dev
+swagger:
+  host: 172.21.127.82:9000
+---
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://172.21.101.113:3306/pmt_test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+    username: camelot
+    password: camelot!123
+swagger:
+  host: 172.21.101.115:9000
+
+
+---
+spring:
+  profiles: prod
+  datasource:
+      url: jdbc:mysql://172.21.101.113:3306/pmt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
+      username: camelot
+      password: camelot!123
+swagger:
+  host: 172.21.101.116:9000

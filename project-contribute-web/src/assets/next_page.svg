@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>next page small button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="15 7 13.59 8.41 19.17 14 7 14 7 16 19.17 16 13.59 21.59 15 23 23 15"></polygon>
+    </defs>
+    <g id="Violett-Web-(Light)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="按任务验收" transform="translate(-1221.000000, -863.000000)">
+            <g id="Oders-Card" transform="translate(383.000000, 111.000000)">
+                <g id="content" transform="translate(26.000000, 107.000000)">
+                    <g id="Pages-Card" transform="translate(187.000000, 620.000000)">
+                        <g id="next-page-small-button" transform="translate(618.000000, 18.000000)">
+                            <g id="3.-Icons/ic_arrow_forward">
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="Icon"></g>
+                                <g id="5.-Colors/Gray-85" mask="url(#mask-2)" fill-rule="evenodd" fill="#D8D8D8">
+                                    <g transform="translate(2.000000, 2.000000)" id="Gray-85">
+                                        <rect x="0" y="0" width="26" height="26"></rect>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

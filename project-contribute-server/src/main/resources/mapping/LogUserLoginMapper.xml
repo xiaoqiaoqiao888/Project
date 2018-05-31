@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.LogUserLoginMapper">
+    <resultMap id="LogUserLoginResult" type="com.camelot.pmt.model.LogUserLogin">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login_user" property="loginUser" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="created_by" property="createdBy" jdbcType="INTEGER"/>
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="INTEGER"/>
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 通配头 -->
+    <sql id="General_Head">
+        id, login_user, login_time, login_ip, state, created_by,created_time, updated_by, updated_time
+    </sql>
+
+    <!-- 查询登录日志集合 -->
+    <select id="queryLogUserLoginList" parameterType="com.camelot.pmt.model.LogUserLogin"
+            resultMap="LogUserLoginResult">
+        select
+        <include refid="General_Head"/>
+        from log_user_login
+        where 1=1 AND state = "1"
+        <if test="loginUser != null and loginUser != ''">
+            AND login_user like CONCAT('%',#{loginUser},'%')
+        </if>
+        <if test="loginIp != null and loginIp != ''">
+            AND login_ip like CONCAT('%',#{loginIp},'%')
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        order by created_time desc
+    </select>
+
+    <!-- 新增登录日志 -->
+    <insert id="insertLogUserLogin" parameterType="com.camelot.pmt.model.LogUserLogin">
+        insert into log_user_login (id, login_user, login_time,
+        login_ip, state, created_by,
+        created_time, updated_by, updated_time
+        )
+        values (#{id,jdbcType=INTEGER}, #{loginUser,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP},
+        #{loginIp,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{createdBy,jdbcType=INTEGER},
+        #{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 批量删除日志,假删除 -->
+    <delete id="batchDeleteLogUserLogin" parameterType="String">
+        update log_user_login set state = "0" where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

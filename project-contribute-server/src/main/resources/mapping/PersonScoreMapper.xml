@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.PersonScoreMapper">
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.PersonScore">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="INTEGER"/>
+        <result column="stage_id" property="stageId" jdbcType="INTEGER"/>
+        <result column="work_id" property="workId" jdbcType="INTEGER"/>
+        <result column="task_id" property="taskId" jdbcType="INTEGER"/>
+        <result column="task_value" property="taskValue" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, project_id, stage_id, work_id, task_id, task_value, state, create_by, 
+    create_time, update_by, update_time
+  </sql>
+    <!--价值分明细查询  -->
+    <resultMap id="ScoreDetailsMap" type="com.camelot.pmt.model.PersonScoreDetailsDTO">
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="project_id" property="projectId" jdbcType="INTEGER"/>
+        <result column="stage_id" property="stageId" jdbcType="INTEGER"/>
+        <result column="work_id" property="workId" jdbcType="INTEGER"/>
+        <result column="task_id" property="taskId" jdbcType="INTEGER"/>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="task_code" property="taskCode" jdbcType="VARCHAR"/>
+        <result column="task_value" property="taskValue" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="selectScoreDetails" resultMap="ScoreDetailsMap">
+  SELECT
+  ps.user_id,
+  ps.create_time,
+  ps.task_id,
+  ps.task_value,
+  t.project_id,
+  t.stage_id,
+  t.task_code,
+  t.task_name,
+  t.work_id,
+  ps.state
+  FROM person_score ps ,sys_user_group sug ,task t
+  WHERE ps.user_id=sug.user_id
+  AND ps.user_id=t.task_person_id
+  AND t.id=ps.task_id
+  AND t.project_id=ps.project_id
+  AND t.stage_id=ps.stage_id
+  AND t.work_id=ps.work_id
+  AND ps.user_id=#{userId,jdbcType=INTEGER}
+  AND ps.state=#{state,jdbcType=INTEGER}
+  </select>
+    <!--价值分总分以及排名查询  -->
+    <select id="sumScoreAndRank" resultType="com.camelot.pmt.model.PersonScoreDTO">
+  select 
+  b.user_id,b.group_name,
+  b.total_sum_task_value ,
+  b.state,
+  (select 
+    count(1) + 1 
+  from
+    (select 
+      ps.user_id,sg.group_name,ps.state,
+      sum(ps.task_value) total_sum_task_value 
+    from
+      person_score ps,
+      sys_user_group sug ,sys_group sg  
+    where sug.user_id = ps.user_id and sg.id=sug.group_id and ps.state=#{state,jdbcType=INTEGER}
+    group by ps.user_id ,ps.state
+    ) a 
+  where a.total_sum_task_value  > b.total_sum_task_value ) rank 
+from
+  (select 
+    ps.user_id,sg.group_name,ps.state,
+    sum(ps.task_value) total_sum_task_value 
+  from
+    person_score ps,
+    sys_user_group sug,sys_group sg 
+  where sug.user_id = ps.user_id and sg.id=sug.group_id and ps.state=#{state,jdbcType=INTEGER}
+  group by ps.user_id,ps.state
+  ) b where b.user_id=#{userId,jdbcType=INTEGER} 
+  and b.state=#{state,jdbcType=INTEGER}
+  </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from person_score
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!-- 根据主键id删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <!--增加表数据  -->
+    <insert id="insert" parameterType="com.camelot.pmt.model.PersonScore">
+    insert into person_score (user_id, project_id, 
+      stage_id, work_id, task_id, 
+      task_value, state, create_by, 
+      create_time, update_by, update_time
+      )
+    values (#{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, 
+      #{stageId,jdbcType=INTEGER}, #{workId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{taskValue,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.camelot.pmt.model.PersonScore">
+        insert into person_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="stageId != null">
+                stage_id,
+            </if>
+            <if test="workId != null">
+                work_id,
+            </if>
+            <if test="taskId != null">
+                task_id,
+            </if>
+            <if test="taskValue != null">
+                task_value,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="stageId != null">
+                #{stageId,jdbcType=INTEGER},
+            </if>
+            <if test="workId != null">
+                #{workId,jdbcType=INTEGER},
+            </if>
+            <if test="taskId != null">
+                #{taskId,jdbcType=INTEGER},
+            </if>
+            <if test="taskValue != null">
+                #{taskValue,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <!--根据id更新价值表数据-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.PersonScore">
+        update person_score
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="projectId != null">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="stageId != null">
+                stage_id = #{stageId,jdbcType=INTEGER},
+            </if>
+            <if test="workId != null">
+                work_id = #{workId,jdbcType=INTEGER},
+            </if>
+            <if test="taskId != null">
+                task_id = #{taskId,jdbcType=INTEGER},
+            </if>
+            <if test="taskValue != null">
+                task_value = #{taskValue,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.PersonScore">
+    update person_score
+    set user_id = #{userId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      stage_id = #{stageId,jdbcType=INTEGER},
+      work_id = #{workId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      task_value = #{taskValue,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.TaskMapper">
+	<resultMap id="BaseResultMap"
+		type="com.camelot.pmt.model.Task">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId"
+			jdbcType="INTEGER" />
+		<result column="stage_id" property="stageId" jdbcType="INTEGER" />
+		<result column="work_id" property="workId" jdbcType="INTEGER" />
+		<result column="task_name" property="taskName"
+			jdbcType="VARCHAR" />
+		<result column="task_code" property="taskCode"
+			jdbcType="VARCHAR" />
+		<result column="task_value" property="taskValue"
+			jdbcType="INTEGER" />
+		<result column="exp_task_time" property="expTaskTime"
+			jdbcType="INTEGER" />
+		<result column="rel_task_time" property="relTaskTime"
+			 />
+		<result column="rel_start_time" property="relStartTime"
+			jdbcType="TIMESTAMP" />
+		<result column="rel_end_time" property="relEndTime"
+			jdbcType="TIMESTAMP" />
+		<result column="exp_start_time" property="expStartTime"
+			jdbcType="TIMESTAMP" />
+		<result column="exp_end_time" property="expEndTime"
+			jdbcType="TIMESTAMP" />
+		<result column="priority" property="priority"
+			jdbcType="INTEGER" />
+		<result column="complexity" property="complexity"
+			jdbcType="INTEGER" />
+		<result column="task_state" property="taskState"
+			jdbcType="INTEGER" />
+		<result column="task_person_id" property="taskPersonId"
+			jdbcType="INTEGER" />
+		<result column="task_schedule" property="taskSchedule"
+			jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="create_by" property="createBy"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy"
+			jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="TaskDtoResultMap"
+		type="com.camelot.pmt.model.TaskDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId"
+			jdbcType="INTEGER" />
+		<result column="stage_id" property="stageId" jdbcType="INTEGER" />
+		<result column="work_id" property="workId" jdbcType="INTEGER" />
+		<result column="task_name" property="taskName"
+			jdbcType="VARCHAR" />
+		<result column="task_code" property="taskCode"
+			jdbcType="VARCHAR" />
+		<result column="task_value" property="taskValue"
+			jdbcType="INTEGER" />
+		<result column="exp_task_time" property="expTaskTime"
+			jdbcType="INTEGER" />
+		<result column="rel_task_time" property="relTaskTime"
+			 />
+		<result column="rel_start_time" property="relStartTime"
+			jdbcType="TIMESTAMP" />
+		<result column="rel_end_time" property="relEndTime"
+			jdbcType="TIMESTAMP" />
+		<result column="exp_start_time" property="expStartTime"
+			jdbcType="TIMESTAMP" />
+		<result column="exp_end_time" property="expEndTime"
+			jdbcType="TIMESTAMP" />
+		<result column="priority" property="priority"
+			jdbcType="INTEGER" />
+		<result column="complexity" property="complexity"
+			jdbcType="INTEGER" />
+		<result column="task_state" property="taskState"
+			jdbcType="INTEGER" />
+		<result column="task_person_id" property="taskPersonId"
+			jdbcType="INTEGER" />
+		<result column="task_schedule" property="taskSchedule"
+			jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="create_by" property="createBy"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy"
+			jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ResultMap"
+		type="com.camelot.pmt.model.TaskHourCost">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId"
+			jdbcType="INTEGER" />
+		<result column="stage_id" property="stageId" jdbcType="INTEGER" />
+		<result column="work_id" property="workId" jdbcType="INTEGER" />
+		<result column="task_person_id" property="taskPersonId"
+			jdbcType="VARCHAR" />
+		<result column="cost" property="cost" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="create_by" property="createBy"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="INTEGER" />
+		<result column="update_by" property="updateBy"
+			jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="sumCost" property="sumCost"
+			jdbcType="TIMESTAMP" />
+		<result column="count" property="count"
+				jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<resultMap id="ResultMapWithBLOBs"
+		type="com.camelot.pmt.model.Task" extends="BaseResultMap">
+		<result column="task_desc" property="taskDesc"
+			jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, project_id, stage_id, work_id, task_name, task_code,
+		task_value,
+		exp_task_time,
+		rel_task_time, rel_start_time, rel_end_time,
+		exp_start_time, exp_end_time, priority,
+		complexity, task_state,
+		task_person_id, task_schedule, state,
+		create_by, create_time,
+		update_by, update_time
+	</sql>
+	<sql id="Blob_Column_List">
+		task_desc
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from task
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.camelot.pmt.model.Task">
+		insert into task (id,
+		project_id, stage_id,
+		work_id, task_name, task_code,
+		task_value,
+		exp_task_time, rel_task_time,
+		rel_start_time, rel_end_time,
+		exp_start_time,
+		exp_end_time, priority, complexity,
+		task_state,
+		task_person_id, task_schedule,
+		state, create_by, create_time,
+		update_by, update_time, task_desc
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{projectId,jdbcType=INTEGER},
+		#{stageId,jdbcType=INTEGER},
+		#{workId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR},
+		#{taskCode,jdbcType=VARCHAR},
+		#{taskValue,jdbcType=INTEGER},
+		#{expTaskTime,jdbcType=INTEGER},
+		#{relTaskTime,jdbcType=INTEGER},
+		#{relStartTime,jdbcType=TIMESTAMP}, #{relEndTime,jdbcType=TIMESTAMP},
+		#{expStartTime,jdbcType=TIMESTAMP},
+		#{expEndTime,jdbcType=TIMESTAMP},
+		#{priority,jdbcType=INTEGER},
+		#{complexity,jdbcType=INTEGER},
+		#{taskState,jdbcType=INTEGER}, #{taskPersonId,jdbcType=INTEGER},
+		#{taskSchedule,jdbcType=INTEGER},
+		#{state,jdbcType=INTEGER},
+		#{createBy,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+		#{taskDesc,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.camelot.pmt.model.Task">
+		insert into task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="projectId != null">
+				project_id,
+			</if>
+			<if test="stageId != null">
+				stage_id,
+			</if>
+			<if test="workId != null">
+				work_id,
+			</if>
+			<if test="taskName != null">
+				task_name,
+			</if>
+			<if test="taskCode != null">
+				task_code,
+			</if>
+			<if test="taskValue != null">
+				task_value,
+			</if>
+			<if test="expTaskTime != null">
+				exp_task_time,
+			</if>
+			<if test="relTaskTime != null">
+				rel_task_time,
+			</if>
+			<if test="relStartTime != null">
+				rel_start_time,
+			</if>
+			<if test="relEndTime != null">
+				rel_end_time,
+			</if>
+			<if test="expStartTime != null">
+				exp_start_time,
+			</if>
+			<if test="expEndTime != null">
+				exp_end_time,
+			</if>
+			<if test="priority != null">
+				priority,
+			</if>
+			<if test="complexity != null">
+				complexity,
+			</if>
+			<if test="taskState != null">
+				task_state,
+			</if>
+			<if test="taskPersonId != null">
+				task_person_id,
+			</if>
+			<if test="taskSchedule != null">
+				task_schedule,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="taskDesc != null">
+				task_desc,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="stageId != null">
+				#{stageId,jdbcType=INTEGER},
+			</if>
+			<if test="workId != null">
+				#{workId,jdbcType=INTEGER},
+			</if>
+			<if test="taskName != null">
+				#{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="taskCode != null">
+				#{taskCode,jdbcType=VARCHAR},
+			</if>
+			<if test="taskValue != null">
+				#{taskValue,jdbcType=INTEGER},
+			</if>
+			<if test="expTaskTime != null">
+				#{expTaskTime,jdbcType=INTEGER},
+			</if>
+			<if test="relTaskTime != null">
+				#{relTaskTime},
+			</if>
+			<if test="relStartTime != null">
+				#{relStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="relEndTime != null">
+				#{relEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expStartTime != null">
+				#{expStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expEndTime != null">
+				#{expEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="priority != null">
+				#{priority,jdbcType=INTEGER},
+			</if>
+			<if test="complexity != null">
+				#{complexity,jdbcType=INTEGER},
+			</if>
+			<if test="taskState != null">
+				#{taskState,jdbcType=INTEGER},
+			</if>
+			<if test="taskPersonId != null">
+				#{taskPersonId,jdbcType=INTEGER},
+			</if>
+			<if test="taskSchedule != null">
+				#{taskSchedule,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="taskDesc != null">
+				#{taskDesc,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.camelot.pmt.model.Task">
+		update task
+		<set>
+			<if test="projectId != null">
+				project_id = #{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="stageId != null">
+				stage_id = #{stageId,jdbcType=INTEGER},
+			</if>
+			<if test="workId != null">
+				work_id = #{workId,jdbcType=INTEGER},
+			</if>
+			<if test="taskName != null">
+				task_name = #{taskName,jdbcType=VARCHAR},
+			</if>
+			<if test="taskCode != null">
+				task_code = #{taskCode,jdbcType=VARCHAR},
+			</if>
+			<if test="taskValue != null">
+				task_value = #{taskValue,jdbcType=INTEGER},
+			</if>
+			<if test="expTaskTime != null">
+				exp_task_time = #{expTaskTime,jdbcType=INTEGER},
+			</if>
+			<if test="relTaskTime != null">
+				rel_task_time = #{relTaskTime},
+			</if>
+			<if test="relStartTime != null">
+				rel_start_time = #{relStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="relEndTime != null">
+				rel_end_time = #{relEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expStartTime != null">
+				exp_start_time = #{expStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expEndTime != null">
+				exp_end_time = #{expEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="priority != null">
+				priority = #{priority,jdbcType=INTEGER},
+			</if>
+			<if test="complexity != null">
+				complexity = #{complexity,jdbcType=INTEGER},
+			</if>
+			<if test="taskState != null">
+				task_state = #{taskState,jdbcType=INTEGER},
+			</if>
+			<if test="taskPersonId != null">
+				task_person_id = #{taskPersonId,jdbcType=INTEGER},
+			</if>
+			<if test="taskSchedule != null">
+				task_schedule = #{taskSchedule,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="taskDesc != null">
+				task_desc = #{taskDesc,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.camelot.pmt.model.Task">
+		update task
+		set project_id =
+		#{projectId,jdbcType=INTEGER},
+		stage_id = #{stageId,jdbcType=INTEGER},
+		work_id = #{workId,jdbcType=INTEGER},
+		task_name =
+		#{taskName,jdbcType=VARCHAR},
+		task_code = #{taskCode,jdbcType=VARCHAR},
+		task_value = #{taskValue,jdbcType=INTEGER},
+		exp_task_time =
+		#{expTaskTime,jdbcType=INTEGER},
+		rel_task_time =
+		#{relTaskTime},
+		rel_start_time =
+		#{relStartTime,jdbcType=TIMESTAMP},
+		rel_end_time =
+		#{relEndTime,jdbcType=TIMESTAMP},
+		exp_start_time =
+		#{expStartTime,jdbcType=TIMESTAMP},
+		exp_end_time =
+		#{expEndTime,jdbcType=TIMESTAMP},
+		priority =
+		#{priority,jdbcType=INTEGER},
+		complexity =
+		#{complexity,jdbcType=INTEGER},
+		task_state =
+		#{taskState,jdbcType=INTEGER},
+		task_person_id =
+		#{taskPersonId,jdbcType=INTEGER},
+		task_schedule =
+		#{taskSchedule,jdbcType=INTEGER},
+		state = #{state,jdbcType=INTEGER},
+		create_by = #{createBy,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=INTEGER},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		task_desc =
+		#{taskDesc,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.camelot.pmt.model.Task">
+		update task
+		set project_id =
+		#{projectId,jdbcType=INTEGER},
+		stage_id = #{stageId,jdbcType=INTEGER},
+		work_id = #{workId,jdbcType=INTEGER},
+		task_name =
+		#{taskName,jdbcType=VARCHAR},
+		task_code = #{taskCode,jdbcType=VARCHAR},
+		task_value = #{taskValue,jdbcType=INTEGER},
+		exp_task_time =
+		#{expTaskTime,jdbcType=INTEGER},
+		rel_task_time =
+		#{relTaskTime},
+		rel_start_time =
+		#{relStartTime,jdbcType=TIMESTAMP},
+		rel_end_time =
+		#{relEndTime,jdbcType=TIMESTAMP},
+		exp_start_time =
+		#{expStartTime,jdbcType=TIMESTAMP},
+		exp_end_time =
+		#{expEndTime,jdbcType=TIMESTAMP},
+		priority =
+		#{priority,jdbcType=INTEGER},
+		complexity =
+		#{complexity,jdbcType=INTEGER},
+		task_state =
+		#{taskState,jdbcType=INTEGER},
+		task_person_id =
+		#{taskPersonId,jdbcType=INTEGER},
+		task_schedule =
+		#{taskSchedule,jdbcType=INTEGER},
+		state = #{state,jdbcType=INTEGER},
+		create_by = #{createBy,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		update_by =
+		#{updateBy,jdbcType=INTEGER},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+    <!-- 查询(任务详情,可领取任务,我的任务)通用接口 -->
+    <select id="selectTaskList" resultType="map" parameterType="map">
+        select
+        t.id,t.task_name,t.task_code,t.project_id,t.exp_task_time,t.rel_task_time,t.exp_start_time
+        ,t.exp_end_time,t.task_value,t.rel_start_time,t.rel_end_time,t.task_person_id,u.real_name,t.task_desc,
+        t.complexity,t.create_time,t.priority,t.task_schedule,t.task_state,p.project_name
+        from task t left
+        join sys_user
+        u
+        on u.id = t.task_person_id
+        left join project p on
+        t.project_id=p.id
+        <where>
+            AND t.state = 1
+            <if test="taskName != null ">
+                AND t.task_name like CONCAT('%',#{taskName},'%')
+            </if>
+            <if test="projectName != null ">
+                AND p.project_name = #{projectName}
+            </if>
+            <if test="taskPersonId != null">
+                AND t.task_person_id = #{taskPersonId}
+            </if>
+            <if test="taskPersonId == null">
+                AND t.task_person_id is null
+            </if>
+            <if test="taskState != null">
+                AND t.task_state = #{taskState}
+            </if>
+        </where>
+        <if test="orderByState != null and orderByState == 1">
+            ORDER BY t.create_time DESC
+        </if>
+        <if test="orderByState != null and orderByState == 2">
+            ORDER BY t.rel_start_time DESC
+        </if>
+        <if test="orderByState != null and orderByState == 3">
+            ORDER BY t.rel_start_time DESC , t.rel_end_time DESC
+        </if>
+    </select>
+    <select id="taskDetail" parameterType="int" resultType="map">
+        select
+        t.id,t.task_name,t.exp_task_time,t.rel_task_time,t.exp_start_time
+        ,t.exp_end_time,t.task_value,t.rel_start_time,t.rel_end_time,t.task_person_id,u.real_name,t.task_desc,
+        t.complexity,t.create_time,t.priority,t.task_schedule,t.task_state,p.project_name,u1.real_name project_person_name
+        from task t
+        left join sys_user u on
+        u.id = t.task_person_id
+        left join project p on
+        t.project_id=p.id
+        left join sys_user u1 on
+        u1.id = p.create_by
+        where t.id = #{id}
+    </select>
+    <select id="selectTasksList" parameterType="com.camelot.pmt.model.Task" resultMap="TaskDtoResultMap">
+        select
+        id, project_id, stage_id, work_id, task_name, task_code, task_value, exp_task_time,
+        rel_task_time, rel_start_time, rel_end_time, exp_start_time, exp_end_time, priority,
+        complexity, task_state, task_person_id, task_schedule, state, create_by, create_time,
+        update_by, update_time, task_desc
+        from task
+        where 1=1 and state=1
+        <if test="projectId != '' and projectId != null">
+            and project_id=#{projectId}
+        </if>
+        <if test="stageId != '' and stageId != null">
+            and stage_id=#{stageId}
+        </if>
+        <if test="workId != '' and workId != null">
+            and work_id=#{workId}
+        </if>
+        <if test="taskName != '' and taskName != null">
+            and task_name like "%"#{taskName}"%"
+        </if>
+        <if test="taskState != null">
+            and task_state=#{taskState}
+        </if>
+    </select>
+    <resultMap id="SimpleResultMap" type="com.camelot.pmt.model.Task">
+        <result column="task_person_id" property="taskPersonId" jdbcType="INTEGER"/>
+        <result column="rel_task_time" property="relTaskTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="queryTaskListByParams" resultMap="SimpleResultMap" parameterType="map">
+        SELECT task_person_id,rel_task_time FROM task
+        WHERE 1=1
+        <if test="project_id != null">
+            and project_id = #{project_id}
+        </if>
+        <if test="stage_id != null">
+            and stage_id = #{stage_id}
+        </if>
+        <if test="work_id != null">
+            and work_id = #{work_id}
+        </if>
+    </select>
+    <select id="countTaskSum" resultType="int">
+        SELECT COUNT(*) FROM task WHERE rel_end_time IS NOT NULL
+        AND DATE_FORMAT(rel_end_time, '%Y%m%d') = DATE_FORMAT(exp_end_time, '%Y%m%d')
+        AND  task_person_id = #{id}
+        AND state = 1
+    </select>
+    <!--<select id="countDelayTask" resultType="int">-->
+        <!--SELECT COUNT(1) FROM task WHERE task_person_id = #{id}-->
+        <!--AND task_state &lt; 4-->
+        <!--AND NOW() > exp_end_time-->
+        <!--AND state = 1-->
+    <!--</select>-->
+    <select id="countOvertimeTask" resultType="int">
+        SELECT COUNT(*) FROM task WHERE rel_end_time IS NOT NULL
+        AND DATE_FORMAT(rel_end_time, '%Y%m%d') > DATE_FORMAT(exp_end_time, '%Y%m%d')
+        AND  task_person_id = #{id}
+        AND state = 1
+    </select>
+
+	<!--查询个人是否有未完成的任务 -->
+	<select id="isCompleteTask" resultType="int" parameterType="int">
+		SELECT count(1) FROM task WHERE task_person_id = #{id} AND task_state
+		= 1
+	</select>
+	<select id="selectTaskAll" resultMap="TaskDtoResultMap">
+		select
+		id, project_id,
+		stage_id, work_id, task_name, task_code, task_value,
+		exp_task_time,
+		rel_task_time, rel_start_time, rel_end_time, exp_start_time,
+		exp_end_time, priority,
+		complexity, task_state, task_person_id,
+		task_schedule, state,
+		create_by, create_time,
+		update_by, update_time,
+		task_desc
+		from task
+		where state=1
+	</select>
+
+    <select id="selectTaskAndUserByTaskState" resultMap="TaskDtoResultMap">
+        SELECT
+        t.*
+        FROM task t
+        where
+        t.task_state=#{state1} or t.task_state=#{state2} and state=1
+    </select>
+
+
+	<insert id="insertTaskHourCost"
+		parameterType="com.camelot.pmt.model.TaskHourCost">
+		insert into log_task_hour_cost
+		(id,project_id,stage_id,work_id,task_id,task_person_id,cost,state,create_by,
+		create_time,update_time,update_by,task_state)
+		values(#{id},#{projectId},#{stageId},#{workId},#{taskId},#{taskPersonId},
+		#{cost},#{state},#{createBy},now(),now(),#{updateBy},#{taskState})
+	</insert>
+
+	<select id="selectTaskHourCostByTaskId" parameterType="integer"
+		resultType="com.camelot.pmt.model.TaskHourCost">
+		select
+		id,project_id,stage_id,work_id,task_id,task_person_id,cost,state,create_by,update_by
+		from log_task_hour_cost where task_id=#{taskId}
+	</select>
+	<!--查询某个时间段内的各个任务总和 -->
+	<select id="selectPeriodTotalTask"
+		resultType="com.camelot.pmt.model.SysUserTaskDTO">
+        <![CDATA[
+        SELECT
+        t.task_person_id,
+        t.id,
+        t.project_id,
+        t.rel_end_time,
+        t.rel_start_time,
+        t.stage_id,
+        t.task_code,
+        t.task_name,
+        t.work_id,
+        t.task_value,
+        t.rel_task_time ,
+        t.exp_task_time ,
+        t.exp_start_time ,
+        t.exp_end_time ,
+        t.state ,
+        t.task_state ,
+        COUNT(1) totalTask
+        FROM
+        task t,
+        sys_user su
+        WHERE t.task_person_id = su.id
+        AND t.rel_start_time >= #{beginTime}
+        AND t.rel_start_time <= #{endTime}
+        AND t.task_person_id= #{taskPersonId}
+        AND t.state=#{state}
+        GROUP BY t.state,t.task_state ,
+        t.task_person_id
+    ]]></select>
+	<!--定时查询是否有延期任务并修改状态 -->
+	<select id="isOverTask" resultType="com.camelot.pmt.model.Task">
+		select * from (
+		select id,
+		project_id, stage_id, work_id, task_name, task_code, task_value,
+		exp_task_time,
+		rel_task_time, rel_start_time, rel_end_time,
+		exp_start_time, exp_end_time, priority,
+		complexity, task_state,
+		task_person_id, task_schedule, state,
+		create_by, create_time,
+		update_by, update_time,DATEDIFF(CURDATE(),exp_end_time)
+		elapsed_time,task_desc
+		from task ) t where t.elapsed_time > 0 and
+		t.task_state = 1
+	</select>
+
+    <!--修改延期任务状态(进行中-延期进行中)-->
+    <update id="updateOverTask"  parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update task
+            <set>
+                task_state = 4
+            </set>
+            where id = ${item.id}
+        </foreach>
+    </update>
+
+	<select id="selectTaskByBudgetState" parameterType="integer"
+		resultType="com.camelot.pmt.model.TaskHourCost">
+		SELECT
+		c.project_id,
+		c.stage_id,
+		c.work_id,
+		c.task_id,
+		c.task_person_id,
+		c.state,
+		c.task_state,
+		c.create_by,
+		c.create_time,
+		c.update_by,
+		c.update_time,
+		SUM(c.cost) AS sumCost
+		FROM
+		log_task_hour_cost c
+		JOIN task t ON c.task_id=t.id
+		WHERE
+		task_id=#{taskId}
+		GROUP BY c.task_id
+	</select>
+
+	<select id="selectTaskByUserId" resultMap="TaskDtoResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from task
+		where task_person_id = #{taskPersonId} and state=1
+	</select>
+
+	<select id="selectTaskHourCost" resultMap="ResultMap">
+		SELECT
+		id,project_id,stage_id,work_id,task_id,task_person_id,cost,state,create_by,update_by,
+		SUM(c.cost) AS sumCost
+		FROM
+		log_task_hour_cost c
+		GROUP BY
+		c.task_person_id,
+		c.task_id
+	</select>
+
+	<select id="selectLastTaskHourCostByTaskId"
+		parameterType="integer"
+		resultType="com.camelot.pmt.model.TaskHourCost">
+		select
+		id,project_id,stage_id,work_id,task_id,task_person_id,cost,state,create_by,create_time,update_by,
+		update_time,task_state
+		from log_task_hour_cost where task_id=#{taskId}
+		ORDER BY id DESC LIMIT 1
+	</select>
+
+	<select id="deleteTaskHourCostByTaskId" parameterType="integer">
+		DELETE
+		from log_task_hour_cost WHERE task_id = #{taskId}
+	</select>
+	<!--根据工程包id,查询工程包下所有任务,状态0,1,4 -->
+	<select id="selectByWorkId" resultType="int" parameterType="int">
+		select count(1) from (select task_state from task where work_id =
+		#{workId} ) t
+		where
+		t.task_state = 0 or t.task_state = 1 or t.task_state
+		= 4
+	</select>
+
+	<select id="countTask" resultType="integer">
+		select count(1) from task
+		where 1=1 and state=1
+		<if test="projectId != '' and projectId != null">
+			and project_id=#{projectId}
+		</if>
+		<if test="stageId != '' and stageId != null">
+			and stage_id=#{stageId}
+		</if>
+		<if test="workId != '' and workId != null">
+			and work_id=#{workId}
+		</if>
+	</select>
+
+	<select id="selectTaskHourCostByTask"
+		parameterType="com.camelot.pmt.model.TaskDto" resultMap="ResultMap">
+		select
+		id,project_id,stage_id,work_id,task_id,task_person_id,cost,state,create_by,create_time,update_by,
+		update_time,task_state
+		from log_task_hour_cost
+		where
+		project_id=#{projectId} and stage_id=#{stageId} and work_id=#{workId}
+		and task_id=#{id}
+	</select>
+
+	<select id="sumRealTaskTime" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select sum(rel_task_time) from task where project_id =
+		#{projectId}
+	</select>
+
+	<select id="sumExpTaskTime" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select sum(exp_task_time) from task where project_id =
+		#{projectId}
+	</select>
+
+	<!-- add by guodx ; search project user info -->
+	<select id="userStat"
+		parameterType="com.camelot.pmt.model.ProjectUserInfo"
+		resultType="java.util.Map">
+		SELECT 'taskValueSum' AS `key`, IFNULL(
+		(SELECT
+		SUM(task.task_value) AS taskValueSum FROM task WHERE
+		task.task_person_id = #{userId} AND
+		task.project_id = #{projectId} AND
+		task.task_state = 3), 0) `value`
+		UNION
+		SELECT 'expTaskTimeSum' AS `key`,
+		IFNULL(
+		(SELECT SUM(task.exp_task_time) FROM task WHERE
+		task.task_person_id = #{userId} AND
+		task.project_id = #{projectId}
+		AND
+		task.state = 1), 0) AS `value`
+		UNION
+		SELECT 'relTaskTimeSum' AS `key`,
+		IFNULL(
+		(SELECT SUM(task.rel_task_time) FROM task WHERE
+		task.task_person_id = #{userId} AND
+		task.project_id = #{projectId}
+		AND
+		task.state = 1), 0) AS `value`
+		UNION
+		SELECT 'submitTaskSum' AS `key`,
+		COUNT(1) AS `value` FROM task WHERE
+		task.project_id = #{projectId} AND
+		task.task_person_id = #{userId} AND task.state = 1 AND
+		task.task_state = 2
+		UNION
+		SELECT 'finishedTaskSum' AS `key`, COUNT(1) AS
+		`value` FROM task WHERE
+		task.project_id = #{projectId} AND
+		task.task_person_id = #{userId} AND task.state = 1 AND
+		task.task_state = 3
+	</select>
+
+    <select id="taskHourCostLists" parameterType="com.camelot.pmt.model.TaskHourCost" resultMap="ResultMap">
+        SELECT IFNULL( SUM(cost), 0 ) AS sumCost,
+		COUNT(0) count
+        from log_task_hour_cost
+        where 1=1
+        <choose>
+            <when test="taskId!=null">
+                and task_id = #{taskId}
+            </when>
+            <when test="workId!=null">
+                and work_id = #{workId}
+            </when>
+            <when test="stageId!=null">
+                and stage_id = #{stageId}
+            </when>
+            <otherwise>
+                and project_id = #{projectId}
+            </otherwise>
+        </choose>
+        <if test="beginTime != null">
+            and create_time >= #{beginTime}
+        </if>
+        <if test="endTime != null">
+            and #{endTime} >= create_time
+        </if>
+    </select>
+
+    <select id="taskHourCostProjectUser" resultMap="ResultMap">
+        select id,project_id,stage_id,work_id,task_id,task_person_id,state,create_by,create_time,update_by,
+        update_time,task_state,sum(cost) sumCost
+        from log_task_hour_cost
+        WHERE
+        stage_id = 0
+        AND work_id = 0
+        AND task_id = 0
+        GROUP BY
+        project_id
+    </select>
+
+    <delete id="deleteTaskHourByProjectId" parameterType="integer">
+        delete from log_task_hour_cost where project_id=#{projectId} and stage_id=0 and work_id=0 and task_id=0
+    </delete>
+
+	<select id="selectTaskValueSumByWorkId" parameterType="int" resultType="Integer">
+		select sum(t.task_value) from task t where t.work_id = #{workId} GROUP BY (work_id)
+	</select>
+</mapper>

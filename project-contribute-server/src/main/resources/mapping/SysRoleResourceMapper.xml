@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.SysRoleResourceMapper">
+    <!-- 原始对象resultMap -->
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.SysRoleResource">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="resource_id" property="resourceId" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!-- DTO对象resultMap -->
+    <resultMap id="DTOResultMap" type="com.camelot.pmt.model.SysRoleResourceDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <association property="sysRole" javaType="com.camelot.pmt.model.SysRole">
+            <result property="id" column="roleId"/>
+            <result property="roleName" column="role_name"/>
+        </association>
+        <association property="sysResource" javaType="com.camelot.pmt.model.SysResource">
+            <result property="id" column="resourceId"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="text" column="text"/>
+            <result column="href" property="href"/>
+            <result column="iconCls" property="iconcls"/>
+            <result column="type" property="type"/>
+            <result column="permission" property="permission"/>
+            <result column="sort_no" property="sortNo"/>
+            <result column="is_show" property="isShow"/>
+            <result column="resourceState" property="state"/>
+            <result column="resourceCreate_by" property="createBy"/>
+            <result column="resourceCreate_time" property="createTime"/>
+            <result column="resourceUpdate_by" property="updateBy"/>
+            <result column="resourceUpdate_time" property="updateTime"/>
+        </association>
+    </resultMap>
+    <sql id="General_Head">
+        id, role_id, resource_id, state, create_by, create_time, update_by, update_time
+    </sql>
+    <sql id="DTO_General_Head">
+        srr.id,srr.state,srr.create_by,srr.create_time,srr.update_by,srr.update_time,
+        sRole.id AS roleId,sRole.role_name,sRes.id AS resourceId,sRes.parent_id,sRes.text,sRes.href,
+        sRes.iconCls,sRes.type,sRes.permission,sRes.sort_no,sRes.is_show,sRes.state as resourceState,
+        sRes.create_by as resourceCreate_by,sRes.create_time as resourceCreate_time,
+        sRes.update_by as resourceUpdate_by,sRes.update_time as resourceUpdate_time
+    </sql>
+
+    <!-- 查询资源权限(菜单)权限 -->
+    <select id="querySysRoleResourceList" resultMap="BaseResultMap"
+            parameterType="com.camelot.pmt.model.SysRoleResource">
+        select
+        <include refid="General_Head"/>
+        from sys_role_resource
+        where 1=1 AND state = "1"
+        <if test="roleId != null">
+            AND role_id = #{roleId}
+        </if>
+        <if test="resourceId != null">
+            AND resource_id = #{resourceId}
+        </if>
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        order by create_time desc
+    </select>
+
+    <!-- 查询资源权限(菜单)权限,返回DTO结果集 -->
+    <select id="querySysRoleResourceDTOList" resultMap="DTOResultMap"
+            parameterType="com.camelot.pmt.model.SysRoleResource">
+        select
+        <include refid="DTO_General_Head"/>
+        from sys_role_resource srr
+        LEFT JOIN sys_role sRole on sRole.id = srr.role_id
+        LEFT JOIN sys_resource sRes on sRes.id = srr.resource_id
+        where 1=1 and srr.state = "1" and sRole.state = "1" and sRes.state = "1"
+        <if test="roleIds != null">
+            and srr.role_id in
+            <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+        </if>
+        <if test="sysRoleResource.resourceId != null">
+            AND srr.resource_id = #{sysRoleResource.resourceId}
+        </if>
+        <if test="sysRoleResource.id != null">
+            AND srr.id = #{sysRoleResource.id}
+        </if>
+        GROUP BY sRes.id
+        order by sRes.id asc
+    </select>
+
+    <!-- 新增资源(菜单)权限 -->
+    <insert id="insertSysRoleResource" parameterType="com.camelot.pmt.model.SysRoleResource">
+        insert into sys_role_resource (id, role_id, resource_id,
+        state, create_by, create_time,
+        update_by, update_time)
+        values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER},
+        #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!-- 批量删除资源(菜单)权限,假删除 -->
+    <delete id="batchDeleteSysRoleResource" parameterType="String">
+        delete from sys_role_resource where
+        resource_id in
+        <foreach collection="resourceIds" item="resourceId" open="(" separator="," close=")">
+            #{resourceId}
+        </foreach>
+        <if test="roleId !=null">
+            and role_id = #{roleId}
+        </if>
+    </delete>
+</mapper>

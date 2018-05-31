@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.LogStageMapper" >
+  <resultMap id="BaseResultMap" type="com.camelot.pmt.model.LogStage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="stage_id" property="stageId" jdbcType="INTEGER" />
+    <result column="stage_name" property="stageName" jdbcType="VARCHAR" />
+    <result column="stage_budget" property="stageBudget" jdbcType="DECIMAL" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="stage_state" property="stageState" jdbcType="INTEGER" />
+    <result column="operate_desc" property="operateDesc" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="end_submit_time" property="endSubmitTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.camelot.pmt.model.LogStage" extends="BaseResultMap" >
+    <result column="stage_desc" property="stageDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_id, stage_id, stage_name, stage_budget, start_time, end_time, stage_state, 
+    operate_desc, state, create_by, create_time, update_by, update_time, end_submit_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    stage_desc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log_stage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectStageLogByProjectId" parameterType="com.camelot.pmt.model.LogStage"
+          resultType="com.camelot.pmt.model.LogStage">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from log_stage
+    where stage_id=#{stageId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from log_stage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.camelot.pmt.model.LogStage" >
+    insert into log_stage (id, project_id, stage_id, 
+      stage_name, stage_budget, start_time, 
+      end_time, stage_state, operate_desc, 
+      state, create_by, create_time, 
+      update_by, update_time, end_submit_time, 
+      stage_desc)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{stageId,jdbcType=INTEGER}, 
+      #{stageName,jdbcType=VARCHAR}, #{stageBudget,jdbcType=DECIMAL}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{stageState,jdbcType=INTEGER}, #{operateDesc,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{endSubmitTime,jdbcType=TIMESTAMP}, 
+      #{stageDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.camelot.pmt.model.LogStage" >
+    insert into log_stage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="stageId != null" >
+        stage_id,
+      </if>
+      <if test="stageName != null" >
+        stage_name,
+      </if>
+      <if test="stageBudget != null" >
+        stage_budget,
+      </if>
+
+        start_time,
+
+        end_time,
+      <if test="stageState != null" >
+        stage_state,
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="endSubmitTime != null" >
+        end_submit_time,
+      </if>
+      <if test="stageDesc != null" >
+        stage_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="stageId != null" >
+        #{stageId,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null" >
+        #{stageName,jdbcType=VARCHAR},
+      </if>
+      <if test="stageBudget != null" >
+        #{stageBudget,jdbcType=DECIMAL},
+      </if>
+      now(),
+      now(),
+      <if test="stageState != null" >
+        #{stageState,jdbcType=INTEGER},
+      </if>
+      <if test="operateDesc != null" >
+        #{operateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endSubmitTime != null" >
+        #{endSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stageDesc != null" >
+        #{stageDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.LogStage" >
+    update log_stage
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="stageId != null" >
+        stage_id = #{stageId,jdbcType=INTEGER},
+      </if>
+      <if test="stageName != null" >
+        stage_name = #{stageName,jdbcType=VARCHAR},
+      </if>
+      <if test="stageBudget != null" >
+        stage_budget = #{stageBudget,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stageState != null" >
+        stage_state = #{stageState,jdbcType=INTEGER},
+      </if>
+      <if test="operateDesc != null" >
+        operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endSubmitTime != null" >
+        end_submit_time = #{endSubmitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stageDesc != null" >
+        stage_desc = #{stageDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.camelot.pmt.model.LogStage" >
+    update log_stage
+    set project_id = #{projectId,jdbcType=INTEGER},
+      stage_id = #{stageId,jdbcType=INTEGER},
+      stage_name = #{stageName,jdbcType=VARCHAR},
+      stage_budget = #{stageBudget,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      stage_state = #{stageState,jdbcType=INTEGER},
+      operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      end_submit_time = #{endSubmitTime,jdbcType=TIMESTAMP},
+      stage_desc = #{stageDesc,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.LogStage" >
+    update log_stage
+    set project_id = #{projectId,jdbcType=INTEGER},
+      stage_id = #{stageId,jdbcType=INTEGER},
+      stage_name = #{stageName,jdbcType=VARCHAR},
+      stage_budget = #{stageBudget,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      stage_state = #{stageState,jdbcType=INTEGER},
+      operate_desc = #{operateDesc,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      end_submit_time = #{endSubmitTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

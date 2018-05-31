@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.camelot.pmt.mapper.SysUserGroupMapper">
+    <resultMap id="BaseResultMap" type="com.camelot.pmt.model.SysUserGroup">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="create_by" property="createBy" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, group_id, state, create_by, create_time, update_by, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user_group
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_user_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.camelot.pmt.model.SysUserGroup"
+            useGeneratedKeys="true" keyProperty="id">
+    insert into sys_user_group (id, user_id, group_id, 
+      state, create_by, create_time,
+      update_by, update_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{createBy,jdbcType=INTEGER}, now(),
+      #{updateBy,jdbcType=INTEGER}, now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.camelot.pmt.model.SysUserGroup"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.camelot.pmt.model.SysUserGroup">
+        update sys_user_group
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.camelot.pmt.model.SysUserGroup">
+    update sys_user_group
+    set user_id = #{userId,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!--逻辑删除部门组成员，修改状态为0-->
+    <update id="updateStateByPrimaryKey" parameterType="com.camelot.pmt.model.SysUserGroup">
+    update sys_user_group
+    set state = 0,
+      update_by = #{updateBy,jdbcType=INTEGER},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--条件查询部门组成员-->
+    <select id="selectGroupUserSelective" parameterType="com.camelot.pmt.model.SysUserDTO" resultType="map">
+        select su.id, su.user_name, su.user_no, su.real_name, su.cost, su.state, sug.group_id, sg.group_name,
+        su.email, su.tel, su.create_time, su.update_time, su.user_desc, su.create_by, su.update_by
+        from sys_group sg
+        inner join sys_user_group sug on sug.group_id = sg.id
+        inner join sys_user su on su.id = sug.user_id
+        where 1=1
+        <if test="groupId != null and groupId != 0">
+            and sg.id = #{groupId,jdbcType=INTEGER}
+        </if>
+        <if test="userNo != null and userNo != 0">
+            and su.user_no = #{userNo,jdbcType=INTEGER}
+        </if>
+        <if test="realName != null and realName != ''">
+            and su.real_name like "%"#{realName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="state != null">
+            and su.state = #{state,jdbcType=INTEGER}
+        </if>
+        order by sug.create_time desc
+    </select>
+    <!--根据部门组id查询员工 1：表示员工状态在职可用、在部门中-->
+    <select id="userListByGroupId" parameterType="java.lang.Integer" resultType="com.camelot.pmt.model.SysUser">
+        select su.id,su.real_name
+        from sys_user su
+        left join sys_user_group sug on sug.user_id = su.id
+        where sug.group_id = #{groupId,jdbcType=INTEGER} and su.state = 1 and sug.state = 1
+    </select>
+    <!--判断部门组下是否有员工 1：表示员工状态在职可用、在部门中-->
+    <select id="countGroupUser" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(1)
+        from sys_group sg
+        left join sys_user_group sug on sg.id = sug.group_id
+        where (sg.id = #{state,jdbcType=INTEGER} or sg.p_id = #{state,jdbcType=INTEGER}) and sug.state = 1
+    </select>
+    <!--判断部门组下是否有员工 1：表示员工状态在职可用、在部门中-->
+    <select id="countGroupUserByList" parameterType="java.util.List" resultType="java.lang.Integer">
+        select count(1)
+        from sys_group sg
+        left join sys_user_group sug on sg.id = sug.group_id
+        where
+        <foreach collection="list" item="id"  open="(" close=")" separator=",">
+            sug.state = 1 and (sg.id = #{id,jdbcType=INTEGER} or sg.p_id = #{id,jdbcType=INTEGER})
+        </foreach>
+    </select>
+    <!--根据部门组id查询未分配角色的成员-->
+    <select id="userListNoRoleByGroupId" parameterType="java.lang.Integer" resultType="com.camelot.pmt.model.SysUser">
+        select distinct su.id,su.real_name,sur.role_id,sug.group_id
+        from  sys_user_group sug
+		left join sys_user su on sug.user_id = su.id
+        left join sys_user_role sur on sur.user_id = sug.user_id
+        where sug.group_id = #{groupId,jdbcType=INTEGER}  and (sur.role_id is null or sur.role_id != #{roleId,jdbcType=INTEGER})
+        and su.state = 1 and sug.state = 1
+        order by sug.create_time desc
+    </select>
+    <!--根据部门组id查询未分配项目的成员-->
+    <select id="userListNoProjectByGroupId" parameterType="map" resultType="com.camelot.pmt.model.SysUser">
+        select  npu.id, npu.real_name, npu.user_name, npu.user_no, sug.group_id from sys_user_group sug
+        inner join (
+        select su.* from sys_user su where su.id not in
+          (select pu.user_id from project_user pu where pu.type = 0 and pu.state = 1)) npu
+          on sug.user_id = npu.id
+        where 1=1
+        <if test="groupId != null">
+            and sug.group_id = #{groupId,jdbcType=INTEGER}
+        </if>
+        <if test="realName != null">
+            and npu.real_name like "%"#{realName,jdbcType=VARCHAR}"%"
+        </if>
+        order by sug.create_time desc
+    </select>
+
+    <!--myp-->
+    <!--批量验收-->
+    <update id="updateTaskList" parameterType="java.util.Map">
+        UPDATE task SET task_state = #{taskState},update_by = #{updateBy} ,update_time = now()
+        where
+        <foreach collection="asList" open="(" separator="or" close=")" item="alist">
+            id = #{alist}
+        </foreach>
+    </update>
+
+    <update id="updateStageList" parameterType="java.util.Map">
+        UPDATE stage SET stage_state = #{stageState},update_by = #{updateBy} ,update_time = now()
+        where
+        <foreach collection="asList" open="(" separator="or" close=")" item="alist">
+            id = #{alist}
+        </foreach>
+    </update>
+
+    <update id="updateWorkList" parameterType="java.util.Map">
+        UPDATE work SET work_state = #{workState},update_by = #{updateBy} ,update_time = now()
+        where
+        <foreach collection="asList" open="(" separator="or" close=")" item="alist">
+            id = #{alist}
+        </foreach>
+    </update>
+
+    <!--验收时展示的任务列表-->
+    <select id="queryTaskListByParamsOrder" resultType="java.util.Map" parameterType="com.camelot.pmt.model.Task">
+        SELECT t.*,commituser.real_name comrealname,commituser.user_name comusername,checkuser.real_name cherealname,
+        checkuser.user_name cheusername
+        FROM task t
+        LEFT JOIN sys_user commituser ON t.task_person_id = commituser.id
+        LEFT JOIN sys_user checkuser ON t.task_person_id = checkuser.id
+        WHERE t.state = 1
+        <if test="projectId != null">
+            and t.project_id = #{projectId}
+        </if>
+        <if test="stageId != null">
+            and t.stage_id = #{stageId}
+        </if>
+        <if test="workId != null">
+            and t.work_id = #{workId}
+        </if>
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        and (t.task_state = 2 OR t.task_state = 3)
+        ORDER BY t.task_state ,t.rel_end_time
+    </select>
+
+    <select id="queryTaskListByWork" resultType="com.camelot.pmt.model.Task" parameterType="com.camelot.pmt.model.Work">
+        SELECT * FROM task
+        WHERE 1=1
+        <if test="id != null">
+            and work_id = #{id}
+        </if>
+        AND task_state = 2
+    </select>
+
+    <select id="selectStageListByProjectId" parameterType="com.camelot.pmt.model.SysResourceDTO" resultType="com.camelot.pmt.model.Stage">
+        SELECT * FROM stage WHERE project_id = #{projectId}
+    </select>
+</mapper>
