@@ -51,12 +51,13 @@ public interface WorkMapper {
      * @return
      */
     List<Work> queryWorkListByParams(@Param(value = "project_id") Integer projectId,
-                                     @Param(value = "stage_id") Integer stageId);
+            @Param(value = "stage_id") Integer stageId);
 
     Work queryTaskConsumeByWorkId(@Param(value = "work_id") Integer workId);
 
     /**
      * 查询功能包清单（符是否超预算）
+     * 
      * @param workDTO
      * @Auther: xueyj
      * @return
@@ -65,6 +66,7 @@ public interface WorkMapper {
 
     /**
      * 查询工程包状态（饼状图统计）
+     * 
      * @param workDTO
      * @Auther: xueyj
      * @return
@@ -73,6 +75,7 @@ public interface WorkMapper {
 
     /**
      * 查询超期功能包信息（工程包id，结束时间，超期时间）
+     * 
      * @Auther: xueyj
      * @return
      */
@@ -80,22 +83,24 @@ public interface WorkMapper {
 
     /**
      * 批量更新工程包延期状态信息
+     * 
      * @param workDTOList
      * @Auther: xueyj
      * @return
      */
     int updateIsOverWorkStatus(List<WorkDTO> workDTOList);
+
     /**
      * 批量删除
+     * 
      * @Auther: sll
      * @return
      */
 
     int updateWorkByid(Map<String, Object> map);
 
-    List<Work> queryWorkList(@Param(value = "projectId") Integer projectId,
-                             @Param(value = "stageId") Integer stageId,
-                             @Param(value = "workState") Integer workState);
+    List<Work> queryWorkList(@Param(value = "projectId") Integer projectId, @Param(value = "stageId") Integer stageId,
+            @Param(value = "workState") Integer workState);
 
     /**
      * 根据id修改工程包状态
@@ -106,6 +111,7 @@ public interface WorkMapper {
 
     /**
      * 根据id查询工程包
+     * 
      * @param workId
      * @return
      */
@@ -114,7 +120,6 @@ public interface WorkMapper {
     Stage getStageByid(Integer stageId);
 
     Work getWorkById(Integer id);
-
 
     int getBudgetaByid(Integer id);
 }

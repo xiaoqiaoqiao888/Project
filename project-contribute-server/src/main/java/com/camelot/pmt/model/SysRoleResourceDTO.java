@@ -60,6 +60,4 @@ public class SysRoleResourceDTO implements Serializable {
      */
     private Date updateTime;
 
-
-
 }

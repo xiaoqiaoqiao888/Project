@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @Author: lyh
- * @CreateDate: 2018/5/23  11:02
+ * @CreateDate: 2018/5/23 11:02
  * @Description:
  */
 public class TaskDto {
@@ -144,7 +144,6 @@ public class TaskDto {
      * 任务描述
      */
     private String taskDesc;
-
 
     /**
      * ID

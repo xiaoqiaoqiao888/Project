@@ -1,19 +1,18 @@
 package com.camelot.pmt.mapper;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
+
 import com.camelot.pmt.model.ProjectUserInfo;
 import com.camelot.pmt.model.SysUserTaskDTO;
 import com.camelot.pmt.model.Task;
 import com.camelot.pmt.model.TaskDto;
 import com.camelot.pmt.model.TaskHourCost;
-
-import org.apache.ibatis.annotations.MapKey;
-import org.apache.ibatis.annotations.Param;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public interface TaskMapper {
     /**
@@ -63,7 +62,6 @@ public interface TaskMapper {
      */
     List<TaskDto> selectTasksList(Task task);
 
-
     /**
      * 依据项目id，阶段id，工程包id，查询当前工程包下子任务信息
      *
@@ -73,8 +71,7 @@ public interface TaskMapper {
      * @return
      */
     List<Task> queryTaskListByParams(@Param(value = "project_id") Integer projectId,
-                                     @Param(value = "stage_id") Integer stageId,
-                                     @Param(value = "work_id") Integer id);
+            @Param(value = "stage_id") Integer stageId, @Param(value = "work_id") Integer id);
 
     /**
      * 个人任务统计总任务
@@ -84,13 +81,13 @@ public interface TaskMapper {
      */
     Integer countTaskSum(Integer id);
 
-//    /**
-//     * 个人任务统计延期任务
-//     *
-//     * @param id
-//     * @return
-//     */
-//    Integer countDelayTask(Integer id);
+    // /**
+    // * 个人任务统计延期任务
+    // *
+    // * @param id
+    // * @return
+    // */
+    // Integer countDelayTask(Integer id);
 
     /**
      * 个人任务统计超时任务
@@ -138,8 +135,7 @@ public interface TaskMapper {
      * @return
      */
     List<SysUserTaskDTO> selectPeriodTotalTask(@Param("beginTime") Date beginTime, @Param("endTime") Date endTime,
-                                               @Param("taskPersonId") Integer taskPersonId, @Param("state") Integer
-                                                       state);
+            @Param("taskPersonId") Integer taskPersonId, @Param("state") Integer state);
 
     /**
      * 定时查询是否有延期任务,
@@ -212,21 +208,21 @@ public interface TaskMapper {
     /**
      * @author guodx
      * @param projectId
-     * @return
-     * according to project id to sum relTaskTime of the project
+     * @return according to project id to sum relTaskTime of the project
      */
     Integer sumRealTaskTime(Integer projectId);
 
     Integer sumExpTaskTime(Integer projectId);
 
     /**
-    * 查询任务成本消耗表的的消耗值
+     * 查询任务成本消耗表的的消耗值
      *
      */
     TaskHourCost taskHourCostLists(TaskHourCost taskHourCost);
 
     /**
      * 项目成员统计
+     * 
      * @param info
      * @return
      */

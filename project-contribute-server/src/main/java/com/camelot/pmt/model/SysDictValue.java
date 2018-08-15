@@ -60,7 +60,8 @@ public class SysDictValue {
     /**
      * 主键ID
      *
-     * @param id 主键ID
+     * @param id
+     *            主键ID
      */
     public void setId(Integer id) {
         this.id = id;
@@ -78,7 +79,8 @@ public class SysDictValue {
     /**
      * 类型编码
      *
-     * @param typeCode 类型编码
+     * @param typeCode
+     *            类型编码
      */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode == null ? null : typeCode.trim();
@@ -96,7 +98,8 @@ public class SysDictValue {
     /**
      * 值名称
      *
-     * @param valueName 值名称
+     * @param valueName
+     *            值名称
      */
     public void setValueName(String valueName) {
         this.valueName = valueName == null ? null : valueName.trim();
@@ -114,7 +117,8 @@ public class SysDictValue {
     /**
      * 值编码
      *
-     * @param valueCode 值编码
+     * @param valueCode
+     *            值编码
      */
     public void setValueCode(String valueCode) {
         this.valueCode = valueCode == null ? null : valueCode.trim();
@@ -132,7 +136,8 @@ public class SysDictValue {
     /**
      * 状态值 0-无效 1-有效
      *
-     * @param state 状态值 0-无效 1-有效
+     * @param state
+     *            状态值 0-无效 1-有效
      */
     public void setState(Integer state) {
         this.state = state;
@@ -150,7 +155,8 @@ public class SysDictValue {
     /**
      * 创建人
      *
-     * @param createBy 创建人
+     * @param createBy
+     *            创建人
      */
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
@@ -168,7 +174,8 @@ public class SysDictValue {
     /**
      * 创建时间
      *
-     * @param createTime 创建时间
+     * @param createTime
+     *            创建时间
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
@@ -186,7 +193,8 @@ public class SysDictValue {
     /**
      * 修改人
      *
-     * @param updateBy 修改人
+     * @param updateBy
+     *            修改人
      */
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
@@ -204,7 +212,8 @@ public class SysDictValue {
     /**
      * 修改时间
      *
-     * @param updateTime 修改时间
+     * @param updateTime
+     *            修改时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;

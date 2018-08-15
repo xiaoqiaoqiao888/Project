@@ -49,7 +49,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         }
         int deleteResult = sysUserRoleMapper.deleteByRoleOrUserIds(id, ids);
         if (deleteResult >= 1) {
-            //添加日志
+            // 添加日志
             List<LogSysUserRole> logSysUserRoleList = new ArrayList<>();
             if (sysUserRoleList != null & sysUserRoleList.size() != 0) {
                 for (int i = 0; i < sysUserRoleList.size(); i++) {
@@ -64,11 +64,11 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         return false;
     }
 
-
     /**
      * 根据角色ID 批量新增用户
      *
-     * @param roleId , userIds , user
+     * @param roleId
+     *            , userIds , user
      * @return boolean
      */
     @Override
@@ -107,7 +107,8 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     /**
      * 根据用户ID 批量新增角色
      *
-     * @param roleIds , userId , user
+     * @param roleIds
+     *            , userId , user
      * @return boolean
      */
     @Override
@@ -129,7 +130,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         }
         int insert = sysUserRoleMapper.userInsertRole(sysUserRoleList);
         if (insert >= 1) {
-            //添加日志
+            // 添加日志
             List<LogSysUserRole> logSysUserRoleList = new ArrayList<>();
             if (sysUserRoleList != null && sysUserRoleList.size() != 0) {
                 for (int i = 0; i < sysUserRoleList.size(); i++) {
@@ -147,7 +148,8 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     /**
      * 根据用户ID 赋予角色
      *
-     * @param roleIds , userId , user
+     * @param roleIds
+     *            , userId , user
      * @return boolean
      */
     @Override
@@ -196,7 +198,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         List<SysUserRole> sysUserRoles = sysUserRoleService.selectSysUserRoleListByUserId(userId);
         int deleteResult = sysUserRoleMapper.deleteByUserIdAndRoleIds(userId, roleIds);
         if (deleteResult >= 1) {
-            //添加日志
+            // 添加日志
             List<LogSysUserRole> logSysUserRoleList = new ArrayList<>();
             if (sysUserRoles != null && sysUserRoles.size() != 0) {
                 for (int i = 0; i < sysUserRoles.size(); i++) {

@@ -16,7 +16,8 @@ public interface SysRoleResourceService {
     /**
      * 查询资源(菜单)权限集合
      *
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      * @param pageNum
      * @param pageSize
      * @return 资源(菜单)权限集合
@@ -33,14 +34,16 @@ public interface SysRoleResourceService {
      * @param roleIds
      * @return 资源(菜单)权限DTO对象
      */
-    PageInfo<?> querySysRoleResourceDTOList(
-            Integer pageNum, Integer pageSize, SysRoleResource sysRoleResource, Long[] roleIds);
+    PageInfo<?> querySysRoleResourceDTOList(Integer pageNum, Integer pageSize, SysRoleResource sysRoleResource,
+            Long[] roleIds);
 
     /**
      * 批量删除资源(菜单)权限
      *
-     * @param resourceIds 资源Ids
-     * @param roleId      权限Id
+     * @param resourceIds
+     *            资源Ids
+     * @param roleId
+     *            权限Id
      * @return
      */
     int batchDeleteSysRoleResource(List<Long> resourceIds, Long roleId);
@@ -48,15 +51,18 @@ public interface SysRoleResourceService {
     /**
      * 新增系统登录日志
      *
-     * @param sysRoleResource 访问日志对象
+     * @param sysRoleResource
+     *            访问日志对象
      */
     void insertSysRoleResource(SysRoleResource sysRoleResource);
 
     /**
      * 修改资源(菜单)权限
      *
-     * @param resourceIds 资源Ids
-     * @param roleId      权限Id
+     * @param resourceIds
+     *            资源Ids
+     * @param roleId
+     *            权限Id
      * @return
      */
     void updateSysRoleResource(Long[] resourceIds, Long roleId);

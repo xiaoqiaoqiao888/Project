@@ -62,11 +62,10 @@ public interface SysUserGroupMapper {
     List<Task> queryTaskListByWork(Work work);
 
     List<SysUser> userListNoRoleByGroupId(@Param(value = "groupId") Integer groupId,
-                                          @Param(value = "roleId") Integer roleId);
+            @Param(value = "roleId") Integer roleId);
 
     List<SysUser> userListNoProjectByGroupId(@Param(value = "groupId") Integer groupId,
-                                             @Param(value = "projectId") Integer projectId,
-                                             @Param(value = "realName") String realName);
+            @Param(value = "projectId") Integer projectId, @Param(value = "realName") String realName);
 
     List<Stage> selectStageListByProjectId(SysResourceDTO sysResourceDTO);
 

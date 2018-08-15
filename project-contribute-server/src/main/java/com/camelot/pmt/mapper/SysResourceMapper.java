@@ -1,10 +1,9 @@
 package com.camelot.pmt.mapper;
 
+import java.util.List;
+
 import com.camelot.pmt.model.SysResource;
 import com.camelot.pmt.model.SysResourceDTO;
-import com.camelot.pmt.model.SysResourceVo;
-
-import java.util.List;
 
 public interface SysResourceMapper {
     /**
@@ -43,6 +42,6 @@ public interface SysResourceMapper {
     // 逻辑删除
     int updateStateByPrimaryKey(Integer id);
 
-    //树形结构展示菜单列表
+    // 树形结构展示菜单列表
     List<SysResource> treeList(SysResource sysResource);
 }

@@ -98,9 +98,10 @@ public interface ProjectService {
      * 校验项目编号
      */
     int selectProjectNo(String id);
-    
+
     /**
      * 阶段统计
+     * 
      * @return
      */
     List<ProjectDTO> selectStateCount();

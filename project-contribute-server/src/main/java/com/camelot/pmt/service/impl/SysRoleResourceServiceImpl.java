@@ -38,7 +38,8 @@ public class SysRoleResourceServiceImpl implements SysRoleResourceService {
     /**
      * 查询资源(菜单)权限集合
      *
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      * @return 资源(菜单)权限集合
      */
     @Override
@@ -54,25 +55,25 @@ public class SysRoleResourceServiceImpl implements SysRoleResourceService {
     /**
      * 查询资源(菜单)权限集合
      *
-     * @param sysRoleResource 资源(菜单)权限DTO对象
+     * @param sysRoleResource
+     *            资源(菜单)权限DTO对象
      * @return 资源(菜单)权限DTO集合
      */
     @Override
-    public PageInfo<?> querySysRoleResourceDTOList(
-            Integer pageNum, Integer pageSize, SysRoleResource sysRoleResource, Long[] roleIds) {
+    public PageInfo<?> querySysRoleResourceDTOList(Integer pageNum, Integer pageSize, SysRoleResource sysRoleResource,
+            Long[] roleIds) {
         PageInfo<SysResource> pageResult = new PageInfo<>();
         // 初始化分页信息
         PageHelper.startPage(pageNum, pageSize);
         // 查询list集合
-        List<SysRoleResourceDTO> sysRoleResourceDTOList = sysRoleResourceMapper.querySysRoleResourceDTOList(
-                sysRoleResource, roleIds);
-        //判断DTO是否为null
+        List<SysRoleResourceDTO> sysRoleResourceDTOList = sysRoleResourceMapper
+                .querySysRoleResourceDTOList(sysRoleResource, roleIds);
+        // 判断DTO是否为null
         if (sysRoleResourceDTOList != null && sysRoleResourceDTOList.size() > 0) {
-            List<SysResource> result = sysRoleResourceDTOList.stream()
-                    .map(e -> e.getSysResource()).collect(Collectors.toList());
+            List<SysResource> result = sysRoleResourceDTOList.stream().map(e -> e.getSysResource())
+                    .collect(Collectors.toList());
             try {
-                result = TreeUtilCommon.buildTree(
-                        result, TreeUtilCommon.SYSRESOURCE, "id", "parentId", "childList");
+                result = TreeUtilCommon.buildTree(result, TreeUtilCommon.SYSRESOURCE, "id", "parentId", "childList");
             } catch (Exception e) {
                 log.error("树形转换异常：%s", e);
                 throw new IllegalArgumentException("树形转换异常：%s", e);
@@ -85,8 +86,10 @@ public class SysRoleResourceServiceImpl implements SysRoleResourceService {
     /**
      * 批量删除资源(菜单)权限
      *
-     * @param resourceIds 资源Ids
-     * @param roleId      权限Id
+     * @param resourceIds
+     *            资源Ids
+     * @param roleId
+     *            权限Id
      * @return
      */
     @Override
@@ -97,7 +100,8 @@ public class SysRoleResourceServiceImpl implements SysRoleResourceService {
     /**
      * 新增资源(菜单)权限
      *
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      */
     @Override
     public void insertSysRoleResource(SysRoleResource sysRoleResource) {
@@ -107,8 +111,10 @@ public class SysRoleResourceServiceImpl implements SysRoleResourceService {
     /**
      * 修改资源(菜单)权限
      *
-     * @param resourceIds 资源Ids
-     * @param roleId      权限Id
+     * @param resourceIds
+     *            资源Ids
+     * @param roleId
+     *            权限Id
      * @return
      */
     @Override

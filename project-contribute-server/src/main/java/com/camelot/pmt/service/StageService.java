@@ -1,14 +1,11 @@
 package com.camelot.pmt.service;
 
-import com.camelot.pmt.model.LogStage;
-import com.camelot.pmt.model.Stage;
-import com.camelot.pmt.model.WorkCountDTO;
-import com.camelot.pmt.model.WorkDTO;
-import com.github.pagehelper.PageInfo;
-import org.springframework.http.ResponseEntity;
-
 import java.util.Date;
 import java.util.List;
+
+import com.camelot.pmt.model.Stage;
+import com.camelot.pmt.model.WorkCountDTO;
+import com.github.pagehelper.PageInfo;
 
 /**
  * StageService class
@@ -80,12 +77,11 @@ public interface StageService {
 
     boolean updateStageState(Date date);
 
-
     Boolean deleteByStageId(Stage stage) throws CloneNotSupportedException;
 
     List<Stage> selectAllStage(Integer projectId);
 
-    boolean closeStageByProjectID(Stage stage)  throws CloneNotSupportedException;
+    boolean closeStageByProjectID(Stage stage) throws CloneNotSupportedException;
 
     WorkCountDTO stageStatic(Integer projectId);
 

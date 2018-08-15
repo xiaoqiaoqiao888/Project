@@ -12,7 +12,7 @@ public interface LogWorkMapper {
 
     int insertLogWork(LogWork logWork);
 
-    List<LogWork> selectLogWork( Integer workId);
+    List<LogWork> selectLogWork(Integer workId);
 
     int andLogWorkBydelete(Map<String, Object> map);
 }

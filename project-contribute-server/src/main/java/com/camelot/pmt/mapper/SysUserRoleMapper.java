@@ -43,7 +43,7 @@ public interface SysUserRoleMapper {
      * @mbggenerated
      */
     List<SysUserRole> selectSysUserRoleListByRoleIdAndUserIds(@Param("roleId") Integer roleId,
-                                                              @Param("userIds") Integer[] userIds);
+            @Param("userIds") Integer[] userIds);
 
     /**
      * 根据角色id 查询所有角色用户对应关系

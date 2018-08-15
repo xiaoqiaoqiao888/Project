@@ -1,12 +1,21 @@
 package com.camelot.pmt.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.camelot.pmt.mapper.StageMapper;
 import com.camelot.pmt.model.LogStage;
 import com.camelot.pmt.model.Project;
 import com.camelot.pmt.model.Stage;
 import com.camelot.pmt.model.SysUser;
 import com.camelot.pmt.model.TaskHourCost;
-import com.camelot.pmt.model.Work;
 import com.camelot.pmt.model.WorkCountDTO;
 import com.camelot.pmt.model.WorkDTO;
 import com.camelot.pmt.service.LogStageService;
@@ -19,18 +28,6 @@ import com.camelot.pmt.utils.Constant;
 import com.camelot.pmt.utils.TokenUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.text.StringContent;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * StageServiceImpl class
@@ -62,7 +59,7 @@ public class StageServiceImpl implements StageService {
     @Override
     public List<Stage> selectByStageName(Stage stage) {
         List<Stage> list = stageMapper.selectByStageName(stage);
-        //根据阶段名称查询阶段
+        // 根据阶段名称查询阶段
         return list;
     }
 
@@ -71,20 +68,20 @@ public class StageServiceImpl implements StageService {
     public Boolean insertStage(Stage stage) throws CloneNotSupportedException {
         Project project = projectService.selectByPrimaryKey(stage.getProjectId());
         Integer projectState = project.getProjectState();
-        //根据项目id获取项目状态
+        // 根据项目id获取项目状态
         SysUser sysUser = TokenUtil.getUserFromToken();
-        //获取用户信息
+        // 获取用户信息
         stage.setCreateBy(sysUser.getId());
         stage.setCreateTime(new Date());
         stage.setState(Constant.DataStatus.EFFECTIVE);
         stage.setStageState(projectState);
-        //阶段状态0-未开始，1-进行中，4-延期进行中，2-待验收,3-已完成
+        // 阶段状态0-未开始，1-进行中，4-延期进行中，2-待验收,3-已完成
         stage.setUpdateBy(sysUser.getId());
         stage.setUpdateTime(new Date());
-        //插入相应信息到阶段
+        // 插入相应信息到阶段
         Boolean flag = true;
         int insert = stageMapper.insert(stage);
-        //插入数据库
+        // 插入数据库
         if (insert <= 0) {
             flag = false;
         }
@@ -96,7 +93,7 @@ public class StageServiceImpl implements StageService {
         logStage.setStageBudget(stage.getStageBudget());
         logStage.setState(stage.getState());
         logStageService.logOfAdd(logStage);
-        //判断是否成功
+        // 判断是否成功
         return flag;
     }
 
@@ -104,16 +101,16 @@ public class StageServiceImpl implements StageService {
     @Override
     public Boolean updateStage(Stage stage) throws CloneNotSupportedException {
         SysUser sysUser = TokenUtil.getUserFromToken();
-        //获取用户信息
+        // 获取用户信息
         stage.setUpdateBy(sysUser.getId());
         stage.setUpdateTime(new Date());
         if (stage.getStageState() != null && stage.getStageState() == Constant.Status.WAIT_CHECK) {
             stage.setEndSubmitTime(new Date());
         }
-        //插入相关信息到阶段
+        // 插入相关信息到阶段
         Boolean flag = true;
         int insert = stageMapper.updateByPrimaryKeySelective(stage);
-        //修改数据库
+        // 修改数据库
         if (insert <= 0) {
             flag = false;
         }
@@ -131,16 +128,16 @@ public class StageServiceImpl implements StageService {
     @Override
     public Stage selectById(Stage stage) {
         Integer id = stage.getId();
-        //获取阶段id
+        // 获取阶段id
         Stage stage1 = stageMapper.selectByPrimaryKey(id);
-        //通过阶段id查询
+        // 通过阶段id查询
         return stage1;
     }
 
     @Override
     public Double statisticsStage(Integer projectId) {
         Double flag = stageMapper.selectSumStageByProjectId(projectId);
-        //通过项目id进行查询
+        // 通过项目id进行查询
         return flag;
     }
 
@@ -186,21 +183,19 @@ public class StageServiceImpl implements StageService {
     public boolean updateStageState(Date date) {
         List<Stage> stage = stageMapper.selectStageUnderWay();
         Stage stage2 = new Stage();
-        for (Stage stage1 :
-                stage) {
+        for (Stage stage1 : stage) {
             Date endTime = stage1.getEndTime();
             long stageEndTime = endTime.getTime();
             long nowTime = date.getTime();
             if (nowTime > stageEndTime) {
                 stage2.setId(stage1.getId());
                 stage2.setStageState(Constant.Status.DELAY_HAVE_IN_HAND);
-                //阶段状态0-未开始，1-进行中，4-延期进行中，2-待验收,3-已完成
+                // 阶段状态0-未开始，1-进行中，4-延期进行中，2-待验收,3-已完成
                 int count = stageMapper.updateByPrimaryKeySelective(stage2);
                 if (count <= 0) {
                     return false;
                 }
             }
-
 
         }
         return true;
@@ -261,10 +256,9 @@ public class StageServiceImpl implements StageService {
         // 查询任务list
         List<Stage> stages = stageMapper.stageStaticByStageState(stage);
         // pageHelper的收尾
-        for (Stage stage1:
-                stages) {
+        for (Stage stage1 : stages) {
             Double costSum = null;
-            Double  plan = null;
+            Double plan = null;
             WorkDTO workDTO = new WorkDTO();
             Integer id = stage1.getId();
             workDTO.setProjectId(stage1.getProjectId());
@@ -285,16 +279,16 @@ public class StageServiceImpl implements StageService {
             }
             Project project = projectService.selectByPrimaryKey(stage1.getProjectId());
             BigDecimal projectBudget = project.getProjectBudget();
-            //项目预算
-            Double  projectCost = null;
+            // 项目预算
+            Double projectCost = null;
             if (project != null) {
                 projectCost = projectBudget.doubleValue();
             }
             TaskHourCost taskHourCost = new TaskHourCost();
             taskHourCost.setStageId(stage1.getId());
             BigDecimal bigDecimal1 = taskService.selectTaskHourCostList(taskHourCost);
-            //阶段实际预算
-            Double  stageCost = null;
+            // 阶段实际预算
+            Double stageCost = null;
             if (bigDecimal1 != null) {
                 stageCost = bigDecimal1.doubleValue();
             }
@@ -330,12 +324,11 @@ public class StageServiceImpl implements StageService {
         List<Stage> stage1 = stageMapper.selectStateByProjectId(stage);
         List<Stage> list = new ArrayList<>();
         List<Stage> list2 = new ArrayList<>();
-        for (Stage stages:
-                stage1) {
+        for (Stage stages : stage1) {
             TaskHourCost taskHourCost = new TaskHourCost();
             taskHourCost.setStageId(stages.getId());
             BigDecimal bigDecimal = taskService.selectTaskHourCostList(taskHourCost);
-            Double  stageCost = null;
+            Double stageCost = null;
             if (bigDecimal != null) {
                 stageCost = bigDecimal.doubleValue();
             }
@@ -352,10 +345,10 @@ public class StageServiceImpl implements StageService {
         stage1.clear();
         if (stage.getStageBudget() == Constant.Status.OVER_BUDGET) {
             stage1.addAll(list);
-            //超预算
+            // 超预算
         } else if (stage.getStageBudget() == Constant.Status.NO_OVER_BUDGET) {
             stage1.addAll(list2);
-            //未超预算
+            // 未超预算
         }
         PageInfo<Stage> pageResult = new PageInfo<>(stage1);
         pageResult.setList(stage1);
@@ -372,10 +365,9 @@ public class StageServiceImpl implements StageService {
     }
 
     private void commonMotner(Integer projectId, List<Stage> stage) {
-        for (Stage stage1:
-                stage) {
+        for (Stage stage1 : stage) {
             Double costSum = null;
-            Double  plan = null;
+            Double plan = null;
             WorkDTO workDTO = new WorkDTO();
             Integer id = stage1.getId();
             workDTO.setProjectId(projectId);
@@ -394,9 +386,9 @@ public class StageServiceImpl implements StageService {
                 String plan1 = "0";
                 stage1.setPlan(plan1);
             }
-            Double  projectCost = null;
+            Double projectCost = null;
             Project project = projectService.selectByPrimaryKey(projectId);
-            //项目预算
+            // 项目预算
             if (project != null) {
                 BigDecimal projectBudget = project.getProjectBudget();
                 projectCost = projectBudget.doubleValue();
@@ -404,8 +396,8 @@ public class StageServiceImpl implements StageService {
             TaskHourCost taskHourCost = new TaskHourCost();
             taskHourCost.setStageId(stage1.getId());
             BigDecimal bigDecimal1 = taskService.selectTaskHourCostList(taskHourCost);
-            //阶段实际预算
-            Double  stageCost = null;
+            // 阶段实际预算
+            Double stageCost = null;
             if (bigDecimal1 != null) {
                 stageCost = bigDecimal1.doubleValue();
             }

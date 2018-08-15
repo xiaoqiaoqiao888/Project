@@ -74,11 +74,12 @@ public class LogTaskServiceImpl implements LogTaskService {
         if (taskPersonId == null || state == null || monthNum == null) {
             return null;
         }
-        //获取指定时间内的操作日志
+        // 获取指定时间内的操作日志
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, monthNum * (-1));
-        return logTaskMapper.selectByTaskPersonId(state, taskPersonId, cal.getTime(),
-                Calendar.getInstance().getTime()).stream().sorted(//
-                Comparator.comparing(LogTaskDTO::getUpdateTime)).collect(Collectors.toList());
+        return logTaskMapper.selectByTaskPersonId(state, taskPersonId, cal.getTime(), Calendar.getInstance().getTime())
+                .stream().sorted(//
+                        Comparator.comparing(LogTaskDTO::getUpdateTime))
+                .collect(Collectors.toList());
     }
 }

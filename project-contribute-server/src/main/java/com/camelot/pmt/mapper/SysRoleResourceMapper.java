@@ -17,7 +17,8 @@ public interface SysRoleResourceMapper {
     /**
      * 查询资源(菜单)权限集合
      *
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      * @return 资源(菜单)权限集合
      */
     List<SysRoleResource> querySysRoleResourceList(SysRoleResource sysRoleResource);
@@ -26,16 +27,18 @@ public interface SysRoleResourceMapper {
      * 查询资源(菜单)权限集合
      *
      * @param roleIds
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      * @return 资源(菜单)权限DTO集合
      */
-    List<SysRoleResourceDTO> querySysRoleResourceDTOList(
-            @Param("sysRoleResource") SysRoleResource sysRoleResource, @Param("roleIds") Long[] roleIds);
+    List<SysRoleResourceDTO> querySysRoleResourceDTOList(@Param("sysRoleResource") SysRoleResource sysRoleResource,
+            @Param("roleIds") Long[] roleIds);
 
     /**
      * 新增资源(菜单)权限集合
      *
-     * @param sysRoleResource 资源(菜单)权限对象
+     * @param sysRoleResource
+     *            资源(菜单)权限对象
      * @return int
      */
     int insertSysRoleResource(SysRoleResource sysRoleResource);
@@ -43,8 +46,10 @@ public interface SysRoleResourceMapper {
     /**
      * 批量删除资源(菜单)权限
      *
-     * @param resourceIds 资源Ids
-     * @param roleId      权限Id
+     * @param resourceIds
+     *            资源Ids
+     * @param roleId
+     *            权限Id
      * @return int
      */
     int batchDeleteSysRoleResource(@Param("resourceIds") List<Long> resourceIds, @Param("roleId") Long roleId);

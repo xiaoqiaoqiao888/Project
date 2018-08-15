@@ -31,7 +31,8 @@ public class LogUserLoginServiceImpl implements LogUserLoginService {
     /**
      * 新增系统登录日志
      *
-     * @param logUserLogin 访问日志对象
+     * @param logUserLogin
+     *            访问日志对象
      */
     @Override
     public void insertLogUserLogin(LogUserLogin logUserLogin) {
@@ -41,14 +42,15 @@ public class LogUserLoginServiceImpl implements LogUserLoginService {
     /**
      * 查询用户登录日志集合
      *
-     * @param logUserLogin 访问日志对象
+     * @param logUserLogin
+     *            访问日志对象
      * @return 登录记录集合
      */
     @Override
     public PageInfo<?> queryLogUserLoginList(Integer pageNum, Integer pageSize, LogUserLogin logUserLogin) {
         // 初始化分页信息
-        PageHelper.startPage(pageNum,pageSize);
-        //查询list集合
+        PageHelper.startPage(pageNum, pageSize);
+        // 查询list集合
         List<LogUserLogin> logUserLoginList = logUserLoginMapper.queryLogUserLoginList(logUserLogin);
         PageInfo<LogUserLogin> pageResult = new PageInfo<>(logUserLoginList);
         return pageResult;
@@ -57,7 +59,8 @@ public class LogUserLoginServiceImpl implements LogUserLoginService {
     /**
      * 批量删除用户登录日志
      *
-     * @param ids 需要删除的数据
+     * @param ids
+     *            需要删除的数据
      * @return
      */
     @Override
@@ -72,7 +75,7 @@ public class LogUserLoginServiceImpl implements LogUserLoginService {
      * @return void 返回类型
      */
     @Override
-    public void saveLogUserLogin(HttpServletRequest request,SysUser sysUser) {
+    public void saveLogUserLogin(HttpServletRequest request, SysUser sysUser) {
         LogUserLogin logUserLogin = new LogUserLogin();
         logUserLogin.setLoginIp(IpAddressUtil.getIpAddress(request));
         logUserLogin.setLoginTime(new Date());

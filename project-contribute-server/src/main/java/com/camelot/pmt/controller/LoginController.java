@@ -39,10 +39,8 @@ import java.util.Map;
 @Slf4j
 public class LoginController {
 
-
     @Autowired
     private SysUserService sysUserService;
-
 
     @Autowired
     private LogUserLoginService logUserLoginService;
@@ -50,26 +48,21 @@ public class LoginController {
     @Autowired
     private SysRoleService sysRoleService;
 
-
     @Value("${jwt.header}")
     private String header;
 
     @PostMapping("/login")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userNo", value = "员工号",
-                    required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "password", value = "密码",
-                    required = true, paramType = "query", dataType = "String")
-        })
-    public ResponseEntity<Map<String, Object>> login(@ApiIgnore SysUser sysUser,
-                                                     HttpServletRequest request,
-                                                     HttpServletResponse response) throws IOException {
+            @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String") })
+    public ResponseEntity<Map<String, Object>> login(@ApiIgnore SysUser sysUser, HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         Integer userNo = sysUser.getUserNo();
         String password = sysUser.getPassword();
         if (ComUtil.isEmpty(userNo) || ComUtil.isEmpty(password)) {
             map.put("message", Constant.LoginMessage.USERNO_OR_PASSWORD_EMPTY);
-            return new ResponseEntity<Map<String, Object>>(map,HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_ACCEPTABLE);
 
         }
         sysUser = sysUserService.queryByUserNo(userNo);
@@ -79,7 +72,7 @@ public class LoginController {
 
         }
 
-        //认证成功调用记录
+        // 认证成功调用记录
         try {
             logUserLoginService.saveLogUserLogin(request, sysUser);
         } catch (Exception e) {
@@ -112,18 +105,16 @@ public class LoginController {
     /**
      * 登出
      */
-//     Optional<Cookie> cookie = Arrays.stream(request.getCookies())
-//     .filter(ck -> "Authorization".equals(ck.getName()))
-//     .limit(1).map(ck -> {
-//     ck.setMaxAge(0);
-//     ck.setHttpOnly(true);
-//     ck.setPath("/");
-//     return ck;
-//     }).findFirst();
+    // Optional<Cookie> cookie = Arrays.stream(request.getCookies())
+    // .filter(ck -> "Authorization".equals(ck.getName()))
+    // .limit(1).map(ck -> {
+    // ck.setMaxAge(0);
+    // ck.setHttpOnly(true);
+    // ck.setPath("/");
+    // return ck;
+    // }).findFirst();
     @GetMapping(value = "/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws IOException {
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         SecurityUtils.getSubject().logout();
         Cookie cookie = new Cookie(header, "");
         cookie.setHttpOnly(true);
@@ -131,8 +122,7 @@ public class LoginController {
         cookie.setPath("/");
         response.addCookie(cookie);
         response.flushBuffer();
-        return new ResponseEntity<Object>("退出成功",HttpStatus.OK);
+        return new ResponseEntity<Object>("退出成功", HttpStatus.OK);
     }
-
 
 }

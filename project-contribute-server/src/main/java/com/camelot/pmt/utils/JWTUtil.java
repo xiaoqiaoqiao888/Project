@@ -1,20 +1,20 @@
 package com.camelot.pmt.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.camelot.pmt.model.SysUser;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 @Component
 public class JWTUtil {
-
 
     private static Long expiration;
 
@@ -24,15 +24,13 @@ public class JWTUtil {
 
     @Value("${jwt.token.expiration}")
     public void setExpiration(Long expiration) {
-        this.expiration = expiration;
+        JWTUtil.expiration = expiration;
     }
 
     public static boolean verify(String token, Integer userId, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("userId", userId)
-                    .build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("userId", userId).build();
             DecodedJWT jwt = verifier.verify(token);
             return true;
         } catch (Exception exception) {
@@ -57,6 +55,7 @@ public class JWTUtil {
 
     /**
      * 获取token中的userId
+     * 
      * @param token
      * @return
      */
@@ -73,8 +72,10 @@ public class JWTUtil {
     /**
      * 生成签名,5min后过期
      *
-     * @param sysUser 用户
-     * @param secret  用户的密码
+     * @param sysUser
+     *            用户
+     * @param secret
+     *            用户的密码
      * @return 加密的token
      */
     public static String sign(SysUser sysUser, String secret) {
@@ -82,12 +83,8 @@ public class JWTUtil {
             Date date = new Date(System.currentTimeMillis() + expiration * 1000);
             Algorithm algorithm = Algorithm.HMAC256(secret);
             // 附带username信息
-            return JWT.create()
-                    .withClaim("username", sysUser.getUserName())
-                    .withClaim("userNo", sysUser.getUserNo())
-                    .withClaim("userId", sysUser.getId())
-                    .withExpiresAt(date)
-                    .sign(algorithm);
+            return JWT.create().withClaim("username", sysUser.getUserName()).withClaim("userNo", sysUser.getUserNo())
+                    .withClaim("userId", sysUser.getId()).withExpiresAt(date).sign(algorithm);
         } catch (UnsupportedEncodingException e) {
             return null;
         }

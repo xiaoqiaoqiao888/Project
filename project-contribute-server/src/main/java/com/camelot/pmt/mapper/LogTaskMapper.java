@@ -37,5 +37,5 @@ public interface LogTaskMapper {
      * @return
      */
     List<LogTaskDTO> selectByTaskPersonId(@Param("state") Integer state, @Param("taskPersonId") Integer taskPersonId,
-                                          @Param("beginTime") Date beginTime, @Param("endTime") Date endTime);
+            @Param("beginTime") Date beginTime, @Param("endTime") Date endTime);
 }

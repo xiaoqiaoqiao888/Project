@@ -60,18 +60,12 @@ public class ProjectController {
     @PostMapping("/add")
     @ApiOperation(value = "立项", notes = "立项")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "projectName", dataType = "String", value = "项目名",
-                    required = true),
-            @ApiImplicitParam(paramType = "query", name = "projectBudget", dataType = "BigDecimal", value = "项目预算",
-                    required = true),
-            @ApiImplicitParam(paramType = "query", name = "startTime", dataType = "String",
-                    value = "预计开始时间(yyyy/MM/dd)", required = true),
-            @ApiImplicitParam(paramType = "query", name = "endTime", dataType = "String", value = "预计结束时间(yyyy/MM/dd)",
-                    required = true),
-            @ApiImplicitParam(paramType = "query", name = "projectDesc", dataType = "String", value = "项目描述",
-                    required = false),
-            @ApiImplicitParam(paramType = "query", name = "projectCode", dataType = "String", value = "项目编码",
-                    required = true) })
+            @ApiImplicitParam(paramType = "query", name = "projectName", dataType = "String", value = "项目名", required = true),
+            @ApiImplicitParam(paramType = "query", name = "projectBudget", dataType = "BigDecimal", value = "项目预算", required = true),
+            @ApiImplicitParam(paramType = "query", name = "startTime", dataType = "String", value = "预计开始时间(yyyy/MM/dd)", required = true),
+            @ApiImplicitParam(paramType = "query", name = "endTime", dataType = "String", value = "预计结束时间(yyyy/MM/dd)", required = true),
+            @ApiImplicitParam(paramType = "query", name = "projectDesc", dataType = "String", value = "项目描述", required = false),
+            @ApiImplicitParam(paramType = "query", name = "projectCode", dataType = "String", value = "项目编码", required = true) })
     public ResponseEntity<?> add(@ApiIgnore Project project) throws CloneNotSupportedException, ParseException {
         log.info("创建一个新的项目");
         int count = projectService.selectProjectNo(project.getProjectCode());
@@ -118,16 +112,11 @@ public class ProjectController {
     @ApiOperation(value = "修改项目", notes = "修改项目")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id", required = true),
-            @ApiImplicitParam(paramType = "query", name = "projectName", dataType = "String", value = "项目名",
-                    required = false),
-            @ApiImplicitParam(paramType = "query", name = "projectBudget", dataType = "BigDecimal", value = "项目预算",
-                    required = false),
-            @ApiImplicitParam(paramType = "query", name = "startTime", dataType = "String",
-                    value = "预计开始时间(yyyy/MM/dd)", required = false),
-            @ApiImplicitParam(paramType = "query", name = "endTime", dataType = "String", value = "预计结束时间(yyyy/MM/dd)",
-                    required = false),
-            @ApiImplicitParam(paramType = "query", name = "projectDesc", dataType = "String", value = "项目描述",
-                    required = false) })
+            @ApiImplicitParam(paramType = "query", name = "projectName", dataType = "String", value = "项目名", required = false),
+            @ApiImplicitParam(paramType = "query", name = "projectBudget", dataType = "BigDecimal", value = "项目预算", required = false),
+            @ApiImplicitParam(paramType = "query", name = "startTime", dataType = "String", value = "预计开始时间(yyyy/MM/dd)", required = false),
+            @ApiImplicitParam(paramType = "query", name = "endTime", dataType = "String", value = "预计结束时间(yyyy/MM/dd)", required = false),
+            @ApiImplicitParam(paramType = "query", name = "projectDesc", dataType = "String", value = "项目描述", required = false) })
     public ResponseEntity<?> update(@ApiIgnore Project project) throws CloneNotSupportedException, ParseException {
         SysUser user = TokenUtil.getUserFromToken();
         project.setUpdateBy(user.getId());
@@ -155,12 +144,9 @@ public class ProjectController {
     @GetMapping("/list")
     @ApiOperation(value = "分页条件查询项目列表", notes = "分页条件查询项目列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", defaultValue = "1", value = "页码", required = false, paramType = "query",
-                    dataType = "int"),
-            @ApiImplicitParam(name = "pageSize", defaultValue = "10", value = "页大小", required = false,
-                    paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "projectState", value = "项目状态(0-未开始 1-进行中  3-已完成 4-延期进行中)", required = true,
-                    paramType = "query", dataType = "int") })
+            @ApiImplicitParam(name = "pageNum", defaultValue = "1", value = "页码", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", defaultValue = "10", value = "页大小", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "projectState", value = "项目状态(0-未开始 1-进行中  3-已完成 4-延期进行中)", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<PageInfo<?>> list(@RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize, @RequestParam Integer projectState,
             @RequestParam(required = false) String projectName) {
@@ -173,8 +159,8 @@ public class ProjectController {
      */
     @GetMapping("/list-condition")
     @ApiOperation(value = "条件查询项目列表(不分页)", notes = "条件查询项目列表(不分页)")
-    @ApiImplicitParams({ @ApiImplicitParam(name = "projectName", value = "项目名称", required = false, paramType = "query",
-            dataType = "String") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "projectName", value = "项目名称", required = false, paramType = "query", dataType = "String") })
     public ResponseEntity<?> list(@RequestParam(required = false) String projectName) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (!StringUtils.isEmpty(projectName)) {
@@ -199,17 +185,13 @@ public class ProjectController {
     }
 
     @PostMapping(value = "/add-core-user")
-    @ApiOperation(value = "项目详情添加核心成员（批量添加）",
-            notes = "[{projectId：0, " + "userId: 0, inTime: 2018-01-01, outTime: 2018-10-10 }]")
+    @ApiOperation(value = "项目详情添加核心成员（批量添加）", notes = "[{projectId：0, "
+            + "userId: 0, inTime: 2018-01-01, outTime: 2018-10-10 }]")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query",
-                    dataType = "int"),
-            @ApiImplicitParam(name = "inTime", value = "进项目时间", required = true, paramType = "query",
-                    dataType = "date"),
-            @ApiImplicitParam(name = "outTime", value = "出项目时间", required = true, paramType = "query",
-                    dataType = "date"),
-            @ApiImplicitParam(name = "userId", value = "核心成员id", required = true, paramType = "query",
-                    dataType = "int"), })
+            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "inTime", value = "进项目时间", required = true, paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "outTime", value = "出项目时间", required = true, paramType = "query", dataType = "date"),
+            @ApiImplicitParam(name = "userId", value = "核心成员id", required = true, paramType = "query", dataType = "int"), })
     public ResponseEntity<?> addCoreMember(@RequestBody List<CoreMember> coreMember)
             throws IllegalArgumentException, ShiroException {
         SysUser user = TokenUtil.getUserFromToken();
@@ -241,8 +223,7 @@ public class ProjectController {
     @ApiOperation(value = "删除核心成员", notes = "删除核心成员")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query",
-                    dataType = "int") })
+            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> deleteCoreUser(Integer projectId, Integer userId) {
         log.info("delete core member of project by userId = [{}], projectId = [{}]", userId, projectId);
         if (projectId == null || userId == null) {
@@ -260,8 +241,8 @@ public class ProjectController {
      */
     @PostMapping("/start-project")
     @ApiOperation(value = "开始项目", notes = "开始项目")
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id",
-            required = true) })
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id", required = true) })
     public ResponseEntity<?> startProject(@ApiIgnore Project project) throws CloneNotSupportedException {
         SysUser user = TokenUtil.getUserFromToken();
         project.setUpdateBy(user.getId());
@@ -280,8 +261,8 @@ public class ProjectController {
      */
     @PostMapping("/end-project")
     @ApiOperation(value = "关闭项目", notes = "关闭项目")
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id",
-            required = true) })
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id", required = true) })
     public ResponseEntity<?> endProject(@ApiIgnore Project project) throws CloneNotSupportedException {
         SysUser user = TokenUtil.getUserFromToken();
         project.setUpdateBy(user.getId());
@@ -311,8 +292,8 @@ public class ProjectController {
      */
     @GetMapping("/project-count")
     @ApiOperation(value = "项目预算统计", notes = "项目预算统计")
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id",
-            required = true) })
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "项目id", required = true) })
     public ResponseEntity<?> projectCount(Integer id) {
         Map<String, Object> map = new HashMap<String, Object>();
         List<Stage> selectStageBudget = stageService.selectStageBudget(id);

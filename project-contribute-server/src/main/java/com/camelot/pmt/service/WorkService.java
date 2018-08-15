@@ -23,6 +23,7 @@ public interface WorkService {
 
     /**
      * 查询任务是否延期
+     * 
      * @Auther: xueyj
      * @return
      */
@@ -32,6 +33,7 @@ public interface WorkService {
 
     /**
      * 分页查询功能清单列表
+     * 
      * @param pageNum
      * @param pageSize
      * @param projectId
@@ -42,10 +44,11 @@ public interface WorkService {
      * @return
      */
     PageInfo<Work> getWorkListByPage(Integer pageNum, Integer pageSize, Integer projectId, Integer stageId,
-                                     Integer workState, Integer workType);
+            Integer workState, Integer workType);
 
     /**
      * 分页查询职能包清单（含是否超预算）
+     * 
      * @param pageNum
      * @param pageSize
      * @param workDTO
@@ -56,6 +59,7 @@ public interface WorkService {
 
     /**
      * 分页查询职能包清单（含是否超预算）
+     * 
      * @param workDTO
      * @author: xueyj
      * @return
@@ -64,15 +68,17 @@ public interface WorkService {
 
     /**
      * 查询功能清单list
+     * 
      * @param projectId
      * @param stageId
      * @author: xueyj
      * @return
      */
-    List<Work> getWorkList(Integer projectId, Integer stageId,Integer workState);
+    List<Work> getWorkList(Integer projectId, Integer stageId, Integer workState);
 
     /**
      * 根据id查询work信息
+     * 
      * @param workId
      * @return
      */
@@ -80,6 +86,7 @@ public interface WorkService {
 
     /**
      * 非分页查询功能包信息
+     * 
      * @param workDTO
      * @return
      */
@@ -87,6 +94,7 @@ public interface WorkService {
 
     /**
      * 根据workid查询workDTO信息
+     * 
      * @param workDTO
      * @return
      */

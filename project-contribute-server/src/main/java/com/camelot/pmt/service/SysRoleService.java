@@ -15,7 +15,8 @@ public interface SysRoleService {
     /**
      * 添加角色
      *
-     * @param sysRole SysRole
+     * @param sysRole
+     *            SysRole
      * @return boolean
      */
     boolean insertSysRole(SysRole sysRole);
@@ -23,7 +24,8 @@ public interface SysRoleService {
     /**
      * 删除角色
      *
-     * @param id id
+     * @param id
+     *            id
      * @return boolean
      */
     boolean deleteById(Integer id);
@@ -31,7 +33,8 @@ public interface SysRoleService {
     /**
      * 根据id修改角色
      *
-     * @param sysRole SysRole
+     * @param sysRole
+     *            SysRole
      * @return boolean
      */
     boolean updateById(SysRole sysRole);

@@ -35,8 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 　　* @author muyuanpei
- * 　　* @date 2018/5/14
+ * * @author muyuanpei * @date 2018/5/14
  */
 @RestController
 @RequestMapping("/check-manager")
@@ -64,24 +63,23 @@ public class CheckManagerController {
     @Autowired
     private LogProjectService logProjectService;
 
-
     /**
      * 分页查询未验收的任务列表
      *
-     * @param sysResourceVO 接受分页数据
+     * @param sysResourceVO
+     *            接受分页数据
      */
     @PostMapping("/list")
     @ApiOperation(value = "分页查询验收的任务列表", notes = "分页查询验收的任务列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "查询列表类型", paramType = "query", dataType = "int"),
+    @ApiImplicitParams({ @ApiImplicitParam(name = "status", value = "查询列表类型", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "projectId", value = "项目id", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "stageId", value = "阶段id", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "workId", value = "工程包id", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "taskId", value = "任务id", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "pageSize", value = "页大小", paramType = "query", dataType = "int"),})
+            @ApiImplicitParam(name = "pageSize", value = "页大小", paramType = "query", dataType = "int"), })
     public ResponseEntity<PageInfo<?>> list(@RequestBody SysResourceDTO sysResourceVO) {
-        //1-任务  2-工程包  3-阶段
+        // 1-任务 2-工程包 3-阶段
         if (sysResourceVO.getStatus() == Constant.CheckManager.DIFF_TASK_SIGN) {
             Task task = new Task();
             task.setProjectId(sysResourceVO.getProjectId());
@@ -93,13 +91,11 @@ public class CheckManagerController {
             return ResponseEntity.ok(taskList);
         } else if (sysResourceVO.getStatus() == Constant.CheckManager.DIFF_WORK_SIGN) {
             PageInfo<Work> workListByPage = workService.getWorkListByPage(sysResourceVO.getPageNum(),
-                    sysResourceVO.getPageSize(), sysResourceVO.getProjectId(), sysResourceVO.getStageId(),
-                    null, null);
+                    sysResourceVO.getPageSize(), sysResourceVO.getProjectId(), sysResourceVO.getStageId(), null, null);
             return ResponseEntity.ok(workListByPage);
         } else {
-            PageInfo<Stage> stateList = stageService.selectStateListByProjectId(
-                    sysResourceVO.getProjectId(), sysResourceVO.getPageNum(),
-                    sysResourceVO.getPageSize());
+            PageInfo<Stage> stateList = stageService.selectStateListByProjectId(sysResourceVO.getProjectId(),
+                    sysResourceVO.getPageNum(), sysResourceVO.getPageSize());
             return ResponseEntity.ok(stateList);
         }
     }
@@ -110,7 +106,7 @@ public class CheckManagerController {
     @PostMapping("/project-list")
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "projectName", value = "项目名称", paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "projectName", value = "项目名称", paramType = "query", dataType = "int") })
     public ResponseEntity<Object> projectList(@RequestBody Project project) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("projectName", project.getProjectName());
@@ -121,20 +117,20 @@ public class CheckManagerController {
     /**
      * 确认验收
      *
-     * @param sysResourceVO 接受数据
+     * @param sysResourceVO
+     *            接受数据
      */
     @PutMapping("/check-true")
     @ApiOperation(value = "确认验收", notes = "确认验收")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "确认验收类型", paramType = "query", dataType = "int"),
+    @ApiImplicitParams({ @ApiImplicitParam(name = "status", value = "确认验收类型", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "projectId", value = "确认验收所属的项目id", paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "trueId", value = "确认验收的id", paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "trueId", value = "确认验收的id", paramType = "query", dataType = "int") })
     public ResponseEntity<String> checkTrue(@RequestBody SysResourceDTO sysResourceVO)
             throws CloneNotSupportedException {
         SysUser user = TokenUtil.getUserFromToken();
-        //1-任务  2-工程包  3-阶段
+        // 1-任务 2-工程包 3-阶段
         if (sysResourceVO.getStatus() == Constant.CheckManager.DIFF_TASK_SIGN) {
-            //验收单个任务
+            // 验收单个任务
             Task task = new Task();
             task.setUpdateBy(user.getId());
             task.setId(sysResourceVO.getTrueId());
@@ -147,25 +143,25 @@ public class CheckManagerController {
                 return ResponseEntity.ok(Constant.CheckManager.CHECK_FAILE);
             }
         } else if (sysResourceVO.getStatus() == Constant.CheckManager.DIFF_WORK_SIGN) {
-            //验收单个工程包
+            // 验收单个工程包
             Work work = new Work();
             work.setUpdateBy(user.getId());
             work.setId(sysResourceVO.getTrueId());
             work.setWorkState(Integer.valueOf(Constant.Status.COMPLETED));
-            //查询当前工程包下面所有未验收的任务
+            // 查询当前工程包下面所有未验收的任务
             List<Task> taskListByWorkId = checkManagerService.getTaskListByWorkId(work);
             if (taskListByWorkId.size() > 0) {
-                //将该包下的所有未验收任务的id添加到一个集合里
+                // 将该包下的所有未验收任务的id添加到一个集合里
                 List<Integer> taskIntList = new ArrayList<>();
                 for (Task task : taskListByWorkId) {
                     taskIntList.add(task.getId());
                 }
-                //将所有任务的id拼接成字符串
+                // 将所有任务的id拼接成字符串
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < taskIntList.size(); i++) {
                     stringBuilder.append(taskIntList.get(i) + ",");
                 }
-                //调用任务的批量验收，完成该工程包下面的任务的验收
+                // 调用任务的批量验收，完成该工程包下面的任务的验收
                 SysResourceDTO sysResourceDTO = new SysResourceDTO();
                 sysResourceDTO.setStatus(1);
                 sysResourceDTO.setTrueIdStr(stringBuilder.toString());
@@ -178,12 +174,12 @@ public class CheckManagerController {
                 return ResponseEntity.ok(Constant.CheckManager.CHECK_FAILE);
             }
         } else {
-            //验收单个阶段
+            // 验收单个阶段
             Stage stage = new Stage();
             stage.setUpdateBy(user.getId());
             stage.setId(sysResourceVO.getTrueId());
             stage.setStageState(Integer.valueOf(Constant.Status.COMPLETED));
-            //查询当前阶段下面所有未验收的工程包
+            // 查询当前阶段下面所有未验收的工程包
             List<Work> workListByStageId = checkManagerService.getWorkListByStageId(stage);
             if (workListByStageId.size() > 0) {
                 List<Integer> workIntList = new ArrayList<>();
@@ -192,17 +188,17 @@ public class CheckManagerController {
                         workIntList.add(work.getId());
                         List<Task> checkTaskListByWorkId = checkManagerService.getTaskListByWorkId(work);
                         if (checkTaskListByWorkId.size() > 0) {
-                            //将该包下的所有未验收任务的id添加到一个集合里
+                            // 将该包下的所有未验收任务的id添加到一个集合里
                             List<Integer> taskIntList = new ArrayList<>();
                             for (Task task : checkTaskListByWorkId) {
                                 taskIntList.add(task.getId());
                             }
-                            //将所有任务的id拼接成字符串
+                            // 将所有任务的id拼接成字符串
                             StringBuilder stringBuilder = new StringBuilder();
                             for (int i = 0; i < taskIntList.size(); i++) {
                                 stringBuilder.append(taskIntList.get(i) + ",");
                             }
-                            //调用任务的批量验收，完成该工程包下面的任务的验收,添加日志
+                            // 调用任务的批量验收，完成该工程包下面的任务的验收,添加日志
                             SysResourceDTO sysResourceDTO = new SysResourceDTO();
                             HashMap<String, Object> map = new HashMap<>();
                             sysResourceDTO.setStatus(1);
@@ -216,12 +212,12 @@ public class CheckManagerController {
                         }
                     }
                     if (workIntList.size() > 0) {
-                        //将所有工程包的id拼接成字符串
+                        // 将所有工程包的id拼接成字符串
                         StringBuilder stringBuilder = new StringBuilder();
                         for (int i = 0; i < workIntList.size(); i++) {
                             stringBuilder.append(workIntList.get(i) + ",");
                         }
-                        //调用工程包的批量验收，完成该工程包下面的任务的验收
+                        // 调用工程包的批量验收，完成该工程包下面的任务的验收
                         SysResourceDTO sysResourceDTO = new SysResourceDTO();
                         HashMap<String, Object> map = new HashMap<>();
                         sysResourceDTO.setStatus(2);
@@ -261,16 +257,16 @@ public class CheckManagerController {
     /**
      * 确认批量验收
      *
-     * @param sysResourceVO 接受数据
+     * @param sysResourceVO
+     *            接受数据
      */
     @PutMapping("/check-true-list")
     @ApiOperation(value = "批量确认验收", notes = "批量确认验收")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "确认验收类型", paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "trueIdStr", value = "确认验收的id", paramType = "query", dataType = "String")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "status", value = "确认验收类型", paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "trueIdStr", value = "确认验收的id", paramType = "query", dataType = "String") })
     public ResponseEntity<String> checkTrueList(@RequestBody SysResourceDTO sysResourceVO)
             throws CloneNotSupportedException {
-        //1-任务  2-工程包  3-阶段
+        // 1-任务 2-工程包 3-阶段
         int result = checkManagerService.updateStateList(sysResourceVO);
         if (result > 0) {
             return ResponseEntity.ok(Constant.CheckManager.CHECK_SUCCESS);

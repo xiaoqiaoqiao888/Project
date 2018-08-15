@@ -10,5 +10,4 @@ public interface LogProjectMapper {
 
     List<Project> queryAll(Integer projectId);
 
-
 }

@@ -91,7 +91,6 @@ public class SysUserTaskDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date expEndTime;
 
-
     /**
      * 任务状态
      */
@@ -102,11 +101,9 @@ public class SysUserTaskDTO {
      */
     private Integer taskPersonId;
 
-
     /**
      * 状态值 0-无效 1-有效
      */
     private Integer state;
-
 
 }

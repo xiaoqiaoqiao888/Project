@@ -1,24 +1,24 @@
 package com.camelot.pmt.service.impl;
 
-import com.camelot.pmt.mapper.SysResourceMapper;
-import com.camelot.pmt.model.SysResource;
-import com.camelot.pmt.model.SysResourceDTO;
-import com.camelot.pmt.model.SysResourceVo;
-import com.camelot.pmt.model.SysUser;
-import com.camelot.pmt.service.SysResourceService;
-import com.camelot.pmt.utils.TokenUtil;
-import com.camelot.pmt.utils.TreeUtilCommon;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.camelot.pmt.mapper.SysResourceMapper;
+import com.camelot.pmt.model.SysResource;
+import com.camelot.pmt.model.SysResourceDTO;
+import com.camelot.pmt.model.SysUser;
+import com.camelot.pmt.service.SysResourceService;
+import com.camelot.pmt.utils.TokenUtil;
+import com.camelot.pmt.utils.TreeUtilCommon;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @Author:myp 2018/5/11 11:38
@@ -116,7 +116,6 @@ public class SysResourceServiceImpl implements SysResourceService {
         return sysResourceMapper.selectByPrimaryKey(id);
     }
 
-
     /**
      * 树形结构展示菜单
      *
@@ -129,8 +128,8 @@ public class SysResourceServiceImpl implements SysResourceService {
         List<SysResource> sysResources = sysResourceMapper.treeList(sysResource);
         if (sysResources.size() > 0) {
             try {
-                resources = TreeUtilCommon.buildTree(sysResources, TreeUtilCommon.SYSRESOURCE,
-                        "id", "parentId", "childList");
+                resources = TreeUtilCommon.buildTree(sysResources, TreeUtilCommon.SYSRESOURCE, "id", "parentId",
+                        "childList");
                 return resources;
             } catch (Exception e) {
                 log.error("其他异常：%s", e);

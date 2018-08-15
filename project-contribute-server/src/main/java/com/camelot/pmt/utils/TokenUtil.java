@@ -1,21 +1,24 @@
 package com.camelot.pmt.utils;
 
-import com.auth0.jwt.exceptions.InvalidClaimException;
-import com.camelot.pmt.model.SysUser;
-import com.camelot.pmt.service.SysUserService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.camelot.pmt.model.SysUser;
+import com.camelot.pmt.service.SysUserService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class TokenUtil {
@@ -28,14 +31,9 @@ public class TokenUtil {
     static final String CLAIM_KEY_TEL = "tel";
     static final String CLAIM_KEY_EMAIL = "email";
 
-    private static final String TOKEN = "Authorization";
-
-
     private static String secret;
 
-
     private static Long expiration;
-
 
     private SysUserService sysUserService;
 
@@ -45,7 +43,7 @@ public class TokenUtil {
 
     @Value("${jwt.token.secret}")
     public void setSecret(String secret) {
-        this.secret = secret;
+        TokenUtil.secret = secret;
     }
 
     public Long getExpiration() {
@@ -54,7 +52,7 @@ public class TokenUtil {
 
     @Value("${jwt.token.expiration}")
     public void setExpiration(Long expiration) {
-        this.expiration = expiration;
+        TokenUtil.expiration = expiration;
     }
 
     public static Claims getClaimsFromToken(String token) {
@@ -70,7 +68,8 @@ public class TokenUtil {
     /**
      * 生成token
      *
-     * @param username 用户名
+     * @param username
+     *            用户名
      */
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
@@ -93,15 +92,14 @@ public class TokenUtil {
         } else {
             throw new UnknownAccountException();
         }
-        //  TODO 存放角色ID
+        // TODO 存放角色ID
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(header, claims);
     }
 
     private String generateToken(Map<String, Object> header, Map<String, Object> claims) {
-        return Jwts.builder().setHeader(header).setClaims(claims)
-                .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, this.secret).compact();
+        return Jwts.builder().setHeader(header).setClaims(claims).setExpiration(generateExpirationDate())
+                .signWith(SignatureAlgorithm.HS512, TokenUtil.secret).compact();
     }
 
     /**
@@ -174,7 +172,7 @@ public class TokenUtil {
     // }
 
     public String refreshToken(String token) {
-        final Claims claims = this.getClaimsFromToken(token);
+        final Claims claims = TokenUtil.getClaimsFromToken(token);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken((String) claims.get(CLAIM_KEY_USERNAME));
     }

@@ -1,11 +1,10 @@
 package com.camelot.pmt.service;
 
+import java.util.List;
+
 import com.camelot.pmt.model.SysResource;
 import com.camelot.pmt.model.SysResourceDTO;
-import com.camelot.pmt.model.SysResourceVo;
 import com.github.pagehelper.PageInfo;
-
-import java.util.List;
 
 public interface SysResourceService {
 

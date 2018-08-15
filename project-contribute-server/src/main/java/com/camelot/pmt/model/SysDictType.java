@@ -55,7 +55,8 @@ public class SysDictType {
     /**
      * 主键ID
      *
-     * @param id 主键ID
+     * @param id
+     *            主键ID
      */
     public void setId(Integer id) {
         this.id = id;
@@ -73,7 +74,8 @@ public class SysDictType {
     /**
      * 类型code
      *
-     * @param typeCode 类型code
+     * @param typeCode
+     *            类型code
      */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode == null ? null : typeCode.trim();
@@ -91,7 +93,8 @@ public class SysDictType {
     /**
      * 类型名称
      *
-     * @param typeName 类型名称
+     * @param typeName
+     *            类型名称
      */
     public void setTypeName(String typeName) {
         this.typeName = typeName == null ? null : typeName.trim();
@@ -109,7 +112,8 @@ public class SysDictType {
     /**
      * 状态值 0-无效 1-有效
      *
-     * @param state 状态值 0-无效 1-有效
+     * @param state
+     *            状态值 0-无效 1-有效
      */
     public void setState(Integer state) {
         this.state = state;
@@ -127,7 +131,8 @@ public class SysDictType {
     /**
      * 创建人
      *
-     * @param createBy 创建人
+     * @param createBy
+     *            创建人
      */
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
@@ -145,7 +150,8 @@ public class SysDictType {
     /**
      * 创建时间
      *
-     * @param createTime 创建时间
+     * @param createTime
+     *            创建时间
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
@@ -163,7 +169,8 @@ public class SysDictType {
     /**
      * 修改人
      *
-     * @param updateBy 修改人
+     * @param updateBy
+     *            修改人
      */
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
@@ -181,7 +188,8 @@ public class SysDictType {
     /**
      * 修改时间
      *
-     * @param updateTime 修改时间
+     * @param updateTime
+     *            修改时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;

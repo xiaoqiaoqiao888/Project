@@ -37,12 +37,9 @@ public class SysRoleController {
     @PostMapping(value = "")
     @ApiOperation(value = "添加角色", notes = "添加角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleName", value = "角色名称", required = true,
-                    paramType = "form", dataType = "string"),
-            @ApiImplicitParam(name = "roleDesc", value = "角色描述",
-                    paramType = "form", dataType = "string"),
-            @ApiImplicitParam(name = "state", value = "角色状态0无效1有效",
-                    paramType = "form", dataType = "Integer") })
+            @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, paramType = "form", dataType = "string"),
+            @ApiImplicitParam(name = "roleDesc", value = "角色描述", paramType = "form", dataType = "string"),
+            @ApiImplicitParam(name = "state", value = "角色状态0无效1有效", paramType = "form", dataType = "Integer") })
     public ResponseEntity<String> insert(@ApiIgnore SysRole sysRole) {
         boolean result = sysRoleService.insertSysRole(sysRole);
         if (result) {
@@ -54,8 +51,7 @@ public class SysRoleController {
     @DeleteMapping(value = "")
     @ApiOperation(value = "删除角色", notes = "删除角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true,
-                    paramType = "query", dataType = "Integer") })
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "query", dataType = "Integer") })
     public ResponseEntity<String> delete(Integer id) {
         boolean result = sysRoleService.deleteById(id);
         if (result) {
@@ -67,14 +63,10 @@ public class SysRoleController {
     @PutMapping(value = "")
     @ApiOperation(value = "修改角色", notes = "修改角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true,
-                    paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "roleName", value = "角色名称",
-                    paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "roleDesc", value = "角色描述",
-                    paramType = "query", dataType = "string"),
-            @ApiImplicitParam(name = "state", value = "角色状态0无效1有效",
-                    paramType = "query", dataType = "Integer") })
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "roleName", value = "角色名称", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "roleDesc", value = "角色描述", paramType = "query", dataType = "string"),
+            @ApiImplicitParam(name = "state", value = "角色状态0无效1有效", paramType = "query", dataType = "Integer") })
     public ResponseEntity<String> update(@ApiIgnore SysRole sysRole) {
         boolean result = sysRoleService.updateById(sysRole);
         if (result) {
@@ -86,8 +78,7 @@ public class SysRoleController {
     @GetMapping(value = "/by-role-id")
     @ApiOperation(value = "查看角色详情", notes = "查看角色详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色id", required = true,
-                    paramType = "query", dataType = "Integer") })
+            @ApiImplicitParam(name = "id", value = "角色id", required = true, paramType = "query", dataType = "Integer") })
     public ResponseEntity<SysRole> selectById(Integer id) {
         SysRole sysRole = sysRoleService.selectById(id);
         return ResponseEntity.ok(sysRole);
@@ -103,8 +94,7 @@ public class SysRoleController {
     @GetMapping(value = "/by-user-id")
     @ApiOperation(value = "根据用户id查看所拥有的角色", notes = "根据用户id查看所拥有的角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true,
-                    paramType = "query", dataType = "Integer") })
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "query", dataType = "Integer") })
     public ResponseEntity<?> selectRoleByUserId(Integer id) {
         List<SysRole> sysRoles = sysRoleService.selectRoleByUserId(id);
         return ResponseEntity.ok(sysRoles);

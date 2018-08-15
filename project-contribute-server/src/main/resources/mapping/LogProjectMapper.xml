@@ -95,15 +95,25 @@
 
 	<select id="queryAll" parameterType="java.lang.Integer"
 		resultType="com.camelot.pmt.model.Project">
-		select log_project.id, log_project.project_id, log_project.project_name,
-		log_project.project_code, log_project.project_budget,
-		log_project.start_time, log_project.actual_time, log_project.end_time,
-		log_project.finsh_time, log_project.project_desc,
-		log_project.project_state, log_project.operate_desc,
-		log_project.state, log_project.create_by, log_project.create_time,
-		log_project.update_by, log_project.update_time, sys_user.real_name
-		from log_project left join sys_user on sys_user.id =
-		log_project.create_by where log_project.project_id = #{projectId}
-		order by log_project.create_time desc
+		select log_project.id, log_project.project_id,
+		log_project.project_name,
+		log_project.project_code,
+		log_project.project_budget,
+		log_project.start_time,
+		log_project.actual_time, log_project.end_time,
+		log_project.finsh_time,
+		log_project.project_desc,
+		log_project.project_state,
+		log_project.operate_desc,
+		log_project.state, log_project.create_by,
+		log_project.create_time,
+		log_project.update_by,
+		log_project.update_time, sys_user.real_name
+		from log_project left join
+		sys_user on sys_user.id =
+		log_project.create_by where
+		log_project.project_id = #{projectId}
+		order by log_project.create_time
+		desc
 	</select>
 </mapper>

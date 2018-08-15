@@ -24,12 +24,13 @@ public interface TaskService {
      * @param taskName
      * @param personId
      * @param orderByState
-     * @param taskPersonId @return PageInfo<?>
+     * @param taskPersonId
+     * @return PageInfo<?>
      * @throws list
      * @Description TODO 查询(任务详情,可领取任务,我的任务)通用接口
      */
-    PageInfo<Map<String, Object>> list(Integer page, Integer rows, String taskName, String projectName, Integer
-            personId, Integer orderByState, Integer taskState);
+    PageInfo<Map<String, Object>> list(Integer page, Integer rows, String taskName, String projectName,
+            Integer personId, Integer orderByState, Integer taskState);
 
     /**
      * @param task
@@ -64,8 +65,6 @@ public interface TaskService {
      * @return
      */
     TaskCountDTO selectTasklistByTaskState(Task task);
-
-
 
     /**
      * 个人任务统计
@@ -102,7 +101,7 @@ public interface TaskService {
      * 根据是否超预算状态值来查询任务清单
      */
 
-    PageInfo<?> selectTaskByBudgetState(Task task, Integer budgetState,Integer pageNum,Integer pageSize);
+    PageInfo<?> selectTaskByBudgetState(Task task, Integer budgetState, Integer pageNum, Integer pageSize);
 
     /**
      * 根据任务id查询任务详情
@@ -120,11 +119,11 @@ public interface TaskService {
      */
     List<Map<String, Object>> logTaskByTaskId(Integer taskId);
 
-
     BigDecimal selectTaskHourCostList(TaskHourCost taskHourCost);
 
     /**
-     *检测工程包下的任务是否超过工程包价值分
+     * 检测工程包下的任务是否超过工程包价值分
+     * 
      * @param workId
      * @param taskId
      * @param taskValue

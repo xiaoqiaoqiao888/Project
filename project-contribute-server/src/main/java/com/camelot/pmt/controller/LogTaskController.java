@@ -44,7 +44,7 @@ public class LogTaskController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "taskPersonId", value = "任务领取人id", required = true, paramType = "query"),
             @ApiImplicitParam(name = "state", value = "状态值", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "monthNum", value = "月份值", required = true, paramType = "query")})
+            @ApiImplicitParam(name = "monthNum", value = "月份值", required = true, paramType = "query") })
     public ResponseEntity<?> selectPeriodTotalTask(Integer taskPersonId, Integer state, Integer monthNum) {
         log.info("taskPersonId={},state={},monthNum={}", taskPersonId, state, monthNum);
         List<LogTaskDTO> logTaskDTOS = logTaskService.selectByTaskPersonId(state, taskPersonId, monthNum);

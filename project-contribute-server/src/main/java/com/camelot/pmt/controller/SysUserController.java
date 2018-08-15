@@ -53,7 +53,7 @@ public class SysUserController {
     @GetMapping("/base-info")
     @ApiOperation(value = "个人基本信息-基本资料查询", notes = "个人基本信息-基本资料查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> selectBaseInfo(@ApiIgnore SysUser sysUser) {
         log.info("userNo={}", sysUser.getUserNo());
         SysUserDTO sysUserDTO = sysUserService.selectBaseInfo(sysUser.getUserNo());
@@ -69,7 +69,7 @@ public class SysUserController {
     @GetMapping("/by-id")
     @ApiOperation(value = "根据id查询用户", notes = "根据id查询用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> selectByPrimaryKey(@ApiIgnore SysUser sysUser) {
         log.info("id={}", sysUser.getId());
         sysUser = sysUserService.selectByPrimaryKey(sysUser.getId());
@@ -87,25 +87,20 @@ public class SysUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户id", required = false, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "realName", value = "真实名", required = false, paramType = "query", dataType =
-                    "String"),
-            @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType =
-                    "String"),
-            @ApiImplicitParam(name = "email", value = "电子邮件", required = false, paramType = "query", dataType =
-                    "String"),
+            @ApiImplicitParam(name = "realName", value = "真实名", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "email", value = "电子邮件", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "tel", value = "电话", required = false, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "userDesc", value = "描述/备注", required = false, paramType = "query", dataType =
-                    "String"),
-            @ApiImplicitParam(name = "cost", value = "人员成本", required = false, paramType = "query", dataType =
-                    "double"),
-            @ApiImplicitParam(name = "state", value = "状态值", required = false, paramType = "query", dataType = "int"),})
+            @ApiImplicitParam(name = "userDesc", value = "描述/备注", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "cost", value = "人员成本", required = false, paramType = "query", dataType = "double"),
+            @ApiImplicitParam(name = "state", value = "状态值", required = false, paramType = "query", dataType = "int"), })
     public ResponseEntity<?> updateByPrimaryKeySelective(@ApiIgnore SysUser sysUser, HttpServletRequest request) {
         log.info("userNo={}", sysUser.getUserNo());
         int num = sysUserService.updateByPrimaryKeySelective(sysUser);
         if (num > 0) {
             return ResponseEntity.ok(Manager.UPDATE_SUCCESS);
         }
-        return new ResponseEntity<Object>(Manager.REQUEST_DATA_EXCEPTION,HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<Object>(Manager.REQUEST_DATA_EXCEPTION, HttpStatus.NOT_ACCEPTABLE);
     }
 
     /**
@@ -118,8 +113,7 @@ public class SysUserController {
     @ApiOperation(value = "查询所有用户(分页)", notes = "查询所有用户(分页)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "当前页数", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, paramType = "query", dataType =
-                    "int")})
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> selectAllByPage(@ApiIgnore PageInfo<?> pageInfo) {
         log.info("pageNum={},pageSize={}", pageInfo.getPageNum(), pageInfo.getPageSize());
         PageInfo<SysUser> list = sysUserService.selectAllByPage(pageInfo.getPageNum(), pageInfo.getPageSize());
@@ -134,12 +128,9 @@ public class SysUserController {
      */
     @GetMapping(value = "by-role-id")
     @ApiOperation(value = "根据角色id查看对应用户", notes = "根据角色id查看对应用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页数", required = true,
-                    paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true,
-                    paramType = "query", dataType = "int")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "roleId", value = "角色id", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> selectUsersByRoleId(Integer roleId, Integer pageNum, Integer pageSize) {
         PageInfo<SysUser> sysUserPageInfo = sysUserService.selectUsersByRoleId(roleId, pageNum, pageSize);
         return ResponseEntity.ok(sysUserPageInfo);
@@ -154,7 +145,7 @@ public class SysUserController {
     @ApiIgnore
     @GetMapping(value = "by-userName")
     @ApiOperation(value = "根据用户名查询用户（系统设置-员工管理-添加成员时可以用到）", notes = "根据用户名查询用户（系统设置-员工管理-添加成员时可以用到）")
-    @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "用户名", required = true, paramType = "query")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, paramType = "query") })
     public ResponseEntity<SysUser> queryByUserName(String userName) {
         SysUser sysUser = sysUserService.queryByUserName(userName);
         return ResponseEntity.ok(sysUser);
@@ -172,17 +163,13 @@ public class SysUserController {
     @ApiOperation(value = "系统设置-员工管理-添加成员", notes = "系统设置-员工管理-添加成员")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "realName", value = "真实名", required = true, paramType = "query", dataType =
-                    "String"),
-            @ApiImplicitParam(name = "email", value = "电子邮件", required = true, paramType = "query", dataType =
-                    "String"),
+            @ApiImplicitParam(name = "realName", value = "真实名", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "email", value = "电子邮件", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "tel", value = "电话", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "cost", value = "人员成本", required = true, paramType = "query", dataType = "double"),
-            @ApiImplicitParam(name = "userDesc", value = "描述/备注", required = false, paramType = "query", dataType =
-                    "String"),
+            @ApiImplicitParam(name = "userDesc", value = "描述/备注", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "roleId", value = "角色id", required = false, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "groupId", value = "部门组id", required = true, paramType = "query", dataType =
-                    "int")})
+            @ApiImplicitParam(name = "groupId", value = "部门组id", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> insert(@ApiIgnore SysUser sysUser, @ApiIgnore Integer groupId, Integer[] roleId) {
         log.info("userNo={},realName={},email={},tel={},cost={},userDesc={},roleId={},groupId={}", sysUser.getUserNo(),
                 sysUser.getRealName(), sysUser.getEmail(), sysUser.getTel(), sysUser.getCost(), sysUser.getUserDesc(),
@@ -191,12 +178,12 @@ public class SysUserController {
         if (sysUserDB != null) {
             return new ResponseEntity<Object>("此员工号已存在，请查证后再次添加！", HttpStatus.NOT_ACCEPTABLE);
         }
-        //保存用户表
+        // 保存用户表
         int num = sysUserService.insert(sysUser, roleId, groupId);
         if (num > 0) {
             return ResponseEntity.ok(Manager.INSERT_SUCCESS);
         }
-        return new ResponseEntity<Object>(Manager.REQUEST_DATA_EXCEPTION,HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<Object>(Manager.REQUEST_DATA_EXCEPTION, HttpStatus.NOT_ACCEPTABLE);
     }
 
     /**
@@ -207,7 +194,7 @@ public class SysUserController {
      */
     @GetMapping(value = "by-userNo")
     @ApiOperation(value = "根据员工号查询用户（系统设置-员工管理-添加成员时可以用到）", notes = "根据员工号查询用户（系统设置-员工管理-添加成员时可以用到）")
-    @ApiImplicitParams({@ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "userNo", value = "员工号", required = true, paramType = "query") })
     public ResponseEntity<SysUser> queryByUserNo(Integer userNo) {
         log.info("userNo={}", userNo);
         SysUser sysUser = sysUserService.queryByUserNo(userNo);
@@ -227,7 +214,7 @@ public class SysUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "taskPersonId", value = "任务领取人id", required = true, paramType = "query"),
             @ApiImplicitParam(name = "state", value = "状态值", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "monthNum", value = "月份值", required = true, paramType = "query")})
+            @ApiImplicitParam(name = "monthNum", value = "月份值", required = true, paramType = "query") })
     public ResponseEntity<?> selectPeriodTotalTask(Integer taskPersonId, Integer state, Integer monthNum) {
         log.info("taskPersonId={},state={},monthNum={}", taskPersonId, state, monthNum);
         Map<String, Object> map = taskService.selectPeriodTotalTask(taskPersonId, state, monthNum);

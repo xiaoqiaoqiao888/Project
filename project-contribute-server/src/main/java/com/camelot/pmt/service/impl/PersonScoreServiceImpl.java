@@ -33,16 +33,16 @@ public class PersonScoreServiceImpl implements PersonScoreService {
      * @return
      */
     @Override
-    public PageInfo<PersonScoreDetailsDTO> selectScoreDetails(Integer userId, Integer state, Integer pageNum, Integer
-            pageSize) {
+    public PageInfo<PersonScoreDetailsDTO> selectScoreDetails(Integer userId, Integer state, Integer pageNum,
+            Integer pageSize) {
         if (userId == null) {
             return null;
         }
-        PageHelper.startPage(pageNum == null || pageNum == 0 ? 1 : pageNum, pageSize == null || pageSize == 0 ? 10 :
-                pageSize);
+        PageHelper.startPage(pageNum == null || pageNum == 0 ? 1 : pageNum,
+                pageSize == null || pageSize == 0 ? 10 : pageSize);
         List<PersonScoreDetailsDTO> list = personScoreMapper.selectScoreDetails(userId, state).stream().sorted(//
                 Comparator.comparing(PersonScoreDetailsDTO::getCreateTime)).collect(Collectors.toList());
-        //分页查询
+        // 分页查询
         PageInfo<PersonScoreDetailsDTO> pageResult = new PageInfo<>(list);
         pageResult.setList(list);
         return pageResult;

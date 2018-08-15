@@ -110,5 +110,5 @@ public class LogWork {
     /**
      * 操作描述
      */
-    public String  operateDesc;
+    public String operateDesc;
 }

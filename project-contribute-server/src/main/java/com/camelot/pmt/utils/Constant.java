@@ -53,7 +53,6 @@ public class Constant {
         int WAIT_CHECK = 2;
     }
 
-
     /**
      * 数据状态
      */
@@ -67,7 +66,6 @@ public class Constant {
          */
         int EFFECTIVE = 1;
     }
-
 
     /**
      * 日志状态
@@ -236,9 +234,6 @@ public class Constant {
          */
         String UN_AUTHENTICATED = "认证失败";
     }
-
-
-
 
     /**
      * 操作描述

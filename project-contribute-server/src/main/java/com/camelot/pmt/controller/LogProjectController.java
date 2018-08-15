@@ -26,8 +26,7 @@ public class LogProjectController {
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ApiOperation(value = "项目日志查询", notes = "项目日志查询所有，根据创建时间倒序")
-    @ApiImplicitParam(paramType = "query", name = "projectId", dataType = "int", value = "项目id",
-            required = true)
+    @ApiImplicitParam(paramType = "query", name = "projectId", dataType = "int", value = "项目id", required = true)
     public ResponseEntity<Object> queryLog(Integer projectId) {
         if (projectId == null) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("项目id不能为空");

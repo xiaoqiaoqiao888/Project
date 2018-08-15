@@ -1,5 +1,15 @@
 package com.camelot.pmt.utils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.camelot.pmt.mapper.ProjectUserMapper;
 import com.camelot.pmt.mapper.SysUserMapper;
 import com.camelot.pmt.mapper.TaskMapper;
@@ -8,25 +18,12 @@ import com.camelot.pmt.model.SysUser;
 import com.camelot.pmt.model.TaskDto;
 import com.camelot.pmt.model.TaskHourCost;
 import com.camelot.pmt.service.BaseCalculateService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @Author: lyh
- * @CreateDate: 2018/5/16  16:20
+ * @CreateDate: 2018/5/16 16:20
  * @Description:
  */
-@Slf4j
 @Transactional
 @Component
 public class TaskCost {
@@ -41,7 +38,7 @@ public class TaskCost {
     private ProjectUserMapper projectUserMapper;
     Boolean flag = false;
 
-    //0 0/5 9,10,11 * * ?
+    // 0 0/5 9,10,11 * * ?
     @Scheduled(cron = "0 0/5 9,10,11 * * ?")
     private void amCosts() {
         Date date = new Date();
@@ -50,9 +47,8 @@ public class TaskCost {
         insertCompletAndWait(date);
     }
 
-
-    //0 0/5 14,15,16,17 * * ?
-    //*/10 * * * * ?
+    // 0 0/5 14,15,16,17 * * ?
+    // */10 * * * * ?
     @Scheduled(cron = "0 0/5 14,15,16,17 * * ?")
     private void pmCosts() {
         Date date = new Date();
@@ -61,7 +57,7 @@ public class TaskCost {
         insertCompletAndWait(date);
     }
 
-    //0 0/5 9,10,11 * * ?
+    // 0 0/5 9,10,11 * * ?
     @Scheduled(cron = "0 0/5 9,10,11 * * ?")
     private void amProjectUserCosts() {
         flag = baseCalculateService.isWorkDays(new Date());
@@ -70,8 +66,8 @@ public class TaskCost {
         }
     }
 
-    //0 0/5 14,15,16,17 * * ?
-    //*/10 * * * * ?
+    // 0 0/5 14,15,16,17 * * ?
+    // */10 * * * * ?
     @Scheduled(cron = "0 0/5 14,15,16,17 * * ?")
     private void pmProjectUserCosts() {
         flag = baseCalculateService.isWorkDays(new Date());
@@ -80,8 +76,8 @@ public class TaskCost {
         }
     }
 
-    //0 0 0 * * ?
-    //0 15 10 ? * *
+    // 0 0 0 * * ?
+    // 0 15 10 ? * *
     @Scheduled(cron = "0 0 0 * * ?")
     private void costs() {
         List<TaskHourCost> taskHourCostList = taskMapper.selectTaskHourCost();
@@ -123,7 +119,7 @@ public class TaskCost {
         }
     }
 
-    //核心人员的没做任务的消耗人本
+    // 核心人员的没做任务的消耗人本
     private void insert() {
         List<ProjectUser> projectUsers = projectUserMapper.selectProjectUserCost();
         if (projectUsers.size() > 0) {
@@ -146,14 +142,12 @@ public class TaskCost {
                 taskHourCost.setUpdateBy(Constant.System.SUPER_ADMIN);
                 for (SysUser sysUser : users) {
                     if (projectUser.getUserId() == sysUser.getId()) {
-                        taskHourCost.setCost(sysUser.getCost().divide(new BigDecimal(12), 2,
-                                BigDecimal.ROUND_HALF_UP));
+                        taskHourCost.setCost(sysUser.getCost().divide(new BigDecimal(12), 2, BigDecimal.ROUND_HALF_UP));
                     }
                 }
                 taskMapper.insertTaskHourCost(taskHourCost);
             }
         }
-
 
     }
 
@@ -207,7 +201,7 @@ public class TaskCost {
         }
     }
 
-    //做任务的人员消耗成本
+    // 做任务的人员消耗成本
     private void insertList() {
         List<TaskDto> taskList = taskMapper.selectTaskAndUserByTaskState(Constant.Status.HAVE_IN_HAND,
                 Constant.Status.DELAY_HAVE_IN_HAND);
@@ -241,7 +235,6 @@ public class TaskCost {
 
             }
         }
-
 
     }
 

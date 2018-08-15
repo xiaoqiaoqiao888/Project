@@ -41,5 +41,5 @@ public interface LogSysUserGroupMapper {
      */
     int updateByPrimaryKey(LogSysUserGroup record);
 
-    int addLogSysGroupUser(Map<String,Object> logMap);
+    int addLogSysGroupUser(Map<String, Object> logMap);
 }

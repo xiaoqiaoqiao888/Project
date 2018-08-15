@@ -11,24 +11,24 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProjectUserInfo extends ProjectUser {
 
-    //价值分
+    // 价值分
     private Double taskValueSum;
-    //预估工时
+    // 预估工时
     private Double expTaskTimeSum;
-    //实际消耗工时
+    // 实际消耗工时
     private Double relTaskTimeSum;
-    //提交任务
+    // 提交任务
     private Double submitTaskSum;
-    //完成任务
+    // 完成任务
     private Double finishedTaskSum;
-    //成员真实姓名
+    // 成员真实姓名
     private String realName;
-    //成员编号（工号）
+    // 成员编号（工号）
     private String userNo;
-    //职能组id
+    // 职能组id
     private Integer groupId;
-    
+
     private Integer page;
-    
+
     private Integer size;
 }

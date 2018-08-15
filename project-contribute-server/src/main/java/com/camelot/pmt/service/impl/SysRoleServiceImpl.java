@@ -39,7 +39,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     /**
      * 添加角色
      *
-     * @param sysRole SysRole
+     * @param sysRole
+     *            SysRole
      * @return boolean
      */
     @Override
@@ -77,7 +78,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     /**
      * 删除角色
      *
-     * @param id id
+     * @param id
+     *            id
      * @return boolean
      */
     @Override
@@ -101,7 +103,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     /**
      * 根据id修改角色
      *
-     * @param sysRole SysRole
+     * @param sysRole
+     *            SysRole
      * @return boolean
      */
     @Override

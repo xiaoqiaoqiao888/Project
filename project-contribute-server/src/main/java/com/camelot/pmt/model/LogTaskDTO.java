@@ -23,7 +23,7 @@ public class LogTaskDTO {
     private Integer taskId;
 
     private Integer taskPersonId;
-    
+
     private Integer state;
 
     private String operateDesc;

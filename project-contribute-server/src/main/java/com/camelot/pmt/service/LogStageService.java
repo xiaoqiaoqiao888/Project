@@ -8,6 +8,5 @@ public interface LogStageService {
 
     void logOfAdd(LogStage logStage) throws CloneNotSupportedException;
 
-
     List<LogStage> selectStageLogByProjectId(Integer stageId);
 }

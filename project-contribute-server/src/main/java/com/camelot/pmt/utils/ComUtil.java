@@ -24,7 +24,6 @@ public class ComUtil {
         }
     }
 
-
     public static boolean isEmpty(Date date) {
         if (date == null) {
             return true;
@@ -54,7 +53,6 @@ public class ComUtil {
         }
         return false;
     }
-
 
     public static boolean isEmpty(String str) {
         if (str == null || str.trim().isEmpty()) {
@@ -91,7 +89,6 @@ public class ComUtil {
         return false;
     }
 
-
     public static String trim(String str) {
         if (str == null) {
             return "";
@@ -107,7 +104,6 @@ public class ComUtil {
             return false;
         }
     }
-
 
     public static boolean equals(String str1, String str2) {
         return str1 != null ? str1.equals(str2) : str2 == null;

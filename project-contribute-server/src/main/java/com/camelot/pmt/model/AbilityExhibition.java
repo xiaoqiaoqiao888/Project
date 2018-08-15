@@ -35,9 +35,6 @@ public class AbilityExhibition {
 
     @Override
     public String toString() {
-        return "AbilityExhibition{"
-                + "sysUser=" + sysUser
-                + ", valuePoints=" + valuePoints
-                + '}';
+        return "AbilityExhibition{" + "sysUser=" + sysUser + ", valuePoints=" + valuePoints + '}';
     }
 }

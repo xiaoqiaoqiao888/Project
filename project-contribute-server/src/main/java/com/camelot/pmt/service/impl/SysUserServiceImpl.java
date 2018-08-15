@@ -94,8 +94,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional
     public int insert(SysUser sysUser, Integer[] roleId, Integer groupId) {
-        if (sysUser.getUserNo() == null || StringUtils.isEmpty(sysUser.getRealName()) || StringUtils.isEmpty(sysUser
-                .getEmail()) || StringUtils.isEmpty(sysUser.getTel()) || sysUser.getCost() == null || groupId == null) {
+        if (sysUser.getUserNo() == null || StringUtils.isEmpty(sysUser.getRealName())
+                || StringUtils.isEmpty(sysUser.getEmail()) || StringUtils.isEmpty(sysUser.getTel())
+                || sysUser.getCost() == null || groupId == null) {
             return 0;
         }
         // BCry加盐加密
@@ -106,10 +107,10 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setState(DataStatus.EFFECTIVE);
         sysUser.setCreateBy(TokenUtil.getUserFromToken().getId());
         sysUser.setUpdateBy(TokenUtil.getUserFromToken().getId());
-        //保存成员表
+        // 保存成员表
         int sysUserNum = sysUserMapper.insert(sysUser);
         if (sysUserNum > 0) {
-            //保存用户组表
+            // 保存用户组表
             SysUserGroup sysUserGroup = new SysUserGroup();
             sysUserGroup.setCreateBy(TokenUtil.getUserFromToken().getId());
             sysUserGroup.setUpdateBy(TokenUtil.getUserFromToken().getId());
@@ -117,7 +118,7 @@ public class SysUserServiceImpl implements SysUserService {
             sysUserGroup.setUserId(sysUser.getId());
             sysUserGroup.setGroupId(groupId);
             int sysUserGroupNum = sysUserGroupMapper.insert(sysUserGroup);
-            //保存用户角色表
+            // 保存用户角色表
             boolean updateUserRoleFlag = false;
             if (roleId != null) {
                 updateUserRoleFlag = sysUserRoleService.updateUserRole(roleId, sysUser.getId());
@@ -145,7 +146,7 @@ public class SysUserServiceImpl implements SysUserService {
         String password = BCrypt.hashpw(sysUser.getPassword(), BCrypt.gensalt());
         sysUser.setPassword(password);
         sysUser.setUpdateBy(TokenUtil.getUserFromToken().getId());
-        //获取名字的拼音
+        // 获取名字的拼音
         String userNamePingYin = ChineseToEnglish.getFullSpell(sysUser.getRealName());
         sysUser.setUserName(userNamePingYin);
         return sysUserMapper.updateByPrimaryKeySelective(sysUser);
@@ -160,10 +161,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public PageInfo<SysUser> selectAllByPage(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum == null || pageNum == 0 ? 1 : pageNum, pageSize == null || pageSize == 0 ? 10 :
-                pageSize);
+        PageHelper.startPage(pageNum == null || pageNum == 0 ? 1 : pageNum,
+                pageSize == null || pageSize == 0 ? 10 : pageSize);
         List<SysUser> list = sysUserMapper.selectAll();
-        //分页查询
+        // 分页查询
         PageInfo<SysUser> pageResult = new PageInfo<>(list);
         pageResult.setList(list);
         return pageResult;

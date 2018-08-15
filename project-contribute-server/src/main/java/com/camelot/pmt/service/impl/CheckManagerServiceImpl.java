@@ -28,13 +28,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 　　* @author muyuanpei
- * 　　* @date 2018/5/14
+ * * @author muyuanpei * @date 2018/5/14
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CheckManagerServiceImpl implements CheckManagerService {
-
 
     @Autowired
     private SysUserGroupMapper sysUserGroupMapper;

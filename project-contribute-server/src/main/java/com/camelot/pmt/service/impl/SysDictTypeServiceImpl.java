@@ -44,14 +44,15 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
         }
         sysDictType.setState(Integer.valueOf(Constant.DataStatus.EFFECTIVE));
         sysDictTypeMapper.insert(sysDictType);
-        //添加日志
+        // 添加日志
         return true;
     }
 
     /**
      * 删除字典类型---逻辑删除
      *
-     * @param id code
+     * @param id
+     *            code
      */
     @Override
     public boolean delete(Integer id, String code) {
@@ -79,7 +80,7 @@ public class SysDictTypeServiceImpl implements SysDictTypeService {
             throw new IllegalArgumentException(CHECK_MESSAGE);
         }
         sysDictTypeMapper.updateByPrimaryKeySelective(sysDictType);
-        //添加日志
+        // 添加日志
         return true;
     }
 

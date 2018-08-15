@@ -16,6 +16,7 @@ public class TreeUtilCommon {
      * 部门组实体
      */
     public static final String SYSGROUP = "com.camelot.pmt.model.SysGroupDTO";
+
     /**
      * 组装实体树
      *
@@ -81,6 +82,7 @@ public class TreeUtilCommon {
             } else {
                 Method getChildrenList = classObject.getMethod("get" + upFirst(childrenListName));
                 List<?> childrenList = (List<?>) getChildrenList.invoke(node);
+                @SuppressWarnings("unchecked")
                 T object = (T) getNodeById(childrenList, id, className, idName, pidName, childrenListName);
                 if (object != null) {
                     return object;
@@ -108,6 +110,7 @@ public class TreeUtilCommon {
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> boolean isChild(T node, List<T> tree, String className, String idName, String pidName,
             String childrenListName) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -144,6 +147,7 @@ public class TreeUtilCommon {
     }
 
     // tree的部分根节点是node的子节点
+    @SuppressWarnings("unchecked")
     private static <T> List<T> findChildren(T node, List<T> tree, String className, String idName, String pidName,
             String childrenListName) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
             NoSuchMethodException, SecurityException, ClassNotFoundException {

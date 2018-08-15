@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-
 /**
  * @description: 职能能力展示服务 实现类
  * @author: Gnerv LiGen
@@ -33,7 +32,6 @@ import java.util.TreeMap;
  **/
 @Service
 public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
-
 
     @Autowired
     SysGroupService sysGroupService;
@@ -45,8 +43,8 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
     TaskService taskService;
 
     @Override
-    public PageInfo<Map<String, Object>> selectAbilityExhibition(
-            Integer page, Integer rows, Integer groupId, String realName, Integer cycle) {
+    public PageInfo<Map<String, Object>> selectAbilityExhibition(Integer page, Integer rows, Integer groupId,
+            String realName, Integer cycle) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time = null;
         if (cycle > 0) {
@@ -65,11 +63,10 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
         List<Map<String, Object>> list = mapPageInfo.getList();
 
         for (Map<String, Object> stringObjectMap : list) {
-            Integer id = (Integer)stringObjectMap.get("id");
+            Integer id = (Integer) stringObjectMap.get("id");
             int valuePoints = 0;
-            PageInfo<Map<String, Object>> listTask =
-                    (PageInfo<Map<String, Object>>)taskService.list(page, rows, null, null, id,
-                            null, Constant.Status.COMPLETED);
+            PageInfo<Map<String, Object>> listTask = (PageInfo<Map<String, Object>>) taskService.list(page, rows, null,
+                    null, id, null, Constant.Status.COMPLETED);
             List<Map<String, Object>> mapList = listTask.getList();
             for (Map<String, Object> objectMap : mapList) {
                 if (time != null) {
@@ -79,14 +76,14 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
                         parse = simpleDateFormat.parse(relStartTime.toString());
                         boolean after = parse.after(time);
                         if (after) {
-                            valuePoints += (int)objectMap.get("task_value");
+                            valuePoints += (int) objectMap.get("task_value");
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
                 } else {
-                    valuePoints += (int)objectMap.get("task_value");
+                    valuePoints += (int) objectMap.get("task_value");
                 }
             }
             stringObjectMap.put("valuePoints", valuePoints);
@@ -95,12 +92,10 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
     }
 
     @Override
-    public PageInfo<Map<String, Object>> selectValuePointsDetailsBySysUserId(
-            Integer page, Integer rows, Integer sysUserId) {
-        PageInfo<Map<String, Object>> listTask =
-                (PageInfo<Map<String, Object>>) taskService.list(
-                        page, rows, null, null, sysUserId,
-                        null, Constant.Status.COMPLETED);
+    public PageInfo<Map<String, Object>> selectValuePointsDetailsBySysUserId(Integer page, Integer rows,
+            Integer sysUserId) {
+        PageInfo<Map<String, Object>> listTask = (PageInfo<Map<String, Object>>) taskService.list(page, rows, null,
+                null, sysUserId, null, Constant.Status.COMPLETED);
         return listTask;
     }
 
@@ -110,8 +105,8 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
 
         Map<String, Object> taskDetails = new HashMap<>(8);
         Map<String, Object> stringObjectMap = taskService.taskDetail(taskId);
-        int expTaskTime = (int)stringObjectMap.get("exp_task_time");
-        int relTaskTime = (int)stringObjectMap.get("rel_task_time");
+        int expTaskTime = (int) stringObjectMap.get("exp_task_time");
+        int relTaskTime = (int) stringObjectMap.get("rel_task_time");
         stringObjectMap.put("advanceTime", expTaskTime - relTaskTime);
 
         Object expEndTime = stringObjectMap.get("exp_end_time");
@@ -147,9 +142,8 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
         Map<String, Object> taskTracing = new HashMap<>(16);
 
         Integer allTaskCount = 0;
-        PageInfo<Map<String, Object>> allTaskCountList = (PageInfo<Map<String, Object>>) taskService.list(
-                        null, null, null, null,
-                        userId, null, null);
+        PageInfo<Map<String, Object>> allTaskCountList = (PageInfo<Map<String, Object>>) taskService.list(null, null,
+                null, null, userId, null, null);
 
         List<Map<String, Object>> list = allTaskCountList.getList();
 
@@ -193,15 +187,15 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if ((int)stringObjectMap.get("task_state") ==  Constant.Status.COMPLETED) {
+            if ((int) stringObjectMap.get("task_state") == Constant.Status.COMPLETED) {
                 overTimeTaskCount++;
-            } else if ((int)stringObjectMap.get("task_state") ==  Constant.Status.HAVE_IN_HAND) {
+            } else if ((int) stringObjectMap.get("task_state") == Constant.Status.HAVE_IN_HAND) {
                 haveInHandTaskCount++;
-            } else if ((int)stringObjectMap.get("task_state") ==  Constant.Status.DELAY_HAVE_IN_HAND) {
+            } else if ((int) stringObjectMap.get("task_state") == Constant.Status.DELAY_HAVE_IN_HAND) {
                 delayHaveInHandTaskCount++;
-            } else if ((int)stringObjectMap.get("task_state") ==  Constant.Status.WAIT_CHECK) {
+            } else if ((int) stringObjectMap.get("task_state") == Constant.Status.WAIT_CHECK) {
                 waitForAcceptanceTaskCount++;
-            } else if ((int)stringObjectMap.get("task_state") ==  Constant.Status.COMPLETED) {
+            } else if ((int) stringObjectMap.get("task_state") == Constant.Status.COMPLETED) {
                 completeTaskCount++;
             }
         }
@@ -214,6 +208,7 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
 
         Map<String, List<Object>> taskDateMap = new TreeMap<>(new Comparator<Object>() {
             Collator collator = Collator.getInstance();
+
             @Override
             public int compare(Object o1, Object o2) {
                 CollationKey key1 = collator.getCollationKey(o1.toString());
@@ -223,6 +218,7 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
         });
         Map<String, List<Map<String, Object>>> taskDateTimeMap = new TreeMap<>(new Comparator<Object>() {
             Collator collator = Collator.getInstance();
+
             @Override
             public int compare(Object o1, Object o2) {
                 CollationKey key1 = collator.getCollationKey(o1.toString());
@@ -241,9 +237,8 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
         return taskTracing;
     }
 
-    private Map<String, List<Map<String, Object>>> getTaskDateTimeTraceSort(
-            Object str, Map<String, List<Map<String, Object>>> taskDateTimeMap,
-            Map<String, Object> stringObjectMap) {
+    private Map<String, List<Map<String, Object>>> getTaskDateTimeTraceSort(Object str,
+            Map<String, List<Map<String, Object>>> taskDateTimeMap, Map<String, Object> stringObjectMap) {
         Map<String, Object> objectObjectHashMap = new HashMap<>();
         objectObjectHashMap.put("id", stringObjectMap.get("id"));
         objectObjectHashMap.put("task_name", stringObjectMap.get("task_name"));
@@ -284,6 +279,5 @@ public class AbilityExhibitionServiceImpl implements AbilityExhibitionService {
         }
         return taskDateMap;
     }
-
 
 }

@@ -25,8 +25,8 @@ public interface PersonScoreService {
      * @param pageSize
      * @return
      */
-    PageInfo<PersonScoreDetailsDTO> selectScoreDetails(Integer userId, Integer state, Integer pageNum, Integer
-            pageSize);
+    PageInfo<PersonScoreDetailsDTO> selectScoreDetails(Integer userId, Integer state, Integer pageNum,
+            Integer pageSize);
 
     /**
      * 增加个人分表数据

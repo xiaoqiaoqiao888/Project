@@ -1,14 +1,7 @@
 package com.camelot.pmt.controller;
 
-import com.camelot.pmt.model.SysResource;
-import com.camelot.pmt.model.SysResourceDTO;
-import com.camelot.pmt.model.SysResourceVo;
-import com.camelot.pmt.service.SysResourceService;
-import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.camelot.pmt.model.SysResource;
+import com.camelot.pmt.model.SysResourceDTO;
+import com.camelot.pmt.service.SysResourceService;
+import com.github.pagehelper.PageInfo;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @Author:myp 2018/5/11 11:35
@@ -50,7 +51,7 @@ public class SysResourceController {
             @ApiImplicitParam(name = "type", value = "资源类型", paramType = "form", dataType = "string"),
             @ApiImplicitParam(name = "permission", value = "权限标示", paramType = "form", dataType = "integer"),
             @ApiImplicitParam(name = "isShow", value = "显示标示", paramType = "form", dataType = "string"),
-            @ApiImplicitParam(name = "state", value = "状态值 ", paramType = "form", dataType = "integer")})
+            @ApiImplicitParam(name = "state", value = "状态值 ", paramType = "form", dataType = "integer") })
     public ResponseEntity<String> insert(@RequestBody SysResource sysResource) {
         boolean flag = sysResourceService.insertSysResource(sysResource);
         if (flag) {
@@ -62,7 +63,7 @@ public class SysResourceController {
     @DeleteMapping(value = "/delete")
     @ApiOperation(value = "删除菜单", notes = "删除菜单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "query", dataType = "Integer")})
+            @ApiImplicitParam(name = "id", value = "菜单id", required = true, paramType = "query", dataType = "Integer") })
     public ResponseEntity<String> delete(Integer id) {
         boolean result = sysResourceService.deleteById(id);
         if (result) {
@@ -74,7 +75,8 @@ public class SysResourceController {
     /**
      * 编辑菜单数据
      *
-     * @param sysResource 编辑菜单数据
+     * @param sysResource
+     *            编辑菜单数据
      */
     @PostMapping("/update")
     @ApiOperation(value = "编辑菜单数据", notes = "编辑菜单数据")
@@ -88,7 +90,7 @@ public class SysResourceController {
             @ApiImplicitParam(name = "permission", value = "权限标示", paramType = "form", dataType = "integer"),
             @ApiImplicitParam(name = "sort_no", value = "排序", paramType = "form", dataType = "integer"),
             @ApiImplicitParam(name = "isShow", value = "显示标示", paramType = "form", dataType = "string"),
-            @ApiImplicitParam(name = "state", value = "状态值 ", paramType = "form", dataType = "integer")})
+            @ApiImplicitParam(name = "state", value = "状态值 ", paramType = "form", dataType = "integer") })
     public ResponseEntity<String> update(@RequestBody SysResource sysResource) {
         boolean flag = sysResourceService.update(sysResource);
         if (flag) {
@@ -100,7 +102,8 @@ public class SysResourceController {
     /**
      * 查询单个菜单数据
      *
-     * @param id 菜单数据id
+     * @param id
+     *            菜单数据id
      */
     @GetMapping("/sysResource")
     @ApiOperation(value = "查询单个菜单数据", notes = "查询单个菜单数据")
@@ -117,11 +120,10 @@ public class SysResourceController {
      */
     @PostMapping("/list")
     @ApiOperation(value = "分页条件查询菜单列表", notes = "分页条件查询菜单列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "int"),
+    @ApiImplicitParams({ @ApiImplicitParam(name = "pageNum", value = "页码", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "页大小", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "text", value = "资源名称", paramType = "form", dataType = "string"),
-            @ApiImplicitParam(name = "type", value = "资源类型", paramType = "form", dataType = "string")})
+            @ApiImplicitParam(name = "type", value = "资源类型", paramType = "form", dataType = "string") })
     public ResponseEntity<PageInfo<?>> list(@RequestBody SysResourceDTO sysResourceVO) {
         PageInfo<?> sysResourceList = sysResourceService.list(sysResourceVO);
         return ResponseEntity.ok(sysResourceList);

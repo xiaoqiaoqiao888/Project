@@ -41,7 +41,7 @@ public interface LogSysGroupMapper {
      */
     int updateByPrimaryKey(LogSysGroup record);
 
-    int addLogSysGroup(Map<String,Object> logMap);
+    int addLogSysGroup(Map<String, Object> logMap);
 
     int addTaskLog(Map<String, Object> map);
 

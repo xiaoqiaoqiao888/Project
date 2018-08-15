@@ -91,7 +91,8 @@ public class SysResource {
     /**
      * id
      *
-     * @param id id
+     * @param id
+     *            id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -109,7 +110,8 @@ public class SysResource {
     /**
      * 父ID
      *
-     * @param parentId 父ID
+     * @param parentId
+     *            父ID
      */
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
@@ -127,7 +129,8 @@ public class SysResource {
     /**
      * 资源名称
      *
-     * @param text 资源名称
+     * @param text
+     *            资源名称
      */
     public void setText(String text) {
         this.text = text == null ? null : text.trim();
@@ -145,7 +148,8 @@ public class SysResource {
     /**
      * 资源路径
      *
-     * @param href 资源路径
+     * @param href
+     *            资源路径
      */
     public void setHref(String href) {
         this.href = href == null ? null : href.trim();
@@ -163,7 +167,8 @@ public class SysResource {
     /**
      * 图标
      *
-     * @param iconcls 图标
+     * @param iconcls
+     *            图标
      */
     public void setIconcls(String iconcls) {
         this.iconcls = iconcls == null ? null : iconcls.trim();
@@ -181,7 +186,8 @@ public class SysResource {
     /**
      * 资源类型
      *
-     * @param type 资源类型
+     * @param type
+     *            资源类型
      */
     public void setType(Integer type) {
         this.type = type;
@@ -199,7 +205,8 @@ public class SysResource {
     /**
      * 权限标示
      *
-     * @param permission 权限标示
+     * @param permission
+     *            权限标示
      */
     public void setPermission(String permission) {
         this.permission = permission == null ? null : permission.trim();
@@ -217,7 +224,8 @@ public class SysResource {
     /**
      * 排序
      *
-     * @param sortNo 排序
+     * @param sortNo
+     *            排序
      */
     public void setSortNo(Integer sortNo) {
         this.sortNo = sortNo;
@@ -235,7 +243,8 @@ public class SysResource {
     /**
      * 显示标示 0-不显示 1-显示
      *
-     * @param isShow 显示标示 0-不显示 1-显示
+     * @param isShow
+     *            显示标示 0-不显示 1-显示
      */
     public void setIsShow(Integer isShow) {
         this.isShow = isShow;
@@ -253,7 +262,8 @@ public class SysResource {
     /**
      * 状态值 0-无效 1-有效
      *
-     * @param state 状态值 0-无效 1-有效
+     * @param state
+     *            状态值 0-无效 1-有效
      */
     public void setState(Integer state) {
         this.state = state;
@@ -271,7 +281,8 @@ public class SysResource {
     /**
      * 创建人
      *
-     * @param createBy 创建人
+     * @param createBy
+     *            创建人
      */
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
@@ -289,7 +300,8 @@ public class SysResource {
     /**
      * 创建时间
      *
-     * @param createTime 创建时间
+     * @param createTime
+     *            创建时间
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
@@ -307,7 +319,8 @@ public class SysResource {
     /**
      * 修改人
      *
-     * @param updateBy 修改人
+     * @param updateBy
+     *            修改人
      */
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
@@ -325,7 +338,8 @@ public class SysResource {
     /**
      * 修改时间
      *
-     * @param updateTime 修改时间
+     * @param updateTime
+     *            修改时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;

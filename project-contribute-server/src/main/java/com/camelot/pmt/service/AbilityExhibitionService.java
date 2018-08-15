@@ -21,8 +21,8 @@ public interface AbilityExhibitionService {
      * @param cycle
      * @return
      */
-    PageInfo<Map<String, Object>> selectAbilityExhibition(
-            Integer page, Integer rows, Integer groupId, String realName, Integer cycle);
+    PageInfo<Map<String, Object>> selectAbilityExhibition(Integer page, Integer rows, Integer groupId, String realName,
+            Integer cycle);
 
     /**
      * 根据人员id 查询价值分明细
@@ -44,9 +44,10 @@ public interface AbilityExhibitionService {
 
     /**
      * 根据用户id 追溯任务信息
+     * 
      * @param userId
      * @param cycle
      * @return
      */
-    Map<String, Object>  selectTaskTracing(Integer userId, Integer cycle);
+    Map<String, Object> selectTaskTracing(Integer userId, Integer cycle);
 }

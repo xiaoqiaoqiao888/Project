@@ -77,5 +77,4 @@ public interface SysUserService {
      */
     SysUser queryByUserNo(Integer userNo);
 
-
 }

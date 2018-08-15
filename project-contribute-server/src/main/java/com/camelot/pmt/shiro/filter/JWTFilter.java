@@ -28,14 +28,12 @@ import java.util.Map;
 @Slf4j
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
-
     private SysUserService sysUserService;
 
     private static final String TOKEN = "Authorization";
 
     /**
-     * 判断用户是否想要登入。
-     * 检测header里面是否包含Authorization字段即可
+     * 判断用户是否想要登入。 检测header里面是否包含Authorization字段即可
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
@@ -59,11 +57,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 这里我们详细说明下为什么最终返回的都是true，即允许访问
-     * 例如我们提供一个地址 GET /article
-     * 登入用户和游客看到的内容是不同的
-     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西
-     * 所以我们在这里返回true，Controller中可以通过 subject.isAuthenticated() 来判断用户是否登入
+     * 这里我们详细说明下为什么最终返回的都是true，即允许访问 例如我们提供一个地址 GET /article 登入用户和游客看到的内容是不同的
+     * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西 所以我们在这里返回true，Controller中可以通过
+     * subject.isAuthenticated() 来判断用户是否登入
      * 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication 注解即可
      * 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
      */
@@ -74,7 +70,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                 executeLogin(request, response);
             } catch (Exception e) {
                 log.error("认证异常");
-                response401(request, response,Constant.LoginMessage.UN_AUTHENTICATED);
+                response401(request, response, Constant.LoginMessage.UN_AUTHENTICATED);
             }
         }
         return true;
@@ -106,16 +102,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
-//        for (String urlMethod : Constant.METHOD_URL_SET) {
-//            String[] split = urlMethod.split(":");
-//            String url = httpServletRequest.getRequestURI();
-//            String[] splitUrl = url.split("/");
-//            String str = "/" + splitUrl[splitUrl.length - 1];
-//            if (split[0].equals("/" + splitUrl[splitUrl.length - 1])
-//                    && split[1].equals(httpServletRequest.getMethod())) {
-//                return true;
-//            }
-//        }
+        // for (String urlMethod : Constant.METHOD_URL_SET) {
+        // String[] split = urlMethod.split(":");
+        // String url = httpServletRequest.getRequestURI();
+        // String[] splitUrl = url.split("/");
+        // String str = "/" + splitUrl[splitUrl.length - 1];
+        // if (split[0].equals("/" + splitUrl[splitUrl.length - 1])
+        // && split[1].equals(httpServletRequest.getMethod())) {
+        // return true;
+        // }
+        // }
 
         String authorization = getToken(request, response);
         if (ComUtil.isEmpty(authorization)) {
@@ -124,7 +120,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         }
         return super.preHandle(request, response);
     }
-
 
     private String getToken(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
@@ -148,7 +143,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
         return authorization;
     }
-
 
     /**
      * 将非法请求跳转到 /401

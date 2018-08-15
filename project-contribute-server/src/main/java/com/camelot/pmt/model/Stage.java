@@ -105,7 +105,8 @@ public class Stage {
     /**
      * ID
      *
-     * @param id ID
+     * @param id
+     *            ID
      */
     public void setId(Integer id) {
         this.id = id;
@@ -123,7 +124,8 @@ public class Stage {
     /**
      * 项目ID
      *
-     * @param projectId 项目ID
+     * @param projectId
+     *            项目ID
      */
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
@@ -141,7 +143,8 @@ public class Stage {
     /**
      * 阶段名称
      *
-     * @param stageName 阶段名称
+     * @param stageName
+     *            阶段名称
      */
     public void setStageName(String stageName) {
         this.stageName = stageName == null ? null : stageName.trim();
@@ -159,7 +162,8 @@ public class Stage {
     /**
      * 阶段预算
      *
-     * @param stageBudget 阶段预算
+     * @param stageBudget
+     *            阶段预算
      */
     public void setStageBudget(Long stageBudget) {
         this.stageBudget = stageBudget;
@@ -177,7 +181,8 @@ public class Stage {
     /**
      * 阶段预计开始时间
      *
-     * @param startTime 阶段预计开始时间
+     * @param startTime
+     *            阶段预计开始时间
      */
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
@@ -195,7 +200,8 @@ public class Stage {
     /**
      * 阶段预计结束时间
      *
-     * @param endTime 阶段预计结束时间
+     * @param endTime
+     *            阶段预计结束时间
      */
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
@@ -213,7 +219,8 @@ public class Stage {
     /**
      * 阶段业务状态自定
      *
-     * @param stageState 阶段业务状态自定
+     * @param stageState
+     *            阶段业务状态自定
      */
     public void setStageState(Integer stageState) {
         this.stageState = stageState;
@@ -231,7 +238,8 @@ public class Stage {
     /**
      * 状态值 0-无效 1-有效
      *
-     * @param state 状态值 0-无效 1-有效
+     * @param state
+     *            状态值 0-无效 1-有效
      */
     public void setState(Integer state) {
         this.state = state;
@@ -249,7 +257,8 @@ public class Stage {
     /**
      * 创建人
      *
-     * @param createBy 创建人
+     * @param createBy
+     *            创建人
      */
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
@@ -267,7 +276,8 @@ public class Stage {
     /**
      * 创建时间
      *
-     * @param createTime 创建时间
+     * @param createTime
+     *            创建时间
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
@@ -285,7 +295,8 @@ public class Stage {
     /**
      * 修改人
      *
-     * @param updateBy 修改人
+     * @param updateBy
+     *            修改人
      */
     public void setUpdateBy(Integer updateBy) {
         this.updateBy = updateBy;
@@ -303,7 +314,8 @@ public class Stage {
     /**
      * 修改时间
      *
-     * @param updateTime 修改时间
+     * @param updateTime
+     *            修改时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
@@ -321,7 +333,8 @@ public class Stage {
     /**
      * 最后提交时间
      *
-     * @param  endSubmitTime 最后提交时间
+     * @param endSubmitTime
+     *            最后提交时间
      */
     public void setEndSubmitTime(Date endSubmitTime) {
         this.endSubmitTime = endSubmitTime;
@@ -339,7 +352,8 @@ public class Stage {
     /**
      * 阶段描述
      *
-     * @param stageDesc 阶段描述
+     * @param stageDesc
+     *            阶段描述
      */
     public void setStageDesc(String stageDesc) {
         this.stageDesc = stageDesc == null ? null : stageDesc.trim();
@@ -357,7 +371,8 @@ public class Stage {
     /**
      * 用户名
      *
-     * @param userName 用户名
+     * @param userName
+     *            用户名
      */
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
@@ -375,7 +390,8 @@ public class Stage {
     /**
      * 真实名称
      *
-     * @param cherealname 真实名称
+     * @param cherealname
+     *            真实名称
      */
     public void setCherealname(String cherealname) {
         this.cherealname = cherealname == null ? null : cherealname.trim();
@@ -393,7 +409,8 @@ public class Stage {
     /**
      * 预算
      *
-     * @param plan 进度
+     * @param plan
+     *            进度
      */
     public void setPlan(String plan) {
         this.plan = plan == null ? null : plan.trim();
@@ -411,7 +428,8 @@ public class Stage {
     /**
      * 预算
      *
-     * @param cost 成本
+     * @param cost
+     *            成本
      */
     public void setCost(String cost) {
         this.cost = cost == null ? null : cost.trim();

@@ -22,6 +22,7 @@ public class LogStageServiceImpl implements LogStageService {
 
     /**
      * 划分阶段时插入日志
+     * 
      * @throws CloneNotSupportedException
      */
 
@@ -39,8 +40,7 @@ public class LogStageServiceImpl implements LogStageService {
     @Override
     public List<LogStage> selectStageLogByProjectId(Integer stageId) {
         List<LogStage> logStages = logStageMapper.selectStageLogByProjectId(stageId);
-        for (LogStage logStage:
-            logStages) {
+        for (LogStage logStage : logStages) {
             Integer updateBy = logStage.getUpdateBy();
             SysUser sysUsers = sysUserService.selectByPrimaryKey(updateBy);
             String realName = sysUsers.getRealName();
@@ -48,6 +48,5 @@ public class LogStageServiceImpl implements LogStageService {
         }
         return logStages;
     }
-
 
 }

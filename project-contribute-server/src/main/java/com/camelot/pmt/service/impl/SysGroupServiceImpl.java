@@ -61,7 +61,7 @@ public class SysGroupServiceImpl implements SysGroupService {
         sysGroup.setUpdateBy(userId());
         sysGroup.setState(Constant.DataStatus.EFFECTIVE);
         int groupLevel = sysGroup.getGroupLevel();
-        //最多添加三层部门信息
+        // 最多添加三层部门信息
         if (groupLevel >= GROUPLEVEL) {
             throw new IllegalArgumentException(Constant.OperateDesc.MAXGROUPLEVEL);
         }
@@ -82,7 +82,7 @@ public class SysGroupServiceImpl implements SysGroupService {
         SysGroup sysGroup = new SysGroup();
         sysGroup = sysGroupMapper.selectByPrimaryKey(id);
         if (Objects.nonNull(sysGroup)) {
-            //判断是否是一级部门组
+            // 判断是否是一级部门组
             boolean levelFlag = (0 == sysGroup.getParentId()) || (1 == sysGroup.getGroupLevel());
             if (levelFlag) {
                 List<SysGroup> sysGroupList = sysGroupMapper.listSelectById(sysGroup);
@@ -94,7 +94,7 @@ public class SysGroupServiceImpl implements SysGroupService {
                     countResult = sysUserGroupMapper.countGroupUserByList(idList);
                 }
             } else {
-                //1、判断此部门下是否有员工
+                // 1、判断此部门下是否有员工
                 countResult = sysUserGroupMapper.countGroupUser(id);
             }
         }
@@ -233,11 +233,11 @@ public class SysGroupServiceImpl implements SysGroupService {
         SysGroup sysGroup = new SysGroup();
         // 查询list集合
         List<SysGroupDTO> sysGroupDTOList = sysGroupMapper.treeListSelectBySysGroup(sysGroup);
-        //判断DTO是否为null
+        // 判断DTO是否为null
         if (Objects.nonNull(sysGroupDTOList) && sysGroupDTOList.size() > 0) {
             try {
-                sysGroupTree = TreeUtilCommon.buildTree(
-                        sysGroupDTOList, TreeUtilCommon.SYSGROUP, "id", "parentId", "sysGroupDTO");
+                sysGroupTree = TreeUtilCommon.buildTree(sysGroupDTOList, TreeUtilCommon.SYSGROUP, "id", "parentId",
+                        "sysGroupDTO");
                 return sysGroupTree;
             } catch (Exception e) {
                 log.error("其他异常：%s", e);

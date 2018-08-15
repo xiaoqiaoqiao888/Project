@@ -55,7 +55,8 @@ public class SysRole {
     /**
      * id
      *
-     * @param id id
+     * @param id
+     *            id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -73,7 +74,8 @@ public class SysRole {
     /**
      * 角色名称
      *
-     * @param roleName 角色名称
+     * @param roleName
+     *            角色名称
      */
     public void setRoleName(String roleName) {
         this.roleName = roleName == null ? null : roleName.trim();
@@ -91,7 +93,8 @@ public class SysRole {
     /**
      * 角色描述
      *
-     * @param roleDesc 角色描述
+     * @param roleDesc
+     *            角色描述
      */
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc == null ? null : roleDesc.trim();
@@ -109,7 +112,8 @@ public class SysRole {
     /**
      * 状态值 0-无效 1-有效
      *
-     * @param state 状态值 0-无效 1-有效
+     * @param state
+     *            状态值 0-无效 1-有效
      */
     public void setState(Integer state) {
         this.state = state;
@@ -127,7 +131,8 @@ public class SysRole {
     /**
      * 创建人
      *
-     * @param createdBy 创建人
+     * @param createdBy
+     *            创建人
      */
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
@@ -145,7 +150,8 @@ public class SysRole {
     /**
      * 创建时间
      *
-     * @param createdTime 创建时间
+     * @param createdTime
+     *            创建时间
      */
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
@@ -163,7 +169,8 @@ public class SysRole {
     /**
      * 修改人
      *
-     * @param updatedBy 修改人
+     * @param updatedBy
+     *            修改人
      */
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
@@ -181,7 +188,8 @@ public class SysRole {
     /**
      * 修改时间
      *
-     * @param updatedTime 修改时间
+     * @param updatedTime
+     *            修改时间
      */
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;

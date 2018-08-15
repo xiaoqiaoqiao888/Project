@@ -56,7 +56,7 @@ public class Project {
     private String finshTime;
 
     /**
-     *项目阶段 0-未开始 1-进行中  3-已完成 4-延期进行中
+     * 项目阶段 0-未开始 1-进行中 3-已完成 4-延期进行中
      */
     private Integer projectState;
 
@@ -93,8 +93,8 @@ public class Project {
     private int projectId;
 
     private String operateDesc; // 描述
-    
-    private String realName;//用户的真实姓名
+
+    private String realName;// 用户的真实姓名
 
     private List<ProjectUser> projectUserList = new ArrayList<>();
 

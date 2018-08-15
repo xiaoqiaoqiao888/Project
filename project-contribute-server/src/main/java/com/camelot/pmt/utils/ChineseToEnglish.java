@@ -428,7 +428,8 @@ public class ChineseToEnglish {
     /**
      * 获得单个汉字的Ascii.
      *
-     * @param cn char 汉字字符
+     * @param cn
+     *            char 汉字字符
      * @return int 错误返回 0,否则返回ascii
      */
     public static int getCnAscii(char cn) {
@@ -458,9 +459,10 @@ public class ChineseToEnglish {
     /**
      * 根据ASCII码到SpellMap中查找对应的拼音
      *
-     * @param ascii int 字符对应的ASCII
+     * @param ascii
+     *            int 字符对应的ASCII
      * @return String 拼音,首先判断ASCII是否>0&<160,如果是返回对应的字符, <BR>
-     * 否则到SpellMap中查找,如果没有找到拼音,则返回null,如果找到则返回拼音.
+     *         否则到SpellMap中查找,如果没有找到拼音,则返回null,如果找到则返回拼音.
      */
     public static String getSpellByAscii(int ascii) {
         if (ascii > 0 && ascii < 160) { // 单字符
@@ -501,7 +503,8 @@ public class ChineseToEnglish {
     /**
      * 返回字符串的全拼,是汉字转化为全拼,其它字符不进行转换
      *
-     * @param cnStr String 字符串
+     * @param cnStr
+     *            String 字符串
      * @return String 转换成全拼后的字符串
      */
     public static String getFullSpell(String cnStr) {

@@ -19,7 +19,8 @@ public class LogProjectServiceImpl implements LogProjectService {
 
     /**
      * 新增项目时插入日志
-     * @throws CloneNotSupportedException 
+     * 
+     * @throws CloneNotSupportedException
      */
     @Override
     public void logOfAdd(Project project) throws CloneNotSupportedException {
@@ -28,7 +29,7 @@ public class LogProjectServiceImpl implements LogProjectService {
         project.setCreateBy(userId);
         project.setUpdateBy(userId);
         project.setId(null);
-        logProjectMapper.logOfAdd(project );
+        logProjectMapper.logOfAdd(project);
     }
 
     /**
@@ -38,7 +39,5 @@ public class LogProjectServiceImpl implements LogProjectService {
     public List<Project> queryAll(Integer projectId) {
         return logProjectMapper.queryAll(projectId);
     }
-    
 
-    
 }

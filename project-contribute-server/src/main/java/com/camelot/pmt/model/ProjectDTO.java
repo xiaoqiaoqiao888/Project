@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectDTO {
-    
+
     private Integer projectState;
-    
+
     private Integer stateCount;
-    
+
     private BigDecimal sumBudget;
 }

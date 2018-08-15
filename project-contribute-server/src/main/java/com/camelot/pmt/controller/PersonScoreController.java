@@ -46,14 +46,12 @@ public class PersonScoreController {
     @ApiOperation(value = "价值分明细", notes = "价值分明细")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页数", required = false, paramType = "query", dataType =
-                    "int"),
-            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = false, paramType = "query", dataType =
-                    "int")})
+            @ApiImplicitParam(name = "pageNum", value = "当前页数", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", required = false, paramType = "query", dataType = "int") })
     public ResponseEntity<?> selectBaseInfo(@ApiIgnore PersonScore personScore, Integer pageNum, Integer pageSize) {
         log.info("userId={},pageNum={},pageSize={}", personScore.getUserId(), pageNum, pageSize);
-        PageInfo<PersonScoreDetailsDTO> list = personScoreService.selectScoreDetails(personScore.getUserId(), DataStatus
-                .EFFECTIVE, pageNum, pageSize);
+        PageInfo<PersonScoreDetailsDTO> list = personScoreService.selectScoreDetails(personScore.getUserId(),
+                DataStatus.EFFECTIVE, pageNum, pageSize);
         return ResponseEntity.ok(list);
     }
 
@@ -65,7 +63,7 @@ public class PersonScoreController {
     @GetMapping("/socre-rank")
     @ApiOperation(value = "个人价值分总分以及排名查询", notes = "个人价值分总分以及排名查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> sumScoreAndRank(@ApiIgnore PersonScore personScore) {
         log.info("userId={}", personScore.getUserId());
         PersonScoreDTO personScoreDTO = personScoreService.sumScoreAndRank(personScore.getUserId(),
@@ -83,14 +81,12 @@ public class PersonScoreController {
     @ApiOperation(value = "增加个人分表数据", notes = "增加个人分表数据")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType =
-                    "int"),
+            @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "stageId", value = "阶段id", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "workId", value = "工程包id", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "taskId", value = "任务id", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "taskValue", value = "任务价值分", required = true, paramType = "query", dataType =
-                    "int"),
-            @ApiImplicitParam(name = "state", value = "状态值", required = true, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "taskValue", value = "任务价值分", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "state", value = "状态值", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> insert(@ApiIgnore PersonScore personScore) {
         log.info("userId={},projectId={},stageId={},workId={},taskId={},taskValue={},state={}", personScore.getUserId(),
                 personScore.getProjectId(), personScore.getStageId(), personScore.getWorkId(), personScore.getTaskId(),
@@ -112,7 +108,7 @@ public class PersonScoreController {
     @DeleteMapping("/by-id")
     @ApiOperation(value = "根据id删除价值分表", notes = "根据id删除价值分表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "主键id", required = true, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "id", value = "主键id", required = true, paramType = "query", dataType = "int") })
     public ResponseEntity<?> deleteByPrimaryKey(@ApiIgnore PersonScore personScore) {
         log.info("id={}", personScore.getId());
         int num = personScoreService.deleteByPrimaryKey(personScore.getId());
@@ -133,21 +129,16 @@ public class PersonScoreController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "主键id", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "userId", value = "用户id", required = false, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "projectId", value = "项目id", required = false, paramType = "query", dataType =
-                    "int"),
-            @ApiImplicitParam(name = "stageId", value = "阶段id", required = false, paramType = "query", dataType =
-                    "int"),
-            @ApiImplicitParam(name = "workId", value = "工程包id", required = false, paramType = "query", dataType =
-                    "int"),
+            @ApiImplicitParam(name = "projectId", value = "项目id", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "stageId", value = "阶段id", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "workId", value = "工程包id", required = false, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "taskId", value = "任务id", required = false, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "taskValue", value = "任务价值分", required = false, paramType = "query", dataType =
-                    "int"),
-            @ApiImplicitParam(name = "state", value = "状态值", required = false, paramType = "query", dataType = "int")})
+            @ApiImplicitParam(name = "taskValue", value = "任务价值分", required = false, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "state", value = "状态值", required = false, paramType = "query", dataType = "int") })
     public ResponseEntity<?> updateByPrimaryKeySelective(@ApiIgnore PersonScore personScore) {
-        log.info("id={},userId={},projectId={},stageId={},workId={},taskId={},taskValue={},state={}", personScore
-                        .getId(), personScore.getUserId(),
-                personScore.getProjectId(), personScore.getStageId(), personScore.getWorkId(), personScore.getTaskId(),
-                personScore.getTaskValue(), personScore.getState());
+        log.info("id={},userId={},projectId={},stageId={},workId={},taskId={},taskValue={},state={}",
+                personScore.getId(), personScore.getUserId(), personScore.getProjectId(), personScore.getStageId(),
+                personScore.getWorkId(), personScore.getTaskId(), personScore.getTaskValue(), personScore.getState());
         int num = personScoreService.updateByPrimaryKeySelective(personScore);
         if (num > 0) {
             return ResponseEntity.ok(Manager.UPDATE_SUCCESS);

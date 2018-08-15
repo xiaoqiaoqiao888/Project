@@ -29,52 +29,38 @@ public class AbilityExhibitionController {
     AbilityExhibitionService abilityExhibitionService;
 
     @ApiOperation(value = "查询展示职能组人员能力", notes = "查询展示职能组人员能力")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码",
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "rows", value = "条数",
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "groupId", value = "职能组id", required = true,
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "realName", value = "用户真实名",
-                    paramType = "form", dataType = "String"),
-            @ApiImplicitParam(name = "cycle", value = "查询时间范围",
-                    paramType = "form", dataType = "Integer")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "page", value = "页码", paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "rows", value = "条数", paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "groupId", value = "职能组id", required = true, paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "realName", value = "用户真实名", paramType = "form", dataType = "String"),
+            @ApiImplicitParam(name = "cycle", value = "查询时间范围", paramType = "form", dataType = "Integer") })
     @RequestMapping(value = "/select-ability-exhibition", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<Map<String, Object>>> selectAbilityExhibition(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
-            Integer groupId,
-            String realName,
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows, Integer groupId, String realName,
             @RequestParam(value = "cycle", defaultValue = "0") Integer cycle) {
-        PageInfo<Map<String, Object>> mapPageInfo =
-                abilityExhibitionService.selectAbilityExhibition(page, rows, groupId, realName, cycle);
+        PageInfo<Map<String, Object>> mapPageInfo = abilityExhibitionService.selectAbilityExhibition(page, rows,
+                groupId, realName, cycle);
         return ResponseEntity.ok(mapPageInfo);
     }
 
     @ApiOperation(value = "查询展示职能组人员价值分明细", notes = "查询展示职能组人员价值分明细")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码",
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "rows", value = "条数",
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "sysUserId", value = "用户id", required = true,
-                    paramType = "form", dataType = "Integer")})
+    @ApiImplicitParams({ @ApiImplicitParam(name = "page", value = "页码", paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "rows", value = "条数", paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "sysUserId", value = "用户id", required = true, paramType = "form", dataType = "Integer") })
     @RequestMapping(value = "/select-value-points-details", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<Map<String, Object>>> selectValuePointsDetailsBySysUserId(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "rows", defaultValue = "10") Integer rows,
-            Integer sysUserId) {
+            @RequestParam(value = "rows", defaultValue = "10") Integer rows, Integer sysUserId) {
 
-        PageInfo<Map<String, Object>> mapPageInfo =
-                abilityExhibitionService.selectValuePointsDetailsBySysUserId(page, rows, sysUserId);
+        PageInfo<Map<String, Object>> mapPageInfo = abilityExhibitionService.selectValuePointsDetailsBySysUserId(page,
+                rows, sysUserId);
         return ResponseEntity.ok(mapPageInfo);
     }
 
     @ApiOperation(value = "查询展示职能组人员指定任务信息详情", notes = "查询展示职能组单个人员指定任务信息详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "taskId", value = "任务id", required = true,
-                    paramType = "form", dataType = "Integer")})
+            @ApiImplicitParam(name = "taskId", value = "任务id", required = true, paramType = "form", dataType = "Integer") })
     @RequestMapping(value = "/select-task-details", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> selectTaskDetailsByTaskId(Integer taskId) {
         Map<String, Object> stringObjectMap = abilityExhibitionService.selectTaskDetailsByTaskId(taskId);
@@ -83,13 +69,10 @@ public class AbilityExhibitionController {
 
     @ApiOperation(value = "查询展示职能组人员任务追溯", notes = "查询展示职能组人员任务追溯")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户id", required = true,
-                    paramType = "form", dataType = "Integer"),
-            @ApiImplicitParam(name = "cycle", value = "查询时间范围",
-                    paramType = "form", dataType = "Integer")})
+            @ApiImplicitParam(name = "userId", value = "用户id", required = true, paramType = "form", dataType = "Integer"),
+            @ApiImplicitParam(name = "cycle", value = "查询时间范围", paramType = "form", dataType = "Integer") })
     @RequestMapping(value = "/select-task-tracing", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> selectTaskTracing(
-            Integer userId,
+    public ResponseEntity<Map<String, Object>> selectTaskTracing(Integer userId,
             @RequestParam(value = "cycle", defaultValue = "0") Integer cycle) {
         Map<String, Object> stringObjectMap = abilityExhibitionService.selectTaskTracing(userId, cycle);
         return ResponseEntity.ok(stringObjectMap);

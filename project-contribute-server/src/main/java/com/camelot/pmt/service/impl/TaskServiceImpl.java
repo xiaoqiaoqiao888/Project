@@ -1,12 +1,28 @@
 package com.camelot.pmt.service.impl;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.camelot.pmt.mapper.LogTaskMapper;
 import com.camelot.pmt.mapper.TaskMapper;
 import com.camelot.pmt.mapper.WorkMapper;
 import com.camelot.pmt.model.SysUser;
 import com.camelot.pmt.model.SysUserTaskDTO;
 import com.camelot.pmt.model.Task;
-
 import com.camelot.pmt.model.TaskCountDTO;
 import com.camelot.pmt.model.TaskDto;
 import com.camelot.pmt.model.TaskHourCost;
@@ -21,25 +37,6 @@ import com.camelot.pmt.utils.Constant.Status;
 import com.camelot.pmt.utils.TokenUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author za
@@ -93,13 +90,11 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
-
     /**
      * 查询(任务详情,可领取任务,我的任务)通用接口
      */
     public PageInfo<Map<String, Object>> list(Integer page, Integer rows, String taskName, String projectName,
-                                              Integer taskPersonId,
-                                              Integer orderByState, Integer taskState) {
+            Integer taskPersonId, Integer orderByState, Integer taskState) {
         // 初始化分页信息
         if (page != null && rows != null) {
             PageHelper.startPage(page, rows);
@@ -124,7 +119,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public int updateTask(Task task) throws CloneNotSupportedException {
         if (null != task.getTaskState()) {
-            //判断是否为领取任务
+            // 判断是否为领取任务
             if (task.getTaskState() == 1) {
                 SysUser sysUser = TokenUtil.getUserFromToken();
                 task.setTaskPersonId(sysUser.getId());
@@ -132,15 +127,15 @@ public class TaskServiceImpl implements TaskService {
                 logTaskService.insertLogTask(Constant.LogStatus.PULL_TASK, task);
                 projectUserService.inProject(sysUser.getId(), task.getProjectId());
             }
-            //判断是否为提交任务
+            // 判断是否为提交任务
             if (task.getTaskState() == 2) {
                 task.setRelEndTime(new Date());
                 Task task1 = taskMapper.selectByPrimaryKey(task.getId());
-                //计算实际工时
+                // 计算实际工时
                 double workHours = baseCalculateService.getWorkHours(task1.getRelStartTime(), task.getRelEndTime());
                 task.setRelTaskTime(workHours);
                 int updateNum = taskMapper.updateByPrimaryKeySelective(task);
-                //根据工程包id,查询工程包下所有任务,状态0,1,4
+                // 根据工程包id,查询工程包下所有任务,状态0,1,4
                 int count = taskMapper.selectByWorkId(task1.getWorkId());
                 if (count == 0) {
                     Work work = new Work();
@@ -149,10 +144,10 @@ public class TaskServiceImpl implements TaskService {
                     workService.updateWork(work);
                 }
                 logTaskService.insertLogTask(Constant.LogStatus.COMMENT_TASK, task);
-                //更新
+                // 更新
                 return updateNum;
             }
-            //判断是否为关闭任务
+            // 判断是否为关闭任务
             if (task.getState() == 0) {
                 logTaskService.insertLogTask(Constant.LogStatus.CLOSE_TASK, task);
                 isOverTask();
@@ -176,7 +171,7 @@ public class TaskServiceImpl implements TaskService {
         }
         Long time = System.currentTimeMillis();
         Date date = new Date(time);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        // DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         boolean tr = work.getEndTime().after(date);
         if (tr) {
             work.setWorkState(Constant.Status.HAVE_IN_HAND);
@@ -203,37 +198,28 @@ public class TaskServiceImpl implements TaskService {
         // 初始化分页信息
         PageHelper.startPage(pageNum == 0 ? 1 : pageNum, pageSize == 0 ? 10 : pageSize);
         List<TaskDto> taskListItem = taskMapper.selectTasksList(task);
-        //未开始的任务
-        List<TaskDto> collect0 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.NO_START)
-                .sorted(Comparator.comparing(TaskDto::getCreateTime))
-                .collect(Collectors.toList());
+        // 未开始的任务
+        List<TaskDto> collect0 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.NO_START)
+                .sorted(Comparator.comparing(TaskDto::getCreateTime)).collect(Collectors.toList());
         for (TaskDto task0 : collect0) {
             task0.setUseCostRatio(new BigDecimal(0));
         }
-        //进行中的任务
-        List<TaskDto> collect1 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.HAVE_IN_HAND)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 进行中的任务
+        List<TaskDto> collect1 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.HAVE_IN_HAND)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect1 = traversalList(collect1);
-        //延期进行中的任务
+        // 延期进行中的任务
         List<TaskDto> collect4 = taskListItem.stream()
                 .filter(e -> e.getTaskState() == Constant.Status.DELAY_HAVE_IN_HAND)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect4 = traversalList(collect4);
-        //已完成的任务
-        List<TaskDto> collect3 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.COMPLETED)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 已完成的任务
+        List<TaskDto> collect3 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.COMPLETED)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect3 = traversalList(collect3);
-        //待验收的任务
-        List<TaskDto> collect2 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.WAIT_CHECK)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 待验收的任务
+        List<TaskDto> collect2 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.WAIT_CHECK)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect2 = traversalList(collect2);
         taskListItem.clear();
         taskListItem.addAll(collect0);
@@ -247,7 +233,7 @@ public class TaskServiceImpl implements TaskService {
         return pageResult;
     }
 
-    //计算任务消耗成本
+    // 计算任务消耗成本
     private List<TaskDto> traversalList(List<TaskDto> collect) {
         for (TaskDto task : collect) {
             if (task.getTaskState() == Constant.Status.HAVE_IN_HAND) {
@@ -279,8 +265,7 @@ public class TaskServiceImpl implements TaskService {
                 } else {
                     task.setUseCostRatio(new BigDecimal(0));
                 }
-            } else if (task.getTaskState() == Status.COMPLETED
-                    || task.getTaskState() == Status.WAIT_CHECK) {
+            } else if (task.getTaskState() == Status.COMPLETED || task.getTaskState() == Status.WAIT_CHECK) {
                 List<TaskHourCost> taskHourCostList = taskMapper.selectTaskHourCostByTask(task);
                 if (taskHourCostList.size() == 0) {
                     task.setUseCostRatio(new BigDecimal(0));
@@ -311,7 +296,6 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("请求参数异常！");
         }
         List<TaskDto> taskList = taskMapper.selectTasksList(task);
-        Map<Integer, Integer> map = new HashMap<>();
         int count1 = 0;
         int count2 = 0;
         int count3 = 0;
@@ -341,21 +325,21 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         TaskCountDTO taskCountDTO = new TaskCountDTO();
-        //未开始
+        // 未开始
         taskCountDTO.setNoStart(count1);
-        //进行中
+        // 进行中
         taskCountDTO.setHaveInIand(count2);
-        //延期进行中
+        // 延期进行中
         taskCountDTO.setDelayHaveInHand(count3);
-        //已完成
+        // 已完成
         taskCountDTO.setCompleted(count4);
-        //待验收
+        // 待验收
         taskCountDTO.setWaitCheck(count5);
-        //超预算
+        // 超预算
         taskCountDTO.setOverBudget(count6);
-        //未超预算
+        // 未超预算
         taskCountDTO.setOnOverBudget(count7);
-        //总任务数
+        // 总任务数
         Integer countTask = taskMapper.countTask(task);
         taskCountDTO.setTotal(countTask);
         return taskCountDTO;
@@ -401,12 +385,12 @@ public class TaskServiceImpl implements TaskService {
         if (taskPersonId == null || state == null || monthNum == null) {
             return null;
         }
-        //获取某个时间段（近一个月，近三个月，近六个月，近十二个月）减去 1 3 6 12等
+        // 获取某个时间段（近一个月，近三个月，近六个月，近十二个月）减去 1 3 6 12等
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, monthNum * (-1));
 
-        List<SysUserTaskDTO> sysUserTaskDTOS = taskMapper.selectPeriodTotalTask(cal.getTime(), new Date(),
-                taskPersonId, state);
+        List<SysUserTaskDTO> sysUserTaskDTOS = taskMapper.selectPeriodTotalTask(cal.getTime(), new Date(), taskPersonId,
+                state);
         Map<String, Object> map = new HashMap<>();
 
         sysUserTaskDTOS.stream().forEach(e -> {
@@ -456,9 +440,9 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public void isOverTask() {
-        //查询是否有延期进行中任务
+        // 查询是否有延期进行中任务
         List<Task> overTaskList = taskMapper.isOverTask();
-        //修改成延期进行中任务
+        // 修改成延期进行中任务
         if (overTaskList.size() != 0) {
             taskMapper.updateOverTask(overTaskList);
         }
@@ -474,8 +458,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskDto> taskList = this.selectTaskListNoPage(task);
         if (budgetState == Constant.Status.OVER_BUDGET) {
             List<TaskDto> taskList1 = taskList.stream()
-                    .filter(e -> e.getUseCostRatio().compareTo(new BigDecimal(1)) == 1)
-                    .collect(Collectors.toList());
+                    .filter(e -> e.getUseCostRatio().compareTo(new BigDecimal(1)) == 1).collect(Collectors.toList());
             taskList.clear();
             taskList.addAll(taskList1);
         } else if (budgetState == Constant.Status.NO_OVER_BUDGET) {
@@ -529,6 +512,7 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 检测工程包下的任务是否超过工程包价值分
+     * 
      * @param workId
      * @param taskId
      * @param taskValue
@@ -537,11 +521,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseEntity<String> checkTaskValue(Integer workId, Integer taskId, Integer taskValue) {
         Integer sumTaskValue = taskMapper.selectTaskValueSumByWorkId(workId);
-        if ( sumTaskValue  == null) {
+        if (sumTaskValue == null) {
             sumTaskValue = 0;
         }
         Work work = workMapper.selectByPrimaryKey(workId);
-        if ( taskId == null ) {
+        if (taskId == null) {
             if (sumTaskValue == 0) {
                 sumTaskValue = taskValue;
             } else {
@@ -555,7 +539,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskMapper.selectByPrimaryKey(taskId);
         sumTaskValue = sumTaskValue - task.getTaskValue();
         sumTaskValue = sumTaskValue + taskValue;
-        if ( sumTaskValue > work.getWorkValue()) {
+        if (sumTaskValue > work.getWorkValue()) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("任务总价值分超出工程包价值分");
         }
         return ResponseEntity.ok("任务总价值分未超出工程包价值分");
@@ -569,37 +553,28 @@ public class TaskServiceImpl implements TaskService {
      */
     public List<TaskDto> selectTaskListNoPage(Task task) {
         List<TaskDto> taskListItem = taskMapper.selectTasksList(task);
-        //未开始的任务
-        List<TaskDto> collect0 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.NO_START)
-                .sorted(Comparator.comparing(TaskDto::getCreateTime))
-                .collect(Collectors.toList());
+        // 未开始的任务
+        List<TaskDto> collect0 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.NO_START)
+                .sorted(Comparator.comparing(TaskDto::getCreateTime)).collect(Collectors.toList());
         for (TaskDto task0 : collect0) {
             task0.setUseCostRatio(new BigDecimal(0));
         }
-        //进行中的任务
-        List<TaskDto> collect1 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.HAVE_IN_HAND)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 进行中的任务
+        List<TaskDto> collect1 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.HAVE_IN_HAND)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect1 = traversalList(collect1);
-        //延期进行中的任务
+        // 延期进行中的任务
         List<TaskDto> collect4 = taskListItem.stream()
                 .filter(e -> e.getTaskState() == Constant.Status.DELAY_HAVE_IN_HAND)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect4 = traversalList(collect4);
-        //已完成的任务
-        List<TaskDto> collect3 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.COMPLETED)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 已完成的任务
+        List<TaskDto> collect3 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.COMPLETED)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect3 = traversalList(collect3);
-        //待验收的任务
-        List<TaskDto> collect2 = taskListItem.stream()
-                .filter(e -> e.getTaskState() == Constant.Status.WAIT_CHECK)
-                .sorted(Comparator.comparing(TaskDto::getUpdateTime))
-                .collect(Collectors.toList());
+        // 待验收的任务
+        List<TaskDto> collect2 = taskListItem.stream().filter(e -> e.getTaskState() == Constant.Status.WAIT_CHECK)
+                .sorted(Comparator.comparing(TaskDto::getUpdateTime)).collect(Collectors.toList());
         collect2 = traversalList(collect2);
         taskListItem.clear();
         taskListItem.addAll(collect0);
